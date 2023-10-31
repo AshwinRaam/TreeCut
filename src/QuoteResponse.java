@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 public class QuoteResponse {
 	private int responseID;
 	private int quoteID;
+	private int userID;
 	private double modifiedPrice;
 	private LocalDateTime modifiedStartTime;
 	private LocalDateTime modifiedEndTime;
@@ -11,7 +12,7 @@ public class QuoteResponse {
 	
 	public QuoteResponse() { }
 	
-	public QuoteResponse(int responseID, int quoteID, double modifiedPrice, LocalDateTime modifiedStartTime, 
+	public QuoteResponse(int responseID, int quoteID, int userID, double modifiedPrice, LocalDateTime modifiedStartTime, 
 			LocalDateTime modifiedEndTime, String note, LocalDateTime createdAt) {
 		this.responseID = responseID;
 		this.quoteID = quoteID;
@@ -36,6 +37,14 @@ public class QuoteResponse {
 
 	public void setQuoteID(int quoteID) {
 		this.quoteID = quoteID;
+	}
+
+	public int getUserID() {
+		return userID;
+	}
+
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 
 	public double getModifiedPrice() {
