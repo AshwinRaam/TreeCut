@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -85,5 +86,44 @@ public class QuoteResponsesDAO {
     	resultSet.close();
     	
     	return responses;
+    }
+    
+    public void PostResposne(QuoteResponse response) throws SQLException {
+    	System.out.println("Posting quote response...");
+    	Timestamp tModStartTime = null, tModEndTime = null;
+    	if (response.getModifiedStartTime() != null)
+    		tModStartTime = Timestamp.valueOf(response.getModifiedStartTime());
+    	if (response.getModifiedStartTime() != null)
+    		tModEndTime = Timestamp.valueOf(response.getModifiedEndTime());
+    	
+    	String sql = "INSERT INTO quoteresponses (quoteID, userID, modifiedPrice, modifiedStartTime, modifiedEndTime, note, createdAt) VALUES (?, ?, ?, ?, ?, ?, NOW());";
+    	connect_func();
+    	preparedStatement = connect.prepareStatement(sql);
+    	preparedStatement.setInt(1, response.getQuoteID());
+    	preparedStatement.setInt(2, response.getUserID());
+    	if (response.getModifiedPrice() > 0)
+    		preparedStatement.setDouble(3, response.getModifiedPrice());
+    	else
+    		preparedStatement.setNull(3, Types.INTEGER);
+    	preparedStatement.setTimestamp(4, tModStartTime);
+    	preparedStatement.setTimestamp(5, tModEndTime);
+    	preparedStatement.setString(6, response.getNote());
+    	int result = preparedStatement.executeUpdate();
+    	
+    	if (result < 1) {
+    		System.out.println("Error in inserting quote response");
+    		return;
+    	}
+    	
+    	String sql2 = "UPDATE quotes SET status = \"Rejected\" WHERE quoteID = ?;";
+    	preparedStatement = connect.prepareStatement(sql2);
+    	preparedStatement.setInt(1, response.getQuoteID());
+    	result = preparedStatement.executeUpdate();
+    	
+    	if (result < 1) {
+    		System.out.printf("Error in updating quote %d%n", response.getQuoteID());
+    	}
+    	
+    	System.out.println("Posting finished");
     }
 }
