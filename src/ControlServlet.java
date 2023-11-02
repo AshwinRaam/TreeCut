@@ -23,6 +23,7 @@ import java.sql.PreparedStatement;
 public class ControlServlet extends HttpServlet {
 	    private static final long serialVersionUID = 1L;
 	    private UserDAO UserDAO = new UserDAO();
+	    private QuoteDAO QuoteDAO;
 	    private String currentUser;
 	    private HttpSession session=null;
 	    
@@ -34,6 +35,7 @@ public class ControlServlet extends HttpServlet {
 	    public void init()
 	    {
 	    	UserDAO = new UserDAO();
+	    	QuoteDAO = new QuoteDAO();
 	    	currentUser= "";
 	    }
 	    
@@ -68,6 +70,10 @@ public class ControlServlet extends HttpServlet {
                  System.out.println("The action is: list");
                  listUser(request, response);           	
                  break;
+        	 case "/createquoteresponse":
+        		 System.out.println("Sending to quote response page.");
+        		 createQuoteResponse(request, response);
+        		 break;
 	    	}
 	    }
 	    catch(Exception ex) {
@@ -169,7 +175,19 @@ public class ControlServlet extends HttpServlet {
 	    	currentUser = "";
         		response.sendRedirect("login.jsp");
         	}
-	 
+
+	    private void createQuoteResponse(HttpServletRequest request, HttpServletResponse response) 
+	    		throws SQLException, ServletException, IOException {
+	    	User user = UserDAO.getUser(currentUser);
+	    	//User user = UserDAO.getUser("sarahJohnson");
+	    	int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+	    	Quote quote = QuoteDAO.getQuote(quoteID);
+	    	
+	    	request.setAttribute("user", user);
+	    	request.setAttribute("quote", quote);
+	        RequestDispatcher dispatcher = request.getRequestDispatcher("quoteResponse.jsp");       
+	        dispatcher.forward(request, response);
+	    }
 	    
 }
 	        
