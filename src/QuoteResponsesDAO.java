@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -56,5 +58,32 @@ public class QuoteResponsesDAO {
   			          + "useSSL=false&user=" + username + "&password=" + password);
             System.out.println(connect);
         }
+    }
+    
+    public List<QuoteResponse> GetResponses(int quoteID) throws SQLException {
+    	List<QuoteResponse> responses = new ArrayList<QuoteResponse>();
+    	
+    	String sql = "SELECT * FROM quoteresponses WHERE quoteID = ?;";
+    	connect_func();
+    	preparedStatement = connect.prepareStatement(sql);
+    	preparedStatement.setInt(1, quoteID);
+    	resultSet = preparedStatement.executeQuery();
+    	
+    	while(resultSet.next()) {
+    		int responseID = resultSet.getInt("responseID");
+    		//int quoteID; //already in method parameter
+    		int userID = resultSet.getInt("userID");
+    		double modifiedPrice = resultSet.getDouble("modifiedPrice");
+    		LocalDateTime modifiedStartTime = resultSet.getTimestamp("modifiedStartTime").toLocalDateTime();
+    		LocalDateTime modifiedEndTime = resultSet.getTimestamp("modifiedEndTime").toLocalDateTime();
+    		String note = resultSet.getString("note");
+    		LocalDateTime createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
+    		
+    		QuoteResponse response = new QuoteResponse(responseID, quoteID, userID, modifiedPrice, modifiedStartTime, modifiedEndTime, note, createdAt);
+    		responses.add(response);
+    	}
+    	resultSet.close();
+    	
+    	return responses;
     }
 }
