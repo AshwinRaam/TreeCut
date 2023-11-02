@@ -38,7 +38,7 @@ public class QuoteDAO {
             } catch (ClassNotFoundException e) {
                 throw new SQLException(e);
             }
-            connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/TreeCut?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false&user=john&password=pass1234");
+            connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/treecut?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false&user=john&password=pass1234");
             System.out.println(connect);
         }
     }
@@ -52,7 +52,7 @@ public class QuoteDAO {
                 throw new SQLException(e);
             }
             connect = (Connection) DriverManager
-  			      .getConnection("jdbc:mysql://127.0.0.1:3306/userdb?"
+  			      .getConnection("jdbc:mysql://127.0.0.1:3306/treecut?"
   			          + "useSSL=false&user=" + username + "&password=" + password);
             System.out.println(connect);
         }
