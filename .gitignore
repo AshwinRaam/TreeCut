@@ -1,4 +1,12 @@
+<<<<<<< Updated upstream
 
 build/
 .classpath
 .settings/
+=======
+.idea
+lib
+out
+qodana.yaml
+.DS_Store
+>>>>>>> Stashed changes
