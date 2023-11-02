@@ -117,7 +117,10 @@ public class ControlServlet extends HttpServlet {
 	        } else {
 	            request.setAttribute("loginFailedStr","Login Failed: Please check your credentials.");
 	            request.getRequestDispatcher("login.jsp").forward(request, response);
+	            return; //doesn't allow for the change in currentUser below
 	        }
+	        
+            currentUser = username;
 	    }
 
 	           
