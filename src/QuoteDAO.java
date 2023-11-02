@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -56,5 +58,35 @@ public class QuoteDAO {
   			          + "useSSL=false&user=" + username + "&password=" + password);
             System.out.println(connect);
         }
+    }
+    
+    public Quote getQuote(int quoteID) throws SQLException {
+    	System.out.println(String.format("--getQuote(%d) invoked--", quoteID));
+    	String sql = "SELECT * FROM quotes WHERE quoteID = ?;";
+    	connect_func();
+    	preparedStatement = connect.prepareStatement(sql);
+    	preparedStatement.setInt(1, quoteID);
+    	resultSet = preparedStatement.executeQuery();
+    	
+    	Quote quote = new Quote();
+    	if(resultSet.next()) {
+    		System.out.println("Found quote...");
+    		int userID = resultSet.getInt("userID");
+    		double initialPrice = resultSet.getDouble("initialPrice");
+    		LocalDateTime startTime = resultSet.getTimestamp("startTime").toLocalDateTime();
+    		LocalDateTime endTime = resultSet.getTimestamp("endTime").toLocalDateTime();
+    		String status = resultSet.getString("status");
+    		String note = resultSet.getString("note");
+    		LocalDateTime createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
+    		Timestamp tUpdatedAt = resultSet.getTimestamp("updatedAt");
+    		LocalDateTime updatedAt = null;
+    		if (tUpdatedAt != null)
+    			updatedAt = resultSet.getTimestamp("updatedAt").toLocalDateTime();
+    		
+    		quote = new Quote(quoteID, userID, initialPrice, startTime, endTime, status, note, createdAt, updatedAt);
+    	}
+    	
+    	System.out.println("--End getQuote()--");
+    	return quote;
     }
 }
