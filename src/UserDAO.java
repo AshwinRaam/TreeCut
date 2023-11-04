@@ -260,24 +260,14 @@ public class UserDAO
     
     public boolean isValid(String username, String password) throws SQLException
     {
-    	String sql = "SELECT * FROM Users";
+    	String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
     	connect_func();
-    	statement = (Statement) connect.createStatement();
-    	ResultSet resultSet = statement.executeQuery(sql);
-    	
-    	resultSet.last();
-    	
-    	int setSize = resultSet.getRow();
-    	resultSet.beforeFirst();
-    	
-    	for(int i = 0; i < setSize; i++)
-    	{
-    		resultSet.next();
-    		if(resultSet.getString("username").equals(username) && resultSet.getString("password").equals(password)) {
-    			return true;
-    		}		
-    	}
-    	return false;
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setString(1, username);
+        preparedStatement.setString(2, password);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        return (resultSet.next());
     }
     
     public boolean isClient(String username) throws SQLException {
