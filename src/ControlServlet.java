@@ -197,7 +197,8 @@ public class ControlServlet extends HttpServlet {
 	        dispatcher.forward(request, response);
 	    }
 	    
-	    private void sendResponseToQuote(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+	    private void sendResponseToQuote(HttpServletRequest request, HttpServletResponse response) throws SQLException,
+				IOException, ServletException {
 	    	String username = request.getParameter("username");
 	    	User user = UserDAO.getUser(username);
 	    	int quoteID =  Integer.parseInt(request.getParameter("quoteID"));
@@ -206,9 +207,11 @@ public class ControlServlet extends HttpServlet {
 	    	//check to see if user is allowed to post
 	    	if (UserDAO.isClient(username)) {
 	    		if (quote.getUserID() != user.getUserID()) {
-	    			System.out.printf("Error: User is not allowed to post on this. ID %d != %d%n", quote.getUserID(), user.getUserID());
-	    			System.out.println("Sending to client dashboard.");
-	    			response.sendRedirect("clientDashboard.jsp"); //possibly put an error on page?
+	    			System.out.printf("Error: User is not allowed to post on this. ID %d != %d%n",
+							quote.getUserID(), user.getUserID());
+	    			System.out.println("Sending createquoteresponse.");
+					request.setAttribute("errorOne", "Error: You are not allowed to post on this quote.");
+	    			request.getRequestDispatcher("createquoteresponse").forward(request, response);
 	    			return;
 	    		}
 	    	}
