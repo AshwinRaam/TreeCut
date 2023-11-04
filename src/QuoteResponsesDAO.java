@@ -80,7 +80,8 @@ public class QuoteResponsesDAO {
     		String note = resultSet.getString("note");
     		LocalDateTime createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
     		
-    		QuoteResponse response = new QuoteResponse(responseID, quoteID, userID, modifiedPrice, modifiedStartTime, modifiedEndTime, note, createdAt);
+    		QuoteResponse response = new QuoteResponse(responseID, quoteID, userID, modifiedPrice,
+					modifiedStartTime, modifiedEndTime, note, createdAt);
     		responses.add(response);
     	}
     	resultSet.close();
@@ -96,7 +97,8 @@ public class QuoteResponsesDAO {
     	if (response.getModifiedStartTime() != null)
     		tModEndTime = Timestamp.valueOf(response.getModifiedEndTime());
     	
-    	String sql = "INSERT INTO quoteresponses (quoteID, userID, modifiedPrice, modifiedStartTime, modifiedEndTime, note, createdAt) VALUES (?, ?, ?, ?, ?, ?, NOW());";
+    	String sql = "INSERT INTO quoteresponses (quoteID, userID, modifiedPrice, modifiedStartTime, modifiedEndTime, " +
+				"note, createdAt) VALUES (?, ?, ?, ?, ?, ?, NOW());";
     	connect_func();
     	preparedStatement = connect.prepareStatement(sql);
     	preparedStatement.setInt(1, response.getQuoteID());
