@@ -175,20 +175,21 @@ public class UserDAO
         return rowUpdated;
     }
     
-    public User getUser(String email) throws SQLException {
+    public User getUser(String username) throws SQLException {
         User user = null;
-        String sql = "SELECT * FROM Users WHERE email = ?";
+        String sql = "SELECT * FROM Users WHERE username = ?";
 
         connect_func();
 
         preparedStatement = connect.prepareStatement(sql);
-        preparedStatement.setString(1, email);
+        preparedStatement.setString(1, username);
 
         ResultSet resultSet = preparedStatement.executeQuery();
 
         if (resultSet.next()) {
             int userID = resultSet.getInt("userID");
-            String username = resultSet.getString("username");
+            //String username = resultSet.getString("username");
+            String email = resultSet.getString("email");
             String password = resultSet.getString("password");
             String role = resultSet.getString("role");
             String firstName = resultSet.getString("firstName");

@@ -17,12 +17,16 @@ import javax.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.sql.PreparedStatement;
 
 
 public class ControlServlet extends HttpServlet {
 	    private static final long serialVersionUID = 1L;
 	    private UserDAO UserDAO = new UserDAO();
+	    private QuoteDAO QuoteDAO;
+	    private QuoteResponsesDAO QuoteResponsesDAO;
 	    private String currentUser;
 	    private HttpSession session=null;
 	    
@@ -34,6 +38,8 @@ public class ControlServlet extends HttpServlet {
 	    public void init()
 	    {
 	    	UserDAO = new UserDAO();
+	    	QuoteDAO = new QuoteDAO();
+	    	QuoteResponsesDAO = new QuoteResponsesDAO();
 	    	currentUser= "";
 	    }
 	    
@@ -68,6 +74,14 @@ public class ControlServlet extends HttpServlet {
                  System.out.println("The action is: list");
                  listUser(request, response);           	
                  break;
+        	 case "/createquoteresponse":
+        		 System.out.println("Sending to quote response page.");
+        		 createQuoteResponse(request, response);
+        		 break;
+        	 case "/quoterespond":
+        		 System.out.println("Responding to quote...");
+        		 sendResponseToQuote(request, response);
+        		 break;
 	    	}
 	    }
 	    catch(Exception ex) {
@@ -117,7 +131,10 @@ public class ControlServlet extends HttpServlet {
 	        } else {
 	            request.setAttribute("loginFailedStr","Login Failed: Please check your credentials.");
 	            request.getRequestDispatcher("login.jsp").forward(request, response);
+	            return; //doesn't allow for the change in currentUser below
 	        }
+	        
+            currentUser = username;
 	    }
 
 	           
@@ -166,8 +183,78 @@ public class ControlServlet extends HttpServlet {
 	    	currentUser = "";
         		response.sendRedirect("login.jsp");
         	}
-	 
+
+	    private void createQuoteResponse(HttpServletRequest request, HttpServletResponse response) 
+	    		throws SQLException, ServletException, IOException {
+	    	User user = UserDAO.getUser(currentUser);
+	    	//User user = UserDAO.getUser("sarahJohnson");
+	    	int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+	    	Quote quote = QuoteDAO.getQuote(quoteID);
+	    	
+	    	request.setAttribute("user", user);
+	    	request.setAttribute("quote", quote);
+	        RequestDispatcher dispatcher = request.getRequestDispatcher("quoteResponse.jsp");       
+	        dispatcher.forward(request, response);
+	    }
 	    
+	    private void sendResponseToQuote(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+	    	String username = request.getParameter("username");
+	    	User user = UserDAO.getUser(username);
+	    	int quoteID =  Integer.parseInt(request.getParameter("quoteID"));
+	    	Quote quote = QuoteDAO.getQuote(quoteID);
+	    	
+	    	//check to see if user is allowed to post
+	    	if (UserDAO.isClient(username)) {
+	    		if (quote.getUserID() != user.getUserID()) {
+	    			System.out.printf("Error: User is not allowed to post on this. ID %d != %d%n", quote.getUserID(), user.getUserID());
+	    			System.out.println("Sending to client dashboard.");
+	    			response.sendRedirect("clientDashboard.jsp"); //possibly put an error on page?
+	    			return;
+	    		}
+	    	}
+	    	
+	    	//--start conversion--
+	    	System.out.println("--Setting up converted parameters--");
+	    	String sModPrice = request.getParameter("modifiedPrice");
+	    	String sModStartTime = request.getParameter("modifiedStartTime");
+	    	String sModEndTime = request.getParameter("modifiedEndTime");
+	    	
+	    	LocalDateTime modifiedStartTime = null, modifiedEndTime = null;
+	    	double modifiedPrice = -1;
+	    	
+	    	if (!sModPrice.isEmpty())
+	    		modifiedPrice = Double.parseDouble(sModPrice);
+	    	if (!sModStartTime.isEmpty())
+	    		modifiedStartTime = LocalDateTime.parse(
+	    			request.getParameter("modifiedStartTime"), DateTimeFormatter.ISO_DATE_TIME);
+	    	if (!sModEndTime.isEmpty())
+	    		modifiedEndTime = LocalDateTime.parse(
+	    			request.getParameter("modifiedEndTime"), DateTimeFormatter.ISO_DATE_TIME);
+	    	
+	    	System.out.println("--finish setting up converted parameters--");
+	    	//--end conversion--
+	    	
+	    	String note = request.getParameter("note");
+	    	
+	    	QuoteResponse qResponse = new QuoteResponse();
+	    	qResponse.setQuoteID(quoteID);
+	    	qResponse.setUserID(user.userID);
+	    	qResponse.setModifiedPrice(modifiedPrice);
+	    	qResponse.setModifiedStartTime(modifiedStartTime);
+	    	qResponse.setModifiedEndTime(modifiedEndTime);
+	    	qResponse.setNote(note);
+	    	
+	    	QuoteResponsesDAO.PostResposne(qResponse);
+	    	if (UserDAO.isClient(username)) {
+    			System.out.println("Finished. sending to client dashboard.");
+	    		response.sendRedirect("clientDashboard.jsp");
+	    		return; //technically not needed, just here in case.
+	    	} else {
+    			System.out.println("Finished. sending to contractor dashboard.");
+	    		response.sendRedirect("contractorDashboard.jsp");
+	    		return; //technically not needed, just here in case.
+	    	}
+	    }
 }
 	        
 	        
