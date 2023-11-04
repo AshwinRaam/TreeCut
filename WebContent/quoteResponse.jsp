@@ -14,15 +14,15 @@
             <table border="1" cellpadding="5">
             	<tr>
             		<th>Quote ID: </th>
-            		<td align="center" colspan="3">
-            			${quote.quoteID}
+            		<td align="left" colspan="3">
+                        <div style="padding-left: 20px">${quote.quoteID}</div>
             			<input type="hidden" name="quoteID" value="${quote.quoteID}"/>
             		</td>
             	</tr>
             	<tr>
             		<th>User: </th>
-            		<td align="center" colspan="3">
-            			${user.firstName} ${user.lastName}
+            		<td align="left" colspan="3">
+                        <div style="padding-left: 20px">${user.firstName} ${user.lastName}test</div>
             			<input type="hidden" name="username" value="${user.username}"/>
             		</td>
             	</tr>
