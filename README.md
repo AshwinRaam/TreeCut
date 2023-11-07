@@ -1,44 +1,80 @@
 Install:
-- Download and install Eclipse IDE (https://www.eclipse.org/downloads/packages/release/2021-12/r/eclipse-ide-enterprise-java-and-web-developers).
-- Download MySQL Server (https://dev.mysql.com/downloads/mysql/).
-- Download Apache Tomcat 9.0 (https://tomcat.apache.org/download-90.cgi).
-- Download Java 21.
+-
+- Download and install [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/).
+  - Use the free trial if you do not want to purchase IntelliJ
+  - IntelliJ Ulimate is free for students, and has a 30 day trial.
+  - Allow IntelliJ through your computer's firewall.
+- Download [MySQL Server](https://dev.mysql.com/downloads/mysql/).
+- Download [Apache Tomcat 9.0](https://tomcat.apache.org/download-90.cgi).
+- Download Java 20 (can be done in IntelliJ IDEA later).
 - Hit "<> Code" in the top right and select the .zip download.
-- Open Eclipse and set your workspace folder.
-- Take the .zip and extract it into your Eclipse Workspace.
-- In Eclipse, go to File > Import > Import from existing project and import the extracted zip in your Eclipse Workspace.
+- Extract the zip to place where it can be easily found.
 
 Configure:
-- Install Java 21
-- Ensure that that Java 21 is being used.
-	- If not, go to your environment variables and create a new variable called JAVA_HOME and set the value to your Java SDK location. Mine is located in “C:\Program Files\Java\jdk-[version number]”
-	- Then set put your JDK’s location in the PATH environment variable at the top.
-	- Use a terminal and type java -version to check the currently used Java version.
-- Install MySQL server
-	- Set the default user to the database as root and the password for that user as pass1234.
-- Name the windows service MySQL80.
+-
+- Install MySQL server 8.0.30
+  - Set the default user to the database as root and the password for that user to be pass1234.
+  - Name the Windows Service "MySQL80".
 - Extract the Apache download (.zip) to a known location.
-- Open Eclipse.
-- Go to the Servers tab at the bottom.
-- Add a new Apache Tomcat 9.0 server and point to the location you extracted the Apache server to.
-- Right click the project in the Project Explorer.
-- Go to “Properties”
-- Go to the “Java Compiler” tab.
-- Ensure that Java 21 is being used by checking the first dropdown.
-	- If not, uncheck the “Use compliance from execution…” checkbox and then change the “Compiler compliance level” by hitting the dropdown and selecting the correct Java version.
-- Go to the “Project Facets” tab. 
-- Ensure that the Java configuration is set to 21.
-- Hit “Apply and Close.”
+- Open the project.
+- You should see a red circle on the bell icon in the top right corner.
+- Hit the bell icon.
+- Hit "Configure" on the notification for "Framework detected."
+- Press "Ok" when the file tree is shown.
+- Go to "File > Project Settings".
+- Under Project, select the Java 20 SDK from the SDK dropdown.
+  - If do not have Java 20 downloaded
+    - Hit the dropdown and hit Add SDK > +Add SDK.
+    - Version: 20.
+    - Vendor: Amazon Corretto.
+    - Location: Defaults to the Java install location.
+- Change the language level to 20 (preview).
+- Hit "OK"
+- Open ControlServlet.java in the /src/ folder.
+- Open the import statements.
+- "import javax.servlet.[module]" should have "servlet" as red.
+- Right click and hit "Show Context Actions".
+- Hit "Add Java EE 6 JARs to module dependencies".
+- Use downloaded.
+- Hit "OK".
+- Go back into the Project Settings.
+- Go to the "Libraries" tab.
+- Add the following Maven libraries:
+  - mysql:mysql-connector-java:8.0.30
+    - Check "Download to:" and uncheck "Transitive dependencies"
+  - javax.servlet:jstl:1.2
+    - Check "Download to:" and "Transitive dpendencies"
+- Go to the "Artifacts" tab.
+- Add a new artifact by hitting the '+' button.
+- Select "Web Applicatoin: Exploded > From Modules..."
+- Select the project.
+- (optional) Change the name of the artifact by removing the ":war exploded" suffix.
+  - This affects the URL later.
+- Hit "OK"
+- Go to "Run > Profile > Edit Configurations".
+- Hit "Add New" or the hit '+' button.
+- Scroll down and find "Tomcat Server > Local".
+- Click the local option.
+- Next to "Application server:", click "Configure...".
+- This will automatically find the Apache Tomcat.
+  - If it does not you can find the installation yourself by editing the Tomcat Home folder.
+- Go to the "Depoloyment" tab.
+- Hit the '+" button.
+- Select "Artifact"
+- Add the artifact you created earlier.
+  - You'll notice if you go back to the "Server" tab that the URL has changed.
+- (optional) Change the name of the deployment config if it was not automatically assigned.
+  - Tomcat [version] is usually the default.
+- Hit "OK"
+- Run the Tomcat server by hitting the play button in the top right.
+- Allow the OpenJDK Platform binary through the firewall.
 - You should now be able to run the project.
+- Stop the server by hittin the red square next to the debug icon.
 
-Ashwin Raam Sethuram - 15 hours
-- Created SQL.
-- Edited the insert statement for the users.
-- Wrote the isClient() method.
-- Wrote DB initialization.
+Ashwin Raam Sethuram - XX hours
+- 
+- [objective]
 
-Matthew Meyer - 15 hours
-- Created ER.
-- Created the checkUser() method.
-- Wrote check for checkUser().
-- Modified the user object to better conform to the new requirements.
+Matthew Meyer - XX hours
+- 
+- [objective]
