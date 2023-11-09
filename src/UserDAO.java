@@ -207,6 +207,26 @@ public class UserDAO {
         return user;
     }
 
+    public User getUser(int userID) throws SQLException {
+        String sql = "SELECT username FROM Users WHERE userID = ?";
+
+        connect_func();
+
+        preparedStatement = connect.prepareStatement(sql);
+        preparedStatement.setInt(1, userID);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        User user = null;
+        if(resultSet.next())
+            user = getUser(resultSet.getString("username"));
+
+        resultSet.close();
+        preparedStatement.close();
+        connect.close();
+        return user;
+    }
+
     public int getUserID(String username) throws SQLException {
         int userID = -1;
         String sql = "SELECT userID FROM Users WHERE username = ?";
