@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -70,6 +71,9 @@ public class ControlServlet extends HttpServlet {
                         break;
                     case "/logout":
                         logout(request, response);
+                        break;
+                    case "/showresponses":
+                        listResponses(request, response);
                         break;
                     case "/createquoteresponse":
                         System.out.println("Sending to quote response page.");
@@ -205,6 +209,17 @@ public class ControlServlet extends HttpServlet {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    private void listResponses(HttpServletRequest request, HttpServletResponse response) throws SQLException,
+            ServletException, IOException {
+        int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+        List<QuoteResponse> responses = QuoteResponsesDAO.GetResponses(quoteID);
+
+        request.setAttribute("quoteID", quoteID);
+        request.setAttribute("listResponses", responses);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("responseList.jsp");
+        dispatcher.forward(request, response);
     }
 
     private void createQuoteResponse(HttpServletRequest request, HttpServletResponse response, HttpSession session)
