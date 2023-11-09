@@ -61,10 +61,7 @@ public class ControlServlet extends HttpServlet {
                 case "/logout":
                     logout(request, response);
                     break;
-                case "/list":
-                    System.out.println("The action is: list");
-                    listUser(request, response);
-                    break;
+
                 case "/createquoteresponse":
                     System.out.println("Sending to quote response page.");
                     createQuoteResponse(request, response);
@@ -77,19 +74,6 @@ public class ControlServlet extends HttpServlet {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-    }
-
-    private void listUser(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
-        System.out.println("listUser started: 00000000000000000000000000000000000");
-
-
-        List<User> listUser = UserDAO.listAllUsers();
-        request.setAttribute("listUser", listUser);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("UserList.jsp");
-        dispatcher.forward(request, response);
-
-        System.out.println("listPeople finished: 111111111111111111111111111111111111");
     }
 
     private void rootPage(HttpServletRequest request, HttpServletResponse response, String view) throws ServletException, IOException, SQLException {
