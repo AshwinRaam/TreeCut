@@ -51,10 +51,10 @@ public class ControlServlet extends HttpServlet {
                     case "/initialize":
                         UserDAO.init();
                         System.out.println("Database successfully initialized!");
-                        rootPage(request, response, "");
+                        rootPage(request, response);
                         break;
                     case "/root":
-                        rootPage(request, response, "");
+                        rootPage(request, response);
                         break;
                     case "/quotes":
                         System.out.println("Sending to quotes page.");
@@ -100,7 +100,7 @@ public class ControlServlet extends HttpServlet {
 
     }
 
-    private void rootPage(HttpServletRequest request, HttpServletResponse response, String view) throws ServletException, IOException, SQLException {
+    private void rootPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         System.out.println("root view");
         request.setAttribute("listUser", UserDAO.listAllUsers());
         request.getRequestDispatcher("rootView.jsp").forward(request, response);
@@ -119,7 +119,7 @@ public class ControlServlet extends HttpServlet {
             if ("root".equals(username) && "pass1234".equals(password)) {
                 System.out.println("Login Successful! Redirecting to root");
                 session.setAttribute("Username", username);
-                rootPage(request, response, "");
+                rootPage(request, response);
             } else if (UserDAO.isValid(username, password)) {
                 System.out.println("Login Successful! Redirecting");
                 session.setAttribute("username", username);
@@ -202,7 +202,6 @@ public class ControlServlet extends HttpServlet {
     private void createQuoteResponse(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
         User user = UserDAO.getUser(currentUser);
-        //User user = UserDAO.getUser("sarahJohnson");
         int quoteID = Integer.parseInt(request.getParameter("quoteID"));
         Quote quote = QuoteDAO.getQuote(quoteID);
 
