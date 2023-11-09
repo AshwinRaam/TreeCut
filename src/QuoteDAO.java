@@ -76,15 +76,15 @@ public class QuoteDAO {
     		double initialPrice = resultSet.getDouble("initialPrice");
 			double currentPrice = resultSet.getDouble("currentPrice");
 			double acceptedPrice = resultSet.getDouble("acceptedPrice");
-    		LocalDateTime startTime = resultSet.getTimestamp("startTime").toLocalDateTime();
-    		LocalDateTime endTime = resultSet.getTimestamp("endTime").toLocalDateTime();
+    		Timestamp startTime = resultSet.getTimestamp("startTime");
+    		Timestamp endTime = resultSet.getTimestamp("endTime");
     		String status = resultSet.getString("status");
     		String note = resultSet.getString("note");
-    		LocalDateTime createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
+    		Timestamp createdAt = resultSet.getTimestamp("createdAt");
     		Timestamp UpdatedAt = resultSet.getTimestamp("updatedAt");
-    		LocalDateTime updatedAt = null;
+    		Timestamp updatedAt = null;
     		if (UpdatedAt != null)
-    			updatedAt = resultSet.getTimestamp("updatedAt").toLocalDateTime();
+    			updatedAt = resultSet.getTimestamp("updatedAt");
     		
     		quote = new Quote(quoteID, clientID,contractorID, initialPrice,currentPrice,acceptedPrice, startTime, endTime, status, note, createdAt, updatedAt);
     	}
@@ -131,8 +131,8 @@ public class QuoteDAO {
 				quote.setInitialPrice(quotesResultSet.getDouble("initialPrice"));
 				quote.setCurrentPrice(quotesResultSet.getDouble("currentPrice"));
 				quote.setAcceptedPrice(quotesResultSet.getDouble("acceptedPrice"));
-//				quote.setStartTime(quotesResultSet.getTimestamp("startTime").toLocalDateTime());
-//				quote.setEndTime(quotesResultSet.getTimestamp("endTime").toLocalDateTime());
+				quote.setStartTime(quotesResultSet.getTimestamp("startTime"));
+				quote.setEndTime(quotesResultSet.getTimestamp("endTime"));
 				quote.setStatus(quotesResultSet.getString("status"));
 				quote.setNote(quotesResultSet.getString("note"));
 //				quote.setCreatedAt(quotesResultSet.getTimestamp("createdAt").toLocalDateTime());

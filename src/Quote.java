@@ -1,3 +1,5 @@
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Quote {
@@ -8,12 +10,12 @@ public class Quote {
 
     private double currentPrice;
     private double acceptedPrice;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private Timestamp startTime;
+    private Timestamp endTime;
     private String status;
     private String note;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
     public Quote() {
     }
@@ -50,8 +52,8 @@ public class Quote {
         this.acceptedPrice = acceptedPrice;
     }
 
-    public Quote(int quoteID, int clientID, int contractorID, double initialPrice, double currentPrice, double acceptedPrice, LocalDateTime startTime, LocalDateTime endTime,
-                 String status, String note, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Quote(int quoteID, int clientID, int contractorID, double initialPrice, double currentPrice, double acceptedPrice, Timestamp startTime, Timestamp endTime,
+                 String status, String note, Timestamp createdAt, Timestamp updatedAt) {
         this.quoteID = quoteID;
         this.clientID = clientID;
         this.contractorID = contractorID;
@@ -74,8 +76,6 @@ public class Quote {
         this.quoteID = quoteID;
     }
 
-
-
     public double getInitialPrice() {
         return initialPrice;
     }
@@ -84,19 +84,19 @@ public class Quote {
         this.initialPrice = initialPrice;
     }
 
-    public LocalDateTime getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 
@@ -116,19 +116,19 @@ public class Quote {
         this.note = note;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 
