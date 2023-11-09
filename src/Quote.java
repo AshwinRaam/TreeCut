@@ -1,102 +1,133 @@
 import java.time.LocalDateTime;
 
 public class Quote {
-	private int quoteID;
-	private int userID;
-	private double initialPrice;
-	private LocalDateTime startTime;
-	private LocalDateTime endTime;
-	private String status;
-	private String note;
-	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
-	
-	public Quote() { }
+    private int quoteID;
+    private int clientID;
+    private int contractorID;
+    private double initialPrice;
 
-	public Quote(int quoteID, int userID, double initialPrice, LocalDateTime startTime, LocalDateTime endTime,
-			String status, String note, LocalDateTime createdAt, LocalDateTime updatedAt) {
-		this.quoteID = quoteID;
-		this.userID = userID;
-		this.initialPrice = initialPrice;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.status = status;
-		this.note = note;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-	}
+    private double currentPrice;
+    private double acceptedPrice;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private String status;
+    private String note;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-	public int getQuoteID() {
-		return quoteID;
-	}
+    public Quote() {
+    }
 
-	public void setQuoteID(int quoteID) {
-		this.quoteID = quoteID;
-	}
+    public int getClientID() {
+        return clientID;
+    }
 
-	public int getUserID() {
-		return userID;
-	}
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
+    }
 
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
+    public int getContractorID() {
+        return contractorID;
+    }
 
-	public double getInitialPrice() {
-		return initialPrice;
-	}
+    public void setContractorID(int contractorID) {
+        this.contractorID = contractorID;
+    }
 
-	public void setInitialPrice(double initialPrice) {
-		this.initialPrice = initialPrice;
-	}
+    public double getCurrentPrice() {
+        return currentPrice;
+    }
 
-	public LocalDateTime getStartTime() {
-		return startTime;
-	}
+    public void setCurrentPrice(double currentPrice) {
+        this.currentPrice = currentPrice;
+    }
 
-	public void setStartTime(LocalDateTime startTime) {
-		this.startTime = startTime;
-	}
+    public double getAcceptedPrice() {
+        return acceptedPrice;
+    }
 
-	public LocalDateTime getEndTime() {
-		return endTime;
-	}
+    public void setAcceptedPrice(double acceptedPrice) {
+        this.acceptedPrice = acceptedPrice;
+    }
 
-	public void setEndTime(LocalDateTime endTime) {
-		this.endTime = endTime;
-	}
+    public Quote(int quoteID, int clientID, int contractorID,
+                 String status, String note, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.quoteID = quoteID;
+        this.clientID = clientID;
+        this.contractorID = contractorID;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.status = status;
+        this.note = note;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public int getQuoteID() {
+        return quoteID;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setQuoteID(int quoteID) {
+        this.quoteID = quoteID;
+    }
 
-	public String getNote() {
-		return note;
-	}
 
-	public void setNote(String note) {
-		this.note = note;
-	}
 
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
+    public double getInitialPrice() {
+        return initialPrice;
+    }
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setInitialPrice(double initialPrice) {
+        this.initialPrice = initialPrice;
+    }
 
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
 
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
 
-	
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+
 }
