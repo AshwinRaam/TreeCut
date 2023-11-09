@@ -31,9 +31,6 @@
         <table class="table-auto w-full">
           <thead>
           <tr class="bg-gray-100">
-            <th class="px-4 py-2 text-left">Quote ID</th>
-            <th class="px-4 py-2 text-left">Client ID</th>
-            <th class="px-4 py-2 text-left">Contractor ID</th>
             <th class="px-4 py-2 text-left">Initial Price</th>
             <th class="px-4 py-2 text-left">Current Price</th>
             <th class="px-4 py-2 text-left">Accepted Price</th>
@@ -41,16 +38,12 @@
             <th class="px-4 py-2 text-left">End Time</th>
             <th class="px-4 py-2 text-left">Status</th>
             <th class="px-4 py-2 text-left">Note</th>
-            <th class="px-4 py-2 text-left">Created At</th>
-            <th class="px-4 py-2 text-left">Updated At</th>
+            <th class="px-4 py-2 text-left">Respond to Quote</th>
           </tr>
           </thead>
           <tbody>
           <c:forEach var="quote" items="${listQuotes}">
             <tr class="border-b">
-              <td class="px-4 py-2"><c:out value="${quote.quoteID}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.clientID}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.contractorID}" /></td>
               <td class="px-4 py-2"><c:out value="${quote.initialPrice}" /></td>
               <td class="px-4 py-2"><c:out value="${quote.currentPrice}" /></td>
               <td class="px-4 py-2"><c:out value="${quote.acceptedPrice}" /></td>
@@ -58,8 +51,14 @@
               <td class="px-4 py-2"><c:out value="${quote.endTime}" /></td>
               <td class="px-4 py-2"><c:out value="${quote.status}" /></td>
               <td class="px-4 py-2"><c:out value="${quote.note}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.createdAt}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.updatedAt}" /></td>
+              <td class="px-4 py-2">
+                <form action="createquoteresponse">
+                  <input type="submit" value="Respond"
+                         class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4  focus:outline-none focus:shadow-outline w-full">
+                  <input type="hidden" name="quoteID" value="${quote.quoteID}"/>
+                  <input type="hidden" name="clientID" value="${quote.clientID}"/>
+                </form>
+              </td>
             </tr>
           </c:forEach>
           </tbody>

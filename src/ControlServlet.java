@@ -73,7 +73,7 @@ public class ControlServlet extends HttpServlet {
                         break;
                     case "/createquoteresponse":
                         System.out.println("Sending to quote response page.");
-                        createQuoteResponse(request, response);
+                        createQuoteResponse(request, response, session);
                         break;
                     case "/quoterespond":
                         System.out.println("Responding to quote...");
@@ -207,9 +207,10 @@ public class ControlServlet extends HttpServlet {
         }
     }
 
-    private void createQuoteResponse(HttpServletRequest request, HttpServletResponse response)
+    private void createQuoteResponse(HttpServletRequest request, HttpServletResponse response, HttpSession session)
             throws SQLException, ServletException, IOException {
-        User user = UserDAO.getUser(currentUser);
+        String username = (String) session.getAttribute("username");
+        User user = UserDAO.getUser(username);
         int quoteID = Integer.parseInt(request.getParameter("quoteID"));
         Quote quote = QuoteDAO.getQuote(quoteID);
 
