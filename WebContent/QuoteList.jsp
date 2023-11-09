@@ -12,10 +12,11 @@
 <body class="bg-indigo-300">
 
 <main class="flex justify-center items-center min-h-screen">
-  <section class="bg-white shadow-lg p-8 mb-4 "> <!-- Adjusted width for better alignment -->
+  <section class="bg-white shadow-lg p-8 mb-4"> <!-- Adjusted width for better alignment -->
     <header class="flex justify-between items-center mb-4"> <!-- Flex container for header -->
-      <h1 class="text-3xl font-bold">Quotes</h1>
       <a href="${pageContext.request.contextPath}/logout" target="_self" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 transition duration-300 ease-in-out">Logout</a>
+      <h1 class="text-3xl font-bold">Quotes</h1>
+      <a href="${pageContext.request.contextPath}/new-quote" target="_self" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 transition duration-300 ease-in-out">Add New Quote</a>
     </header>
 
     <article>
@@ -46,7 +47,7 @@
               <td class="px-4 py-2">
                 <form action="createquoteresponse">
                   <input type="submit" value="Respond"
-                         class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4  focus:outline-none focus:shadow-outline w-full">
+                         class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline w-full">
                   <input type="hidden" name="quoteID" value="${quote.quoteID}"/>
                   <input type="hidden" name="clientID" value="${quote.clientID}"/>
                 </form>
