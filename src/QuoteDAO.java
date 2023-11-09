@@ -71,19 +71,22 @@ public class QuoteDAO {
     	Quote quote = new Quote();
     	if(resultSet.next()) {
     		System.out.println("Found quote...");
-    		int userID = resultSet.getInt("userID");
+    		int clientID = resultSet.getInt("clientID");
+			int contractorID = resultSet.getInt("contractorID");
     		double initialPrice = resultSet.getDouble("initialPrice");
+			double currentPrice = resultSet.getDouble("currentPrice");
+			double acceptedPrice = resultSet.getDouble("acceptedPrice");
     		LocalDateTime startTime = resultSet.getTimestamp("startTime").toLocalDateTime();
     		LocalDateTime endTime = resultSet.getTimestamp("endTime").toLocalDateTime();
     		String status = resultSet.getString("status");
     		String note = resultSet.getString("note");
     		LocalDateTime createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
-    		Timestamp tUpdatedAt = resultSet.getTimestamp("updatedAt");
+    		Timestamp UpdatedAt = resultSet.getTimestamp("updatedAt");
     		LocalDateTime updatedAt = null;
-    		if (tUpdatedAt != null)
+    		if (UpdatedAt != null)
     			updatedAt = resultSet.getTimestamp("updatedAt").toLocalDateTime();
     		
-    		quote = new Quote(quoteID, userID, initialPrice, startTime, endTime, status, note, createdAt, updatedAt);
+    		quote = new Quote(quoteID, clientID,contractorID, initialPrice,currentPrice,acceptedPrice, startTime, endTime, status, note, createdAt, updatedAt);
     	}
     	
     	System.out.println("--End getQuote()--");

@@ -50,11 +50,14 @@ public class Quote {
         this.acceptedPrice = acceptedPrice;
     }
 
-    public Quote(int quoteID, int clientID, int contractorID,
+    public Quote(int quoteID, int clientID, int contractorID, double initialPrice, double currentPrice, double acceptedPrice, LocalDateTime startTime, LocalDateTime endTime,
                  String status, String note, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.quoteID = quoteID;
         this.clientID = clientID;
         this.contractorID = contractorID;
+        this.initialPrice = initialPrice;
+        this.currentPrice = currentPrice;
+        this.acceptedPrice = acceptedPrice;
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = status;

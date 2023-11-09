@@ -14,6 +14,9 @@
  
 	<body>
 	 <center>
+		 <a href="QuoteList.jsp">Quotes</a>
+		 <a href="OrderList.jsp">Orders</a>
+		 <a href="BillList.jsp">Bills</a>
 		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
 		 <p>Client Dashboard Coming Soon....</p>
 		 </center>
