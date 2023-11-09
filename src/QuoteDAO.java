@@ -112,6 +112,7 @@ public class QuoteDAO {
 
 		if (userIdResult.next()) {
 			userId = userIdResult.getInt("userID");
+			System.out.println("User ID: " + userId);
 		}
 		userIdResult.close();
 		userIdStatement.close();
@@ -124,14 +125,21 @@ public class QuoteDAO {
 
 			while (quotesResultSet.next()) {
 				Quote quote = new Quote();
-				// Set all the fields of the quote object as before
 				quote.setQuoteID(quotesResultSet.getInt("quoteID"));
 				quote.setClientID(quotesResultSet.getInt("clientID"));
 				quote.setContractorID(quotesResultSet.getInt("contractorID"));
-				// ... continue setting fields
-				// Add the quote to the list
+				quote.setInitialPrice(quotesResultSet.getDouble("initialPrice"));
+				quote.setCurrentPrice(quotesResultSet.getDouble("currentPrice"));
+				quote.setAcceptedPrice(quotesResultSet.getDouble("acceptedPrice"));
+//				quote.setStartTime(quotesResultSet.getTimestamp("startTime").toLocalDateTime());
+//				quote.setEndTime(quotesResultSet.getTimestamp("endTime").toLocalDateTime());
+				quote.setStatus(quotesResultSet.getString("status"));
+				quote.setNote(quotesResultSet.getString("note"));
+//				quote.setCreatedAt(quotesResultSet.getTimestamp("createdAt").toLocalDateTime());
+//				quote.setUpdatedAt(quotesResultSet.getTimestamp("updatedAt").toLocalDateTime());
 				listQuotes.add(quote);
 			}
+
 
 			quotesResultSet.close();
 			quotesStatement.close();

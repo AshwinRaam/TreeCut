@@ -48,18 +48,18 @@
           <tbody>
           <c:forEach var="quote" items="${listQuotes}">
             <tr class="border-b">
-              <td class="px-4 py-2"><c:out value="${quote.quoteID}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.clientID}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.contractorID}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.initialPrice}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.currentPrice}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.acceptedPrice}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.startTime}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.endTime}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.status}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.note}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.createdAt}" /></td>
-              <td class="px-4 py-2"><c:out value="${quote.updatedAt}" /></td>
+              <td class="px-4 py-2"><c:out value="${quote.getQuoteID}" /></td>
+              <td class="px-4 py-2"><c:out value="${quote.getClientID}" /></td>
+              <td class="px-4 py-2"><c:out value="${quote.getContractorID}" /></td>
+              <td class="px-4 py-2"><c:out value="${quote.getInitialPrice}" /></td>
+              <td class="px-4 py-2"><c:out value="${quote.getCurrentPrice}" /></td>
+              <td class="px-4 py-2"><c:out value="${quote.getAcceptedPrice}" /></td>
+              <td class="px-4 py-2"><c:out value="${quote.getStartTime}" /></td>
+              <td class="px-4 py-2"><c:out value="${quote.getEndTime}" /></td>
+              <td class="px-4 py-2"><c:out value="${quote.getStatus}" /></td>
+              <td class="px-4 py-2"><c:out value="${quote.getNote}" /></td>
+              <td class="px-4 py-2"><c:out value="${quote.getCreatedAt}" /></td>
+              <td class="px-4 py-2"><c:out value="${quote.getUpdatedAt}" /></td>
             </tr>
           </c:forEach>
           </tbody>
