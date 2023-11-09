@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,7 +18,6 @@ public class ControlServlet extends HttpServlet {
     private QuoteDAO QuoteDAO;
     private QuoteResponsesDAO QuoteResponsesDAO;
     private String currentUser;
-    private HttpSession session = null;
 
     public ControlServlet() {
 
@@ -41,39 +37,67 @@ public class ControlServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
         System.out.println(action);
+        HttpSession session = request.getSession(false);
 
-        try {
-            switch (action) {
-                case "/login":
-                    login(request, response);
-                    break;
-                case "/register":
-                    register(request, response);
-                    break;
-                case "/initialize":
-                    UserDAO.init();
-                    System.out.println("Database successfully initialized!");
-                    rootPage(request, response, "");
-                    break;
-                case "/root":
-                    rootPage(request, response, "");
-                    break;
-                case "/logout":
-                    logout(request, response);
-                    break;
-
-                case "/createquoteresponse":
-                    System.out.println("Sending to quote response page.");
-                    createQuoteResponse(request, response);
-                    break;
-                case "/quoterespond":
-                    System.out.println("Responding to quote...");
-                    sendResponseToQuote(request, response);
-                    break;
+        if (session != null && session.getAttribute("username") != null) {
+            try {
+                switch (action) {
+                    case "/login":
+                        login(request, response);
+                        break;
+                    case "/register":
+                        register(request, response);
+                        break;
+                    case "/initialize":
+                        UserDAO.init();
+                        System.out.println("Database successfully initialized!");
+                        rootPage(request, response, "");
+                        break;
+                    case "/root":
+                        rootPage(request, response, "");
+                        break;
+                    case "/quotes":
+                        System.out.println("Sending to quotes page.");
+//                    request.setAttribute("listQuote", QuoteDAO.listAllQuotes());
+                        request.getRequestDispatcher("QuoteList.jsp").forward(request, response);
+                        break;
+                    case "/orders":
+                        System.out.println("Sending to orders page.");
+                        request.getRequestDispatcher("OrderList.jsp").forward(request, response);
+                        break;
+                    case "/bills":
+                        System.out.println("Sending to bills page.");
+                        request.getRequestDispatcher("BillList.jsp").forward(request, response);
+                        break;
+                    case "/logout":
+                        logout(request, response);
+                        break;
+                    case "/createquoteresponse":
+                        System.out.println("Sending to quote response page.");
+                        createQuoteResponse(request, response);
+                        break;
+                    case "/quoterespond":
+                        System.out.println("Responding to quote...");
+                        sendResponseToQuote(request, response);
+                        break;
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+        } else {
+            try {
+                if (action.equals("/login")) {
+                    login(request, response);
+                }
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+                dispatcher.forward(request, response);
+
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         }
+
     }
 
     private void rootPage(HttpServletRequest request, HttpServletResponse response, String view) throws ServletException, IOException, SQLException {
@@ -85,31 +109,36 @@ public class ControlServlet extends HttpServlet {
     protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        HttpSession session = request.getSession(false);
 
-        HttpSession session = request.getSession();
-
-        if ("root".equals(username) && "pass1234".equals(password)) {
-            System.out.println("Login Successful! Redirecting to root");
-            session.setAttribute("Username", username);
-            rootPage(request, response, "");
-        } else if (UserDAO.isValid(username, password)) {
-            System.out.println("Login Successful! Redirecting");
-            session.setAttribute("username", username);
-            session.setAttribute("userID", UserDAO.getUserID(username));
-            if (UserDAO.isClient(username)) {
-                session.setAttribute("role", "Client");
-                request.getRequestDispatcher("clientDashboard.jsp").forward(request, response);
-            } else {
-                request.getRequestDispatcher("contractorDashboard.jsp").forward(request, response);
-                session.setAttribute("role", "Contractor");
-            }
+        if (session != null && session.getAttribute("username") != null) {
+            request.getRequestDispatcher("clientDashboard.jsp").forward(request, response);
         } else {
-            request.setAttribute("loginFailedStr", "Login Failed: Please check your credentials.");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-            return; //doesn't allow for the change in currentUser below
+            session = request.getSession(true);
+
+            if ("root".equals(username) && "pass1234".equals(password)) {
+                System.out.println("Login Successful! Redirecting to root");
+                session.setAttribute("Username", username);
+                rootPage(request, response, "");
+            } else if (UserDAO.isValid(username, password)) {
+                System.out.println("Login Successful! Redirecting");
+                session.setAttribute("username", username);
+                session.setAttribute("userID", UserDAO.getUserID(username));
+                if (UserDAO.isClient(username)) {
+                    session.setAttribute("role", "Client");
+                    request.getRequestDispatcher("clientDashboard.jsp").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("contractorDashboard.jsp").forward(request, response);
+                    session.setAttribute("role", "Contractor");
+                }
+            } else {
+                request.setAttribute("loginFailedStr", "Login Failed: Please check your credentials.");
+                session = null;
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+                return; //doesn't allow for the change in currentUser below
+            }
         }
 
-        currentUser = username;
     }
 
     private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -156,8 +185,18 @@ public class ControlServlet extends HttpServlet {
     }
 
     private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        currentUser = "";
-        response.sendRedirect("login.jsp");
+
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            session.invalidate();
+        }
+        try {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     private void createQuoteResponse(HttpServletRequest request, HttpServletResponse response)

@@ -62,7 +62,7 @@ public class QuoteDAO {
     
     public Quote getQuote(int quoteID) throws SQLException {
     	System.out.println(String.format("--getQuote(%d) invoked--", quoteID));
-    	String sql = "SELECT * FROM quotes WHERE quoteID = ?;";
+    	String sql = "SELECT * FROM Quotes WHERE quoteID = ?;";
     	connect_func();
     	preparedStatement = connect.prepareStatement(sql);
     	preparedStatement.setInt(1, quoteID);

@@ -14,10 +14,10 @@
  
 	<body>
 	 <center>
-		 <a href="QuoteList.jsp">Quotes</a>
-		 <a href="OrderList.jsp">Orders</a>
-		 <a href="BillList.jsp">Bills</a>
-		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
+		 <a href="${pageContext.request.contextPath}/quotes" target="_self">Quotes</a>
+		 <a href="${pageContext.request.contextPath}/orders" target ="_self">Orders</a>
+		 <a href="${pageContext.request.contextPath}/bills" target ="_self">Bills</a>
+		 <a href="${pageContext.request.contextPath}/logout" target ="_self" > logout</a><br><br>
 		 <p>Client Dashboard Coming Soon....</p>
 		 </center>
 	</body>
