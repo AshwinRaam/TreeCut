@@ -4,6 +4,7 @@ public class QuoteResponse {
 	private int responseID;
 	private int quoteID;
 	private int userID;
+	private String username;
 	private double modifiedPrice;
 	private LocalDateTime modifiedStartTime;
 	private LocalDateTime modifiedEndTime;
@@ -12,7 +13,7 @@ public class QuoteResponse {
 	
 	public QuoteResponse() { }
 	
-	public QuoteResponse(int responseID, int quoteID, int userID, double modifiedPrice, LocalDateTime modifiedStartTime, 
+	public QuoteResponse(int responseID, int quoteID, int userID, String username, double modifiedPrice, LocalDateTime modifiedStartTime,
 			LocalDateTime modifiedEndTime, String note, LocalDateTime createdAt) {
 		this.responseID = responseID;
 		this.quoteID = quoteID;
@@ -46,6 +47,10 @@ public class QuoteResponse {
 	public void setUserID(int userID) {
 		this.userID = userID;
 	}
+
+	public String getUsername() { return username; }
+
+	public void setUsername(String username) { this.username = username; }
 
 	public double getModifiedPrice() {
 		return modifiedPrice;
