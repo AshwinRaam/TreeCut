@@ -92,4 +92,52 @@ public class QuoteDAO {
     	System.out.println("--End getQuote()--");
     	return quote;
     }
+
+	public List<Quote> listQuotesByUsername(String username) throws SQLException {
+		List<Quote> listQuotes = new ArrayList<>();
+
+		// SQL query to get user ID from username
+		String userIdSql = "SELECT userID FROM Users WHERE username = ?";
+
+		// SQL query to get quotes for that user ID
+		String quotesSql = "SELECT * FROM Quotes WHERE clientID = ?";
+
+		connect_func(); // Establish database connection
+
+		int userId = -1;
+		// Prepare statement to fetch user ID
+		PreparedStatement userIdStatement = connect.prepareStatement(userIdSql);
+		userIdStatement.setString(1, username);
+		ResultSet userIdResult = userIdStatement.executeQuery();
+
+		if (userIdResult.next()) {
+			userId = userIdResult.getInt("userID");
+		}
+		userIdResult.close();
+		userIdStatement.close();
+
+		if (userId != -1) {
+			// Prepare statement to fetch quotes using the fetched user ID
+			PreparedStatement quotesStatement = connect.prepareStatement(quotesSql);
+			quotesStatement.setInt(1, userId);
+			ResultSet quotesResultSet = quotesStatement.executeQuery();
+
+			while (quotesResultSet.next()) {
+				Quote quote = new Quote();
+				// Set all the fields of the quote object as before
+				quote.setQuoteID(quotesResultSet.getInt("quoteID"));
+				quote.setClientID(quotesResultSet.getInt("clientID"));
+				quote.setContractorID(quotesResultSet.getInt("contractorID"));
+				// ... continue setting fields
+				// Add the quote to the list
+				listQuotes.add(quote);
+			}
+
+			quotesResultSet.close();
+			quotesStatement.close();
+		}
+
+		return listQuotes;
+	}
+
 }

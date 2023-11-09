@@ -9,15 +9,10 @@
 	<title>Login - Tree Cut</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://cdn.tailwindcss.com"></script>
-	<style>
-		.full-height {
-			height: 100vh; /* This will make sure the flex container is full screen height */
-		}
-	</style>
 </head>
 <body class="bg-indigo-300">
 <div class="flex justify-center items-center h-screen">
-	<form action="login" method="post" class="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4">
+	<form action="login" method="post" class="bg-white shadow-lg px-8 pt-6 pb-8 mb-4">
 		<p class="text-red-500 mb-4">${loginFailedStr}</p>
 		<div class="mb-4">
 			<label for="username" class="block text-gray-700 text-md font-bold mb-2">

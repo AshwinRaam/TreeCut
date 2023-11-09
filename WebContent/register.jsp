@@ -9,7 +9,7 @@
 </head>
 <body class="bg-indigo-300">
 <div class="flex justify-center items-center h-screen">
-    <form action="register" method="post" class="bg-white shadow-lg rounded px-8 pt-6 pb-8">
+    <form action="register" method="post" class="bg-white shadow-lg px-8 pt-6 pb-8">
         <!-- Error Messages -->
         <p class="text-red-500 mb-4">${errorOne }</p>
         <p class="text-red-500 mb-4">${errorTwo }</p>
@@ -95,7 +95,7 @@
                 Role:
             </label>
             <select id="role" name="role"
-                    class="block appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500" required>
+                    class="block appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-green-500" required>
                 <option value="Client">Client</option>
                 <option value="Contractor">Contractor</option>
             </select>
@@ -104,7 +104,7 @@
         <!-- Submit Button -->
         <div class="flex items-center justify-between">
             <input type="submit" value="Register"
-                   class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+                   class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline w-full">
         </div>
 
         <!-- Login Link -->

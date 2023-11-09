@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 public class ControlServlet extends HttpServlet {
@@ -58,7 +59,10 @@ public class ControlServlet extends HttpServlet {
                         break;
                     case "/quotes":
                         System.out.println("Sending to quotes page.");
-//                    request.setAttribute("listQuote", QuoteDAO.listAllQuotes());
+                        String username = (String) session.getAttribute("username");
+                        List<Quote> listQuote = QuoteDAO.listQuotesByUsername(username);
+                        System.out.println("listQuote size: " + listQuote.size());
+                        request.setAttribute("listQuote", listQuote);
                         request.getRequestDispatcher("QuoteList.jsp").forward(request, response);
                         break;
                     case "/orders":
@@ -89,7 +93,6 @@ public class ControlServlet extends HttpServlet {
                 if (action.equals("/login")) {
                     login(request, response);
                 }
-
                 RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
                 dispatcher.forward(request, response);
 
@@ -118,7 +121,8 @@ public class ControlServlet extends HttpServlet {
 
             if ("root".equals(username) && "pass1234".equals(password)) {
                 System.out.println("Login Successful! Redirecting to root");
-                session.setAttribute("Username", username);
+                session.setAttribute("username", username);
+                session.setAttribute("role", "Admin");
                 rootPage(request, response);
             } else if (UserDAO.isValid(username, password)) {
                 System.out.println("Login Successful! Redirecting");
