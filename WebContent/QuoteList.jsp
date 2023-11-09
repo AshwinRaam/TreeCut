@@ -12,21 +12,13 @@
 <body class="bg-indigo-300">
 
 <main class="flex justify-center items-center min-h-screen">
-  <section class="bg-white shadow-lg p-8 mb-4 text-center">
-    <header class="mb-4">
-      <h1 class="text-xl font-bold">Quotes</h1>
+  <section class="bg-white shadow-lg p-8 mb-4 "> <!-- Adjusted width for better alignment -->
+    <header class="flex justify-between items-center mb-4"> <!-- Flex container for header -->
+      <h1 class="text-3xl font-bold">Quotes</h1>
+      <a href="${pageContext.request.contextPath}/logout" target="_self" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 transition duration-300 ease-in-out">Logout</a>
     </header>
 
-    <nav class="mb-4">
-      <ul>
-        <li class="mt-2">
-          <a href="${pageContext.request.contextPath}/logout" class="text-green-500 hover:text-green-700 text-sm font-medium">Logout</a>
-        </li>
-      </ul>
-    </nav>
-
     <article>
-      <h2 class="text-lg font-bold my-4">List of Quotes</h2>
       <div class="overflow-x-auto">
         <table class="table-auto w-full">
           <thead>
