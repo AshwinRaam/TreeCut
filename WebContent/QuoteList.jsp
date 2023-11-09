@@ -45,11 +45,10 @@
               <td class="px-4 py-2"><c:out value="${quote.status}" /></td>
               <td class="px-4 py-2"><c:out value="${quote.note}" /></td>
               <td class="px-4 py-2">
-                <form action="createquoteresponse">
+                <form action="showresponses">
                   <input type="submit" value="Respond"
                          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline w-full">
                   <input type="hidden" name="quoteID" value="${quote.quoteID}"/>
-                  <input type="hidden" name="clientID" value="${quote.clientID}"/>
                 </form>
               </td>
             </tr>
