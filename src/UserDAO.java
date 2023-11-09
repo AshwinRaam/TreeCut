@@ -343,31 +343,32 @@ public class UserDAO
          
          System.out.println("Users table is inserted with initial values.");
          
-         String[] quotesQueries = {
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (1, 100.00, '2023-10-26 10:00:00', '2023-10-26 12:00:00', 'Requested', 'Note1', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (2, 200.00, '2023-10-26 11:00:00', '2023-10-26 13:00:00', 'Requested', 'Note2', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (3, 300.00, '2023-10-26 12:00:00', '2023-10-26 14:00:00', 'Rejected', 'Note3', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (4, 150.50, '2023-10-26 13:00:00', '2023-10-26 15:00:00', 'Quoted', 'Note4', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (5, 250.75, '2023-10-26 14:00:00', '2023-10-26 16:00:00', 'Accepted', 'Note5', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (6, 350.25, '2023-10-26 15:00:00', '2023-10-26 17:00:00', 'Requested', 'Note6', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (7, 175.00, '2023-10-26 16:00:00', '2023-10-26 18:00:00', 'Rejected', 'Note7', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (8, 275.50, '2023-10-26 17:00:00', '2023-10-26 19:00:00', 'Quoted', 'Note8', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (9, 375.75, '2023-10-26 18:00:00', '2023-10-26 20:00:00', 'Accepted', 'Note9', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (10, 200.00, '2023-10-26 19:00:00', '2023-10-26 21:00:00', 'Requested', 'Note10', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (11, 300.50, '2023-10-26 20:00:00', '2023-10-26 22:00:00', 'Rejected', 'Note11', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (12, 400.75, '2023-10-26 21:00:00', '2023-10-26 23:00:00', 'Quoted', 'Note12', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (13, 225.00, '2023-10-26 22:00:00', '2023-10-27 00:00:00', 'Accepted', 'Note13', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (14, 325.50, '2023-10-27 10:00:00', '2023-10-27 12:00:00', 'Requested', 'Note14', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (15, 425.75, '2023-10-27 11:00:00', '2023-10-27 13:00:00', 'Rejected', 'Note15', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (16, 250.00, '2023-10-27 12:00:00', '2023-10-27 14:00:00', 'Quoted', 'Note16', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (17, 350.50, '2023-10-27 13:00:00', '2023-10-27 15:00:00', 'Accepted', 'Note17', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (18, 450.75, '2023-10-27 14:00:00', '2023-10-27 16:00:00', 'Requested', 'Note18', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (19, 275.00, '2023-10-27 15:00:00', '2023-10-27 17:00:00', 'Rejected', 'Note19', NOW())",
-        			"INSERT INTO Quotes (userID, initialPrice, startTime, endTime, status, note, createdAt) VALUES (20, 375.50, '2023-10-27 16:00:00', '2023-10-27 18:00:00', 'Quoted', 'Note20', NOW())"
-        		};
+
+        String[] quotesQueries = {
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (1, 2, 100.00, 100.00, '2023-10-26 10:00:00', '2023-10-26 12:00:00', 'Requested', 'Note1', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (3, 2, 200.00, 200.00, '2023-10-26 11:00:00', '2023-10-26 13:00:00', 'Requested', 'Note2', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (3, 2, 300.00, 300.00, '2023-10-26 12:00:00', '2023-10-26 14:00:00', 'Rejected', 'Note3', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (4, 2, 150.50, 150.50, '2023-10-26 13:00:00', '2023-10-26 15:00:00', 'Quoted', 'Note4', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (5, 2, 250.75, 250.75, '2023-10-26 14:00:00', '2023-10-26 16:00:00', 'Accepted', 'Note5', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (6, 2, 350.25, 350.25, '2023-10-26 15:00:00', '2023-10-26 17:00:00', 'Requested', 'Note6', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (7, 2, 175.00, 175.00, '2023-10-26 16:00:00', '2023-10-26 18:00:00', 'Rejected', 'Note7', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (8, 2, 275.50, 275.50, '2023-10-26 17:00:00', '2023-10-26 19:00:00', 'Quoted', 'Note8', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (9, 2, 375.75, 375.75, '2023-10-26 18:00:00', '2023-10-26 20:00:00', 'Accepted', 'Note9', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (10,2, 200.00, 200.00, '2023-10-26 19:00:00', '2023-10-26 21:00:00', 'Requested', 'Note10', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (11,2, 300.50, 300.50, '2023-10-26 20:00:00', '2023-10-26 22:00:00', 'Rejected', 'Note11', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (12,2, 400.75, 400.75, '2023-10-26 21:00:00', '2023-10-26 23:00:00', 'Quoted', 'Note12', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (13, 2, 210.00, 210.00, '2023-10-27 10:00:00', '2023-10-27 12:00:00', 'Requested', 'Note13', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (14, 2, 310.00, 310.00, '2023-10-27 11:00:00', '2023-10-27 13:00:00', 'Requested', 'Note14', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (15, 2, 410.00, 410.00, '2023-10-27 12:00:00', '2023-10-27 14:00:00', 'Rejected', 'Note15', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (16, 2, 160.50, 160.50, '2023-10-27 13:00:00', '2023-10-27 15:00:00', 'Quoted', 'Note16', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (17, 2, 260.75, 260.75, '2023-10-27 14:00:00', '2023-10-27 16:00:00', 'Accepted', 'Note17', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (18, 2, 360.25, 360.25, '2023-10-27 15:00:00', '2023-10-27 17:00:00', 'Requested', 'Note18', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (19, 2, 185.00, 185.00, '2023-10-27 16:00:00', '2023-10-27 18:00:00', 'Rejected', 'Note19', NOW())",
+                "INSERT INTO Quotes (clientID, contractorID, initialPrice, currentPrice, startTime, endTime, status, note, createdAt) VALUES (20, 2, 285.50, 285.50, '2023-10-27 17:00:00', '2023-10-27 19:00:00', 'Quoted', 'Note20', NOW())"
+        };
 
 
-         for (String query : quotesQueries) {
+        for (String query : quotesQueries) {
              statement.execute(query);
          }
          
