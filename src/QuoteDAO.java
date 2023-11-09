@@ -135,8 +135,8 @@ public class QuoteDAO {
 				quote.setEndTime(quotesResultSet.getTimestamp("endTime"));
 				quote.setStatus(quotesResultSet.getString("status"));
 				quote.setNote(quotesResultSet.getString("note"));
-//				quote.setCreatedAt(quotesResultSet.getTimestamp("createdAt").toLocalDateTime());
-//				quote.setUpdatedAt(quotesResultSet.getTimestamp("updatedAt").toLocalDateTime());
+				quote.setCreatedAt(quotesResultSet.getTimestamp("createdAt"));
+				quote.setUpdatedAt(quotesResultSet.getTimestamp("updatedAt"));
 				listQuotes.add(quote);
 			}
 
