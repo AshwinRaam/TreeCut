@@ -58,12 +58,7 @@ public class ControlServlet extends HttpServlet {
                         rootPage(request, response);
                         break;
                     case "/quotes":
-                        System.out.println("Sending to quotes page.");
-                        String username = (String) session.getAttribute("username");
-                        List<Quote> listQuote = QuoteDAO.listQuotesByUsername(username);
-                        System.out.println("listQuote size: " + listQuote.size());
-                        request.setAttribute("listQuote", listQuote);
-                        request.getRequestDispatcher("QuoteList.jsp").forward(request, response);
+                        listQuotes(request, response, session);
                         break;
                     case "/orders":
                         System.out.println("Sending to orders page.");
@@ -101,6 +96,15 @@ public class ControlServlet extends HttpServlet {
             }
         }
 
+    }
+
+    private void listQuotes(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws SQLException, ServletException, IOException {
+        System.out.println("Sending to quotes page.");
+        String username = (String) session.getAttribute("username");
+        List<Quote> listQuote = QuoteDAO.listQuotesByUsername(username);
+        System.out.println("listQuote size: " + listQuote.size());
+        request.setAttribute("listQuotes", listQuote);
+        request.getRequestDispatcher("QuoteList.jsp").forward(request, response);
     }
 
     private void rootPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
