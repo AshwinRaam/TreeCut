@@ -75,16 +75,16 @@ public class QuoteResponsesDAO {
     		int responseID = resultSet.getInt("responseID");
     		//int quoteID; //already in method parameter
     		int userID = resultSet.getInt("userID");
-			String username = UserDAO.getUser(userID).username; /* yes, this could be smaller, and more efficient,
-																 * but getUser(userID) seems more versatile
-																 */
+			User user = UserDAO.getUser(userID);
+			String fullName = user.getFirstName() + " " + user.getLastName();
+			/* yes, this could be smaller, and more efficient, but getUser(userID) seems more versatile */
     		double modifiedPrice = resultSet.getDouble("modifiedPrice");
     		LocalDateTime modifiedStartTime = resultSet.getTimestamp("modifiedStartTime").toLocalDateTime();
     		LocalDateTime modifiedEndTime = resultSet.getTimestamp("modifiedEndTime").toLocalDateTime();
     		String note = resultSet.getString("note");
     		LocalDateTime createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
     		
-    		QuoteResponse response = new QuoteResponse(responseID, quoteID, userID, username, modifiedPrice,
+    		QuoteResponse response = new QuoteResponse(responseID, quoteID, userID, fullName, modifiedPrice,
 					modifiedStartTime, modifiedEndTime, note, createdAt);
     		responses.add(response);
     	}

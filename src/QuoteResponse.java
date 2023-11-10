@@ -4,7 +4,7 @@ public class QuoteResponse {
 	private int responseID;
 	private int quoteID;
 	private int userID;
-	private String username;
+	private String fullName;
 	private double modifiedPrice;
 	private LocalDateTime modifiedStartTime;
 	private LocalDateTime modifiedEndTime;
@@ -17,6 +17,8 @@ public class QuoteResponse {
 			LocalDateTime modifiedEndTime, String note, LocalDateTime createdAt) {
 		this.responseID = responseID;
 		this.quoteID = quoteID;
+		this.userID = userID;
+		this.fullName = username;
 		this.modifiedPrice = modifiedPrice;
 		this.modifiedStartTime = modifiedStartTime;
 		this.modifiedEndTime = modifiedEndTime;
@@ -48,9 +50,9 @@ public class QuoteResponse {
 		this.userID = userID;
 	}
 
-	public String getUsername() { return username; }
+	public String getFullName() { return fullName; }
 
-	public void setUsername(String username) { this.username = username; }
+	public void setFullName(String fullName) { this.fullName = fullName; }
 
 	public double getModifiedPrice() {
 		return modifiedPrice;

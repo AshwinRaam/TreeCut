@@ -12,7 +12,7 @@
                 <table border="1" cellpadding="5">
                     <tr>
                         <th>User:</th>
-                        <td>${response.username}</td>
+                        <td>${response.fullName}</td>
                     </tr>
                 <c:if test="${response.modifiedPrice > 0}">
                     <tr>
@@ -40,6 +40,7 @@
                 </c:if>
                 </table>
             </c:forEach>
+        <br>
         <form action="createquoteresponse">
             <input type="submit" value="New Response">
             <input type="hidden" name="quoteID" value="${quoteID}">
