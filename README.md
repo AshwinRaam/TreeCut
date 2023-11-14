@@ -61,7 +61,7 @@ Configure:
 - Select "Artifact"
 - Add the artifact you created earlier.
 - Go back to the "Server" tab 
-- Change the Application Server to "http://localhost:8080/".
+- Change the Application Server to "http://localhost:8080/TreeCut".
 - (optional) Change the name of the deployment config if it was not automatically assigned.
   - Tomcat [version] is usually the default.
 - Hit "OK"
