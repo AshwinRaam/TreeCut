@@ -12,13 +12,13 @@
         <h1>Respond to Quote</h1>
         <form action="quoterespond" method="post">
             <table border="1" cellpadding="5">
-            	<tr>
+            	<%--<tr>
             		<th>Quote ID: </th>
             		<td align="left" colspan="3">
                         <div style="padding-left: 20px">${quote.quoteID}</div>
             			<input type="hidden" name="quoteID" value="${quote.quoteID}"/>
             		</td>
-            	</tr>
+            	</tr>--%>
             	<tr>
             		<th>User: </th>
             		<td align="left" colspan="3">
