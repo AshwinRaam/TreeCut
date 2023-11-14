@@ -39,6 +39,8 @@ public class ControlServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
+        if (action.contains("images")) //handle image serving
+            action = "/images";
         System.out.println(action);
         HttpSession session = request.getSession(false);
 
@@ -89,6 +91,10 @@ public class ControlServlet extends HttpServlet {
                     case "/quoterespond":
                         System.out.println("Responding to quote...");
                         sendResponseToQuote(request, response);
+                        break;
+                    case "/images":
+                        System.out.println("Serving image...");
+                        serveImage(request, response);
                         break;
                 }
             } catch (Exception ex) {
