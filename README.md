@@ -48,8 +48,6 @@ Configure:
 - Add a new artifact by hitting the '+' button.
 - Select "Web Applicatoin: Exploded > From Modules..."
 - Select the project.
-- (optional) Change the name of the artifact by removing the ":war exploded" suffix.
-  - This affects the URL later.
 - Hit "OK"
 - Go to "Run > Profile > Edit Configurations".
 - Hit "Add New" or the hit '+' button.
@@ -62,7 +60,8 @@ Configure:
 - Hit the '+" button.
 - Select "Artifact"
 - Add the artifact you created earlier.
-  - You'll notice if you go back to the "Server" tab that the URL has changed.
+- Go back to the "Server" tab 
+- Change the Application Server to "http://localhost:8080/".
 - (optional) Change the name of the deployment config if it was not automatically assigned.
   - Tomcat [version] is usually the default.
 - Hit "OK"
