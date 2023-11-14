@@ -51,6 +51,10 @@
         <c:forEach var="response" items="${listResponses}">
             <table border="1" cellpadding="5">
                 <tr>
+                    <th>Date:</th>
+                    <td>${response.createdAt}</td>
+                </tr>
+                <tr>
                     <th>User:</th>
                     <td>${response.fullName}</td>
                 </tr>
