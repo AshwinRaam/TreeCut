@@ -1,23 +1,25 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.*;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
-
+@MultipartConfig
 public class ControlServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserDAO UserDAO = new UserDAO();
     private QuoteDAO QuoteDAO;
+    private TreesDAO TreesDAO;
     private QuoteResponsesDAO QuoteResponsesDAO;
     private String currentUser;
 
@@ -28,6 +30,7 @@ public class ControlServlet extends HttpServlet {
     public void init() {
         UserDAO = new UserDAO();
         QuoteDAO = new QuoteDAO();
+        TreesDAO = new TreesDAO();
         QuoteResponsesDAO = new QuoteResponsesDAO();
         currentUser = "";
     }
@@ -71,6 +74,12 @@ public class ControlServlet extends HttpServlet {
                         break;
                     case "/logout":
                         logout(request, response);
+                        break;
+                    case "/new-quote":
+                        createQuote(request, response);
+                        break;
+                    case "/submit-quote":
+                        submitQuote(request, response, session);
                         break;
                     case "/showresponses":
                         listResponses(request, response);
@@ -209,6 +218,100 @@ public class ControlServlet extends HttpServlet {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    private void createQuote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("quoteRequest.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private String getStringFromPart(Part part) throws IOException {
+        InputStream partStream = part.getInputStream();
+        BufferedReader partReader = new BufferedReader(new InputStreamReader(partStream));
+        String stringPart = partReader.readLine();
+        partReader.close();
+        partStream.close();
+        return stringPart;
+    }
+
+    private void submitQuote(HttpServletRequest request, HttpServletResponse response,  HttpSession session) throws SQLException, ServletException, IOException {
+        String username = (String) session.getAttribute("username");
+        User user = UserDAO.getUser(username);
+
+        Part startTimePart = request.getPart("startTime");
+        Part endTimePart = request.getPart("endTime");
+        Part notePart = request.getPart("note");
+        System.out.printf("Parts not null: %b, %b, %b\r\n", startTimePart != null, endTimePart != null, notePart != null);
+
+        String sTimeStart = getStringFromPart(startTimePart);
+        String sTimeEnd = getStringFromPart(endTimePart);
+        System.out.println(sTimeStart + " " + sTimeEnd);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        LocalDateTime lStartTime = LocalDateTime.parse(sTimeStart, formatter);
+        LocalDateTime lEndTime = LocalDateTime.parse(sTimeEnd, formatter);
+        java.sql.Timestamp startTime = Timestamp.valueOf(lStartTime);
+        java.sql.Timestamp endTime = Timestamp.valueOf(lEndTime);
+        String note = getStringFromPart(notePart);
+        System.out.println(notePart);
+
+        System.out.println("aaa");
+        Quote quote = new Quote();
+        quote.setClientID(user.userID);
+        quote.setNote(note);
+        quote.setStartTime(startTime);
+        quote.setEndTime(endTime);
+
+        System.out.println("aaa");
+
+        int quoteID = QuoteDAO.insertQuote(quote);
+        if (quoteID < 0){
+            //handle error or smth
+            return;
+        }
+
+        int treeNum = 1;
+        while (true)
+        {
+            System.out.printf("Uploading tree%d ... ", treeNum);
+            if (treeNum > 1000) {
+                System.out.println("Dawg you got too many trees.");
+                break; //way too many trees.
+            }
+
+            Part pSize = request.getPart("size_tree" + treeNum);
+            Part pHeight = request.getPart("height_tree" + treeNum);
+            Part pNearHouse = request.getPart("near_house" + treeNum);
+            Part pLocation = request.getPart("location" + treeNum);
+            Part treePic1Part = request.getPart("tree" + treeNum + "pic1");
+            Part treePic2Part = request.getPart("tree" + treeNum + "pic2");
+            Part treePic3Part = request.getPart("tree" + treeNum + "pic3");
+            if(pSize == null)
+                break;
+
+            String size = getStringFromPart(pSize);String height = getStringFromPart(pHeight);
+            String nearHouse = getStringFromPart(pNearHouse);
+            String location = getStringFromPart(pLocation);
+            String treePicURL1 = TreesDAO.saveUploadedImage(treePic1Part);
+            String treePicURL2 = TreesDAO.saveUploadedImage(treePic2Part);
+            String treePicURL3 = TreesDAO.saveUploadedImage(treePic3Part);
+
+            Tree tree = new Tree();
+            tree.setQuoteID(quoteID);
+            tree.setSize(size);
+            tree.setHeight(height);
+            tree.setNearHouse(nearHouse);
+            tree.setLocation(location);
+            tree.setPictureURL1(treePicURL1);
+            tree.setPictureURL2(treePicURL2);
+            tree.setPictureURL3(treePicURL3);
+
+            TreesDAO.insertTree(tree);
+
+            treeNum++;
+            System.out.println("Done.");
+        }/**/
+
+        response.sendRedirect("quotes");
     }
 
     private void listResponses(HttpServletRequest request, HttpServletResponse response) throws SQLException,
