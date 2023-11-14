@@ -463,7 +463,7 @@ public class ControlServlet extends HttpServlet {
         out.close();
         fileContent.close();
 
-        return "/images/"+fileName;
+        return "/TreeCut/images/"+fileName;
     }
 
     private String getFileName(final Part part) {
