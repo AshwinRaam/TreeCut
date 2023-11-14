@@ -44,43 +44,42 @@
             </tr>
         </table>
         <h1>Responses</h1>
-            <c:forEach var="response" items="${listResponses}">
-                <table border="1" cellpadding="5">
-                    <tr>
-                        <th>User:</th>
-                        <td>${response.fullName}</td>
-                    </tr>
-                <c:if test="${response.modifiedPrice > 0}">
-                    <tr>
-                        <th>Modified Price:</th>
-                        <td>${response.modifiedPrice}</td>
-                    </tr>
-                </c:if>
-                <c:if test="${not empty response.modifiedStartTime}">
-                    <tr>
-                        <th>Modified Start Time:</th>
-                        <td>${response.modifiedStartTime}</td>
-                    </tr>
-                </c:if>
-                <c:if test="${not empty response.modifiedEndTime}">
-                    <tr>
-                        <th>Modified End Time:</th>
-                        <td>${response.modifiedEndTime}</td>
-                    </tr>
-                </c:if>
-                <c:if test="${not empty response.note}">
-                    <tr>
-                        <th>Note:</th>
-                        <td>${response.note}</td>
-                    </tr>
-                </c:if>
-                </table>
-            </c:forEach>
-        <br>
         <form action="createquoteresponse">
             <input type="submit" value="New Response">
             <input type="hidden" name="quoteID" value="${quoteID}">
         </form>
+        <c:forEach var="response" items="${listResponses}">
+            <table border="1" cellpadding="5">
+                <tr>
+                    <th>User:</th>
+                    <td>${response.fullName}</td>
+                </tr>
+            <c:if test="${response.modifiedPrice > 0}">
+                <tr>
+                    <th>Modified Price:</th>
+                    <td>${response.modifiedPrice}</td>
+                </tr>
+            </c:if>
+            <c:if test="${not empty response.modifiedStartTime}">
+                <tr>
+                    <th>Modified Start Time:</th>
+                    <td>${response.modifiedStartTime}</td>
+                </tr>
+            </c:if>
+            <c:if test="${not empty response.modifiedEndTime}">
+                <tr>
+                    <th>Modified End Time:</th>
+                    <td>${response.modifiedEndTime}</td>
+                </tr>
+            </c:if>
+            <c:if test="${not empty response.note}">
+                <tr>
+                    <th>Note:</th>
+                    <td>${response.note}</td>
+                </tr>
+            </c:if>
+            </table>
+        </c:forEach>
     </div>
 </body>
 </html>
