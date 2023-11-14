@@ -322,9 +322,13 @@ public class ControlServlet extends HttpServlet {
     private void listResponses(HttpServletRequest request, HttpServletResponse response) throws SQLException,
             ServletException, IOException {
         int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+        Quote quote = QuoteDAO.getQuote(quoteID);
+        List<List<String>> treeImgUrls = TreesDAO.getTreeImages(quoteID);
         List<QuoteResponse> responses = QuoteResponsesDAO.GetResponses(quoteID);
 
         request.setAttribute("quoteID", quoteID);
+        request.setAttribute("quote", quote);
+        request.setAttribute("picUrls", treeImgUrls);
         request.setAttribute("listResponses", responses);
         RequestDispatcher dispatcher = request.getRequestDispatcher("responseList.jsp");
         dispatcher.forward(request, response);

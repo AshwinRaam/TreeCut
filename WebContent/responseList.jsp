@@ -7,6 +7,42 @@
 </head>
 <body>
     <div align="center">
+        <h1>Quote: </h1>
+        <table table border="1" cellpadding="5">
+            <tr>
+                <th>Status:</th>
+                <td>${quote.status}</td>
+            </tr>
+            <tr>
+                <th>Initial Quoted Price:</th>
+                <td>${quote.initialPrice}</td>
+            </tr>
+            <tr>
+                <th>Current Price</th>
+                <td>${quote.currentPrice}</td>
+            </tr>
+            <tr>
+                <th>Start/End Time</th>
+                <td>${quote.startTime} - ${quote.endTime}</td>
+            </tr>
+            <tr>
+                <th>Notes:</th>
+                <td>${quote.note}</td>
+            </tr>
+            <tr>
+                <th>Images:</th>
+                <td>
+                    <c:forEach var="treePics" items="${picUrls}">
+                        <c:forEach var="url" items="${treePics}">
+                            <a href="${url}" target="_blank" style="cursor: pointer">
+                                <img src="${url}" style="max-width: 100px;height:auto;"/>
+                            </a>
+                        </c:forEach>
+                        <br>
+                    </c:forEach>
+                </td>
+            </tr>
+        </table>
         <h1>Responses</h1>
             <c:forEach var="response" items="${listResponses}">
                 <table border="1" cellpadding="5">
