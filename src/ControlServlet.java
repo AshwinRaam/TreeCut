@@ -10,6 +10,7 @@ import javax.servlet.http.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 
 @MultipartConfig
@@ -325,6 +326,7 @@ public class ControlServlet extends HttpServlet {
         Quote quote = QuoteDAO.getQuote(quoteID);
         List<List<String>> treeImgUrls = TreesDAO.getTreeImages(quoteID);
         List<QuoteResponse> responses = QuoteResponsesDAO.GetResponses(quoteID);
+        Collections.reverse(responses);
 
         request.setAttribute("quoteID", quoteID);
         request.setAttribute("quote", quote);
