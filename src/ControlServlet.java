@@ -1,10 +1,8 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
@@ -234,7 +232,8 @@ public class ControlServlet extends HttpServlet {
         return stringPart;
     }
 
-    private void submitQuote(HttpServletRequest request, HttpServletResponse response,  HttpSession session) throws SQLException, ServletException, IOException {
+    private void submitQuote(HttpServletRequest request, HttpServletResponse response,  HttpSession session)
+            throws SQLException, ServletException, IOException {
         String username = (String) session.getAttribute("username");
         User user = UserDAO.getUser(username);
 
@@ -291,9 +290,9 @@ public class ControlServlet extends HttpServlet {
             String size = getStringFromPart(pSize);String height = getStringFromPart(pHeight);
             String nearHouse = getStringFromPart(pNearHouse);
             String location = getStringFromPart(pLocation);
-            String treePicURL1 = TreesDAO.saveUploadedImage(treePic1Part);
-            String treePicURL2 = TreesDAO.saveUploadedImage(treePic2Part);
-            String treePicURL3 = TreesDAO.saveUploadedImage(treePic3Part);
+            String treePicURL1 = saveUploadedImage(treePic1Part);
+            String treePicURL2 = saveUploadedImage(treePic2Part);
+            String treePicURL3 = saveUploadedImage(treePic3Part);
 
             Tree tree = new Tree();
             tree.setQuoteID(quoteID);
@@ -398,5 +397,76 @@ public class ControlServlet extends HttpServlet {
             response.sendRedirect("contractorDashboard.jsp");
             return; //technically not needed, just here in case.
         }
+    }
+
+    private void serveImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String filename = request.getServletPath().substring(
+                request.getServletPath().lastIndexOf("/") + 1
+        ); // get the filename from the URL
+        ServletContext context = getServletContext();
+        String path = context.getRealPath("/images/" + filename);
+
+        File file = new File(path);
+        if (!file.exists()) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404
+            return;
+        }
+
+        FileInputStream fStream = new FileInputStream(file);
+        BufferedInputStream bStream = new BufferedInputStream(fStream);
+
+        response.setContentType(getServletContext().getMimeType(filename));
+        BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream());
+
+        for (int data; (data = bStream.read()) > -1;) {
+            output.write(data);
+        }
+
+        output.close();
+        bStream.close();
+        fStream.close();
+    }
+
+    /**
+     * Save the image of a tree to the server via the Part of the image.
+     * @param imagePart
+     * @return The String of the location the image is saved at.
+     * @throws IOException
+     */
+    private String saveUploadedImage(Part imagePart) throws IOException {
+        ServletContext context = getServletContext();
+        String path = context.getRealPath(File.separator + "images"); //for windows [wwwroot]/images/
+        System.out.println(path);
+        //String path = File.separator + "images";
+        String fileName = getFileName(imagePart); //better hope there isnt a file of the same name
+        String fullPath = path + File.separator + fileName;
+
+        File directory = new File(path);
+        if (!directory.exists())
+            directory.mkdirs();
+        File file = new File(fullPath);
+        OutputStream out = new FileOutputStream(new File(fullPath));
+        InputStream fileContent = imagePart.getInputStream();
+        int read = 0;
+        final byte[] bytes = new byte[1024];
+
+        while ((read = fileContent.read(bytes)) != -1) {
+            out.write(bytes, 0, read);
+        }
+        System.out.println("File " + fileName + " created/updated at " + file.getCanonicalPath());
+        out.close();
+        fileContent.close();
+
+        return "/images/"+fileName;
+    }
+
+    private String getFileName(final Part part) {
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
     }
 }

@@ -2,6 +2,7 @@ import java.io.*;
 import java.sql.*;
 
 
+import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.Part;
@@ -134,49 +135,27 @@ public class TreesDAO {
         preparedStatement.execute();
     }
 
-    public void InsertTrees(List<Tree> trees) throws SQLException {
+    public void insertTrees(List<Tree> trees) throws SQLException {
         for(Tree tree : trees) {
             insertTree(tree);
         }
     }
 
-    /**
-     * Save the image of a tree to the server via the Part of the image.
-     * @param imagePart
-     * @return The String of the location the image is saved at.
-     * @throws IOException
-     */
-    public String saveUploadedImage(Part imagePart) throws IOException {
-        String path = "." + File.separator + "images";
-        String fileName = getFileName(imagePart); //better hope there isnt a file of the same name
-        String fullPath = path + File.separator + fileName;
+    public List<String> getTreeImages(int quoteID) throws SQLException {
+        List<String> urls = new ArrayList<String>();
+        String sql = "SELECT pictureURL1, pictureURL2, pictureURL3 FROM trees WHERE quoteID = ?";
 
-        File directory = new File(path);
-        if (!directory.exists())
-            directory.mkdirs();
-        File file = new File(fullPath);
-        OutputStream out = new FileOutputStream(new File(fullPath));
-        InputStream fileContent = imagePart.getInputStream();
-        int read = 0;
-        final byte[] bytes = new byte[1024];
+        connect_func();
+        preparedStatement = connect.prepareStatement(sql);
+        preparedStatement.setInt(1, quoteID);
+        resultSet = preparedStatement.executeQuery();
 
-        while ((read = fileContent.read(bytes)) != -1) {
-            out.write(bytes, 0, read);
+        while (resultSet.next()){
+            String url1 = resultSet.getString(1);
+            String url2 = resultSet.getString(2);
+            String url3 = resultSet.getString(3);
         }
-        System.out.println("File " + fileName + " created/updated at " + file.getCanonicalPath());
-        out.close();
-        fileContent.close();
 
-        return fullPath;
-    }
-
-    private String getFileName(final Part part) {
-        for (String content : part.getHeader("content-disposition").split(";")) {
-            if (content.trim().startsWith("filename")) {
-                return content.substring(
-                        content.indexOf('=') + 1).trim().replace("\"", "");
-            }
-        }
-        return null;
+        return urls;
     }
 }
