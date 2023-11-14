@@ -141,8 +141,8 @@ public class TreesDAO {
         }
     }
 
-    public List<String> getTreeImages(int quoteID) throws SQLException {
-        List<String> urls = new ArrayList<String>();
+    public List<List<String>> getTreeImages(int quoteID) throws SQLException {
+        List<List<String>> treeImageUrls = new ArrayList<>();
         String sql = "SELECT pictureURL1, pictureURL2, pictureURL3 FROM trees WHERE quoteID = ?";
 
         connect_func();
@@ -154,8 +154,14 @@ public class TreesDAO {
             String url1 = resultSet.getString(1);
             String url2 = resultSet.getString(2);
             String url3 = resultSet.getString(3);
+            List<String> urls = new ArrayList<String>();
+            urls.add(url1);
+            urls.add(url2);
+            urls.add(url3);
+
+            treeImageUrls.add(urls);
         }
 
-        return urls;
+        return treeImageUrls;
     }
 }
