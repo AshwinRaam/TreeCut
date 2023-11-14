@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -148,4 +149,30 @@ public class QuoteDAO {
 		return listQuotes;
 	}
 
+	/**
+	 * Insert a brand new quote into the quotes table.
+	 * @param quote
+	 * @return The new quote's ID if inserted, -1 if it was not inserted.
+	 * @throws SQLException
+	 */
+	public int insertQuote(Quote quote) throws SQLException {
+		String sql = "INSERT IGNORE INTO quotes (clientID, startTime, endTime, status, note, createdAt) " +
+				"VALUES (?, ?, ?, ?, ?, NOW())";
+
+		connect_func();
+		preparedStatement = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		preparedStatement.setInt(1, quote.getClientID());
+		preparedStatement.setTimestamp(2, quote.getStartTime());
+		preparedStatement.setTimestamp(3, quote.getEndTime());
+		System.out.println("aaaaa");
+		preparedStatement.setString(4, "Requested");
+		preparedStatement.setString(5, quote.getNote());
+		preparedStatement.execute();
+
+		resultSet = preparedStatement.getGeneratedKeys();
+		if (resultSet.next())
+			return resultSet.getInt(1);
+		else
+			return -1;
+	}
 }
