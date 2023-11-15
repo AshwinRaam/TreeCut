@@ -174,4 +174,21 @@ public class QuoteDAO {
 		else
 			return -1;
 	}
+	public void acceptQuote(int quoteID) throws SQLException {
+		updateStatus(quoteID, "Accepted");
+	}
+
+	public void rejectQuote(int quoteID) throws SQLException {
+		updateStatus(quoteID, "Rejected");
+	}
+
+	public void updateStatus(int quoteID, String status) throws SQLException {
+		String sql = "UPDATE quotes SET status=?, updatedAt=NOW() WHERE quoteID = ?";
+
+		connect_func();
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, status);
+		preparedStatement.setInt(2, quoteID);
+		preparedStatement.executeUpdate();
+	}
 }

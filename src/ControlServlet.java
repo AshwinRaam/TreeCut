@@ -91,6 +91,10 @@ public class ControlServlet extends HttpServlet {
                         System.out.println("Responding to quote...");
                         sendResponseToQuote(request, response);
                         break;
+                    case "/accept-quote":
+                        acceptQuote(request, response, session);
+                    case "/reject-quote":
+                        rejectQuote(request, response, session);
                     case "/images":
                         System.out.println("Serving image...");
                         serveImage(request, response);
@@ -399,6 +403,36 @@ public class ControlServlet extends HttpServlet {
         QuoteResponsesDAO.PostResposne(qResponse);
         request.setAttribute("quoteID",quoteID);
         request.getRequestDispatcher("showresponses").forward(request, response);
+    }
+
+    private void acceptQuote(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+            throws SQLException, IOException {
+        String username = (String) session.getAttribute("username");
+        User user = UserDAO.getUser(username);
+        int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+        Quote quote = QuoteDAO.getQuote(quoteID);
+
+        if (user.userID != quote.getClientID()) {
+            System.out.println("Unauthorized acceptance of quote");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+        }
+
+        QuoteDAO.acceptQuote(quoteID);
+    }
+
+    private void rejectQuote(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+            throws SQLException, IOException {
+        String username = (String) session.getAttribute("username");
+        User user = UserDAO.getUser(username);
+        int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+        Quote quote = QuoteDAO.getQuote(quoteID);
+
+        if (user.userID != quote.getClientID()) {
+            System.out.println("Unauthorized acceptance of quote");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+        }
+
+        QuoteDAO.rejectQuote(quoteID);
     }
 
     private void serveImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
