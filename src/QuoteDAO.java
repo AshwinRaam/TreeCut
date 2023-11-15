@@ -164,12 +164,51 @@ public class QuoteDAO {
 		else
 			return -1;
 	}
+
+	public void updateCurrPrice(int quoteID, double price) throws SQLException {
+		String sql = "UPDATE quotes SET currentPrice=?, updatedAt=NOW() WHERE quoteID=?";
+
+		connect_func();
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setDouble(1, price);
+		preparedStatement.setInt(2, quoteID);
+		preparedStatement.executeUpdate();
+	}
+
+	public void updateStartTime(int quoteID, Timestamp startTime) throws SQLException {
+		String sql = "UPDATE quotes SET startTime=?, updatedAt=NOW() WHERE quoteID = ?";
+
+		connect_func();
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setTimestamp(1, startTime);
+		preparedStatement.setInt(2, quoteID);
+		preparedStatement.executeUpdate();
+	}
+
+	public void updateEndTime(int quoteID, Timestamp endTime) throws SQLException {
+		String sql = "UPDATE quotes SET endTime=?, updatedAt=NOW() WHERE quoteID = ?";
+
+		connect_func();
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setTimestamp(1, endTime);
+		preparedStatement.setInt(2, quoteID);
+		preparedStatement.executeUpdate();
+	}
+
 	public void acceptQuote(int quoteID) throws SQLException {
 		updateStatus(quoteID, "Accepted");
 	}
 
 	public void rejectQuote(int quoteID) throws SQLException {
 		updateStatus(quoteID, "Rejected");
+	}
+
+	public void clientResponsed(int quoteID) throws SQLException {
+		updateStatus(quoteID,"Requested");
+	}
+
+	public void contractorResponsed(int quoteID) throws SQLException {
+		updateStatus(quoteID,"Quoted");
 	}
 
 	private void updateStatus(int quoteID, String status) throws SQLException {
@@ -179,6 +218,14 @@ public class QuoteDAO {
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, status);
 		preparedStatement.setInt(2, quoteID);
+		preparedStatement.executeUpdate();
+	}
+
+	public void UpdateUpdatedAt(int quoteID) throws SQLException {
+		String sql = "UPDATE quotes SET updatedAt=NOW() WHERE quoteID=?";
+
+		connect_func();
+		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.executeUpdate();
 	}
 }

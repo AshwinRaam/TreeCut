@@ -367,6 +367,11 @@ public class ControlServlet extends HttpServlet {
                 request.getRequestDispatcher("createquoteresponse").forward(request, response);
                 return;
             }
+            QuoteDAO.clientResponsed(quoteID);
+        }
+        else
+        {
+            QuoteDAO.contractorResponsed(quoteID);
         }
 
         //--start conversion--
@@ -378,14 +383,20 @@ public class ControlServlet extends HttpServlet {
         LocalDateTime modifiedStartTime = null, modifiedEndTime = null;
         double modifiedPrice = -1;
 
-        if (!sModPrice.isEmpty())
+        if (!sModPrice.isEmpty()) {
             modifiedPrice = Double.parseDouble(sModPrice);
-        if (!sModStartTime.isEmpty())
+            QuoteDAO.updateCurrPrice(quoteID, modifiedPrice);
+        }
+        if (!sModStartTime.isEmpty()) {
             modifiedStartTime = LocalDateTime.parse(
                     request.getParameter("modifiedStartTime"), DateTimeFormatter.ISO_DATE_TIME);
-        if (!sModEndTime.isEmpty())
+            QuoteDAO.updateStartTime(quoteID, Timestamp.valueOf(modifiedStartTime));
+        }
+        if (!sModEndTime.isEmpty()) {
             modifiedEndTime = LocalDateTime.parse(
                     request.getParameter("modifiedEndTime"), DateTimeFormatter.ISO_DATE_TIME);
+            QuoteDAO.updateStartTime(quoteID, Timestamp.valueOf(modifiedEndTime));
+        }
 
         System.out.println("--finish setting up converted parameters--");
         //--end conversion--

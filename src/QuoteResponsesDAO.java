@@ -1,17 +1,9 @@
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
@@ -79,9 +71,18 @@ public class QuoteResponsesDAO {
 			String fullName = user.getFirstName() + " " + user.getLastName();
 			/* yes, this could be smaller, and more efficient, but getUser(userID) seems more versatile */
     		double modifiedPrice = resultSet.getDouble("modifiedPrice");
-    		LocalDateTime modifiedStartTime = resultSet.getTimestamp("modifiedStartTime").toLocalDateTime();
-    		LocalDateTime modifiedEndTime = resultSet.getTimestamp("modifiedEndTime").toLocalDateTime();
-    		String note = resultSet.getString("note");
+
+			LocalDateTime modifiedStartTime = null, modifiedEndTime = null;
+			Timestamp tModifiedStartTime = resultSet.getTimestamp("modifiedStartTime");
+			if (tModifiedStartTime != null) {
+				modifiedStartTime = tModifiedStartTime.toLocalDateTime();
+			}
+			Timestamp tModifiedEndTime = resultSet.getTimestamp("modifiedEndTime");
+			if (tModifiedEndTime != null) {
+				modifiedEndTime = tModifiedEndTime.toLocalDateTime();
+			}
+
+			String note = resultSet.getString("note");
     		LocalDateTime createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
     		
     		QuoteResponse response = new QuoteResponse(responseID, quoteID, userID, fullName, modifiedPrice,
@@ -119,15 +120,6 @@ public class QuoteResponsesDAO {
     	if (result < 1) {
     		System.out.println("Error in inserting quote response");
     		return;
-    	}
-    	
-    	String sql2 = "UPDATE quotes SET status = \"Rejected\" WHERE quoteID = ?;";
-    	preparedStatement = connect.prepareStatement(sql2);
-    	preparedStatement.setInt(1, response.getQuoteID());
-    	result = preparedStatement.executeUpdate();
-    	
-    	if (result < 1) {
-    		System.out.printf("Error in updating quote %d%n", response.getQuoteID());
     	}
     	
     	System.out.println("Posting finished");
