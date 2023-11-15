@@ -34,8 +34,8 @@
                 <td>
                     <c:forEach var="treePics" items="${picUrls}">
                         <c:forEach var="url" items="${treePics}">
-                            <a href="${url}" target="_blank" style="cursor: pointer">
-                                <img src="${url}" style="max-width: 100px;height:auto;"/>
+                            <a href="${pageContext.request.contextPath}${url}" target="_blank" style="cursor: pointer">
+                                <img src="${pageContext.request.contextPath}${url}" style="max-width: 100px;height:auto;"/>
                             </a>
                         </c:forEach>
                         <br>
