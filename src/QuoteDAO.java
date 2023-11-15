@@ -182,7 +182,7 @@ public class QuoteDAO {
 		updateStatus(quoteID, "Rejected");
 	}
 
-	public void updateStatus(int quoteID, String status) throws SQLException {
+	private void updateStatus(int quoteID, String status) throws SQLException {
 		String sql = "UPDATE quotes SET status=?, updatedAt=NOW() WHERE quoteID = ?";
 
 		connect_func();
