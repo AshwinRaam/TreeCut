@@ -8,47 +8,45 @@
 </head>
 <body class="bg-indigo-300">
 <div class="flex justify-center items-center min-h-screen">
-    <div class="bg-white shadow-lg px-8 pt-6 pb-8 mb-4">
-        <h1 class="text-xl font-bold text-center mb-4">Respond to Quote</h1>
+    <div class="bg-white shadow-lg p-8 max-w-md w-full">
+        <h1 class="text-2xl font-bold text-center mb-6">Respond to Quote</h1>
 
         <!-- Error Messages -->
-        <p class="text-red-500 mb-4">${errorOne }</p>
-        <p class="text-red-500 mb-4">${errorTwo }</p>
+        <div class="text-red-500 mb-4">
+            <p>${errorOne }</p>
+            <p>${errorTwo }</p>
+        </div>
 
-        <form action="quoterespond" method="post">
-            <div class="mb-4">
-                <label for="user" class="block text-gray-700 text-md font-bold mb-2">User:</label>
-                <div class="pl-4">${user.firstName} ${user.lastName}</div>
+        <form action="quoterespond" method="post" class="space-y-6">
                 <input type="hidden" id="user" name="username" value="${user.username}"/>
-            </div>
-
+                <input type="hidden" id="quoteID" name="quoteID" value="${quote.quoteID}"/>
             <div class="mb-4">
                 <label for="modifiedPrice" class="block text-gray-700 text-md font-bold mb-2">Price:</label>
-                <input type="number" id="modifiedPrice" step="0.01" name="modifiedPrice" size="45"
-                       class="shadow appearance-none border-b-2 w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:border-b-green-500">
+                <input type="number" id="modifiedPrice" step="0.01" name="modifiedPrice"
+                       class="shadow border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
 
             <div class="mb-4">
-                <label for="modifiedStartTime" class="block text-gray-700 text-md font-bold mb-2">Start time:</label>
+                <label for="modifiedStartTime" class="block text-gray-700 text-md font-bold mb-2">Start Time:</label>
                 <input type="datetime-local" id="modifiedStartTime" name="modifiedStartTime"
-                       class="shadow appearance-none border-b-2 w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:border-b-green-500">
+                       class="shadow border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
 
             <div class="mb-4">
-                <label for="modifiedEndTime" class="block text-gray-700 text-md font-bold mb-2">End time:</label>
+                <label for="modifiedEndTime" class="block text-gray-700 text-md font-bold mb-2">End Time:</label>
                 <input type="datetime-local" id="modifiedEndTime" name="modifiedEndTime"
-                       class="shadow appearance-none border-b-2 w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:border-b-green-500">
+                       class="shadow border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
 
             <div class="mb-4">
                 <label for="note" class="block text-gray-700 text-md font-bold mb-2">Note:</label>
                 <textarea id="note" rows="5" name="note"
-                          class="shadow appearance-none border-b-2 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-b-green-500"></textarea>
+                          class="shadow border  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
             </div>
 
             <div class="flex items-center justify-center">
                 <input type="submit" value="Submit"
-                       class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline w-full">
+                       class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4  focus:outline-none focus:shadow-outline w-full">
             </div>
         </form>
     </div>
