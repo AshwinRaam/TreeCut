@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 @MultipartConfig
 public class ControlServlet extends HttpServlet {
@@ -274,7 +275,7 @@ public class ControlServlet extends HttpServlet {
         int treeNum = 1;
         while (true)
         {
-            System.out.printf("Uploading tree%d ... ", treeNum);
+            System.out.printf("Uploading tree%d ... \r\n", treeNum);
             if (treeNum > 1000) {
                 System.out.println("Dawg you got too many trees.");
                 break; //way too many trees.
@@ -293,9 +294,9 @@ public class ControlServlet extends HttpServlet {
             String size = getStringFromPart(pSize);String height = getStringFromPart(pHeight);
             String nearHouse = getStringFromPart(pNearHouse);
             String location = getStringFromPart(pLocation);
-            String treePicURL1 = saveUploadedImage(treePic1Part);
-            String treePicURL2 = saveUploadedImage(treePic2Part);
-            String treePicURL3 = saveUploadedImage(treePic3Part);
+            String treePicURL1 = saveUploadedImage(treePic1Part, quoteID);
+            String treePicURL2 = saveUploadedImage(treePic2Part, quoteID);
+            String treePicURL3 = saveUploadedImage(treePic3Part, quoteID);
 
             Tree tree = new Tree();
             tree.setQuoteID(quoteID);
@@ -412,7 +413,7 @@ public class ControlServlet extends HttpServlet {
                 request.getServletPath().lastIndexOf("/") + 1
         ); // get the filename from the URL
         ServletContext context = getServletContext();
-        String path = context.getRealPath("/images/" + filename);
+        String path = context.getRealPath(request.getServletPath());
 
         File file = new File(path);
         if (!file.exists()) {
@@ -441,12 +442,11 @@ public class ControlServlet extends HttpServlet {
      * @return The String of the location the image is saved at.
      * @throws IOException
      */
-    private String saveUploadedImage(Part imagePart) throws IOException {
+    private String saveUploadedImage(Part imagePart, int quoteID) throws IOException {
         ServletContext context = getServletContext();
-        String path = context.getRealPath(File.separator + "images"); //for windows [wwwroot]/images/
-        System.out.println(path);
-        //String path = File.separator + "images";
-        String fileName = getFileName(imagePart); //better hope there isnt a file of the same name
+        String path = context.getRealPath(File.separator + "images" + File.separator + quoteID); //for windows [wwwroot]/images/[quoteID]/
+        String extension = getFileExtension(imagePart);
+        String fileName = getRandomString() + extension.toLowerCase();
         String fullPath = path + File.separator + fileName;
 
         File directory = new File(path);
@@ -465,16 +465,30 @@ public class ControlServlet extends HttpServlet {
         out.close();
         fileContent.close();
 
-        return "/images/"+fileName;
+        return "/images/" + quoteID + "/" +fileName;
     }
 
-    private String getFileName(final Part part) {
+    private String getFileExtension(final Part part)
+    {
         for (String content : part.getHeader("content-disposition").split(";")) {
             if (content.trim().startsWith("filename")) {
                 return content.substring(
-                        content.indexOf('=') + 1).trim().replace("\"", "");
+                        content.indexOf('.') + 1).trim().replace("\"", "");
             }
         }
         return null;
+    }
+
+    private String getRandomString(){
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+        return generatedString;
     }
 }
