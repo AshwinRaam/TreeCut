@@ -397,15 +397,8 @@ public class ControlServlet extends HttpServlet {
         qResponse.setNote(note);
 
         QuoteResponsesDAO.PostResposne(qResponse);
-        if (UserDAO.isClient(username)) {
-            System.out.println("Finished. sending to client dashboard.");
-            response.sendRedirect("clientDashboard.jsp");
-            return; //technically not needed, just here in case.
-        } else {
-            System.out.println("Finished. sending to contractor dashboard.");
-            response.sendRedirect("contractorDashboard.jsp");
-            return; //technically not needed, just here in case.
-        }
+        request.setAttribute("quoteID",quoteID);
+        request.getRequestDispatcher("showresponses").forward(request, response);
     }
 
     private void serveImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
