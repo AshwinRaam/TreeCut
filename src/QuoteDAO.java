@@ -113,7 +113,6 @@ public class QuoteDAO {
 
 		if (userIdResult.next()) {
 			userId = userIdResult.getInt("userID");
-			System.out.println("User ID: " + userId);
 		}
 		userIdResult.close();
 		userIdStatement.close();
