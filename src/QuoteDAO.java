@@ -250,6 +250,12 @@ public class QuoteDAO {
 	}
 
 	public void acceptQuote(int quoteID) throws SQLException {
+		String sql = "UPDATE quotes q SET q.acceptedPrice = q.currentPrice WHERE quoteID = ?;";
+
+		connect_func();
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setInt(1, quoteID);
+
 		updateStatus(quoteID, "Accepted");
 	}
 
