@@ -210,8 +210,17 @@ public class QuoteDAO {
 			return -1;
 	}
 
+	public void setInitialPrice(int quoteID, double price) throws SQLException {
+		String sql = "UPDATE quotes SET initialPrice=?, updatedAt=NOW() WHERE quoteID=?;";
+		connect_func();
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setDouble(1, price);
+		preparedStatement.setInt(2, quoteID);
+		preparedStatement.executeUpdate();
+	}
+
 	public void updateCurrPrice(int quoteID, double price) throws SQLException {
-		String sql = "UPDATE quotes SET currentPrice=?, updatedAt=NOW() WHERE quoteID=?";
+		String sql = "UPDATE quotes SET currentPrice=?, updatedAt=NOW() WHERE quoteID=?;";
 
 		connect_func();
 		preparedStatement = connect.prepareStatement(sql);

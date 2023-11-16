@@ -393,6 +393,9 @@ public class ControlServlet extends HttpServlet {
         if (!sModPrice.isEmpty()) {
             modifiedPrice = Double.parseDouble(sModPrice);
             QuoteDAO.updateCurrPrice(quoteID, modifiedPrice);
+            if (!user.isClient() && quote.getInitialPrice() == 0) {
+                QuoteDAO.setInitialPrice(quoteID, modifiedPrice);
+            }
         }
         if (!sModStartTime.isEmpty()) {
             modifiedStartTime = LocalDateTime.parse(
