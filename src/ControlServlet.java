@@ -343,6 +343,7 @@ public class ControlServlet extends HttpServlet {
         request.setAttribute("quote", quote);
         request.setAttribute("picUrls", treeImgUrls);
         request.setAttribute("listResponses", responses);
+        request.setAttribute("isClient", UserDAO.isClient((String) request.getSession(false).getAttribute("username")));
         RequestDispatcher dispatcher = request.getRequestDispatcher("responseList.jsp");
         dispatcher.forward(request, response);
     }

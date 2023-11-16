@@ -52,33 +52,42 @@
                 </tr>
             </table>
         </div>
-
         <div class="flex justify-between items-center mb-8">
-            <!-- New Response Button on the Left -->
-            <form action="createquoteresponse" class="inline-block">
-                <input type="hidden" name="quoteID" value="${quoteID}">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
-                    New Response
-                </button>
-            </form>
-
-            <!-- Accept and Reject Quote Buttons on the Right -->
-            <div>
-                <form action="accept-quote" class="inline-block mr-2">
+            <!-- New Response Button - Visible only if status is not Accepted or Rejected -->
+            <c:if test="${quote.status ne 'Accepted' and quote.status ne 'Rejected'}">
+                <form action="createquoteresponse" class="inline-block">
                     <input type="hidden" name="quoteID" value="${quoteID}">
-                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
-                        Accept Quote
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
+                        New Response
                     </button>
                 </form>
+            </c:if>
+
+            <c:if test="${isClient}">
+
+            <div>
+                <!-- Accept Quote Button - Visible only if status is Quoted -->
+                <c:if test="${quote.status eq 'Quoted'}">
+                    <form action="accept-quote" class="inline-block mr-2">
+                        <input type="hidden" name="quoteID" value="${quoteID}">
+                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
+                            Accept Quote
+                        </button>
+                    </form>
+                </c:if>
+
+                <!-- Reject Quote Button -->
+                <c:if test="${quote.status ne 'Accepted' and quote.status ne 'Rejected'}">
                 <form action="reject-quote" class="inline-block">
                     <input type="hidden" name="quoteID" value="${quoteID}">
                     <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
                         Reject Quote
                     </button>
                 </form>
+                </c:if>
             </div>
+</c:if>
         </div>
-
         <div class="overflow-x-auto  border border-gray-200">
             <table class="table-auto w-full text-gray-700">
                 <thead class="bg-gray-100">
