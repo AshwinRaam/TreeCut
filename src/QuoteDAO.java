@@ -249,14 +249,20 @@ public class QuoteDAO {
 		preparedStatement.executeUpdate();
 	}
 
-	public void acceptQuote(int quoteID) throws SQLException {
-		String sql = "UPDATE quotes q SET q.acceptedPrice = q.currentPrice WHERE quoteID = ?;";
+	public boolean acceptQuote(int quoteID) throws SQLException {
+		String sql = "UPDATE quotes q SET q.acceptedPrice = q.currentPrice WHERE quoteID = ? and status = ? ;";
 
 		connect_func();
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setInt(1, quoteID);
+		preparedStatement.setString(2, "Quoted"); //could've hardcoded it's being a butt
+		int rowsUpdated = preparedStatement.executeUpdate();
+
+		if(rowsUpdated == 0)
+			return false;
 
 		updateStatus(quoteID, "Accepted");
+		return true;
 	}
 
 	public void rejectQuote(int quoteID) throws SQLException {

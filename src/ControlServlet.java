@@ -439,7 +439,13 @@ public class ControlServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
         }
 
-        QuoteDAO.acceptQuote(quoteID);
+        boolean accepted = QuoteDAO.acceptQuote(quoteID);
+        if (accepted) {
+            QuoteResponse qResponse = new QuoteResponse();
+            qResponse.setUserID(user.userID);
+            qResponse.setNote(username + "accepted the quote.");
+            QuoteResponsesDAO.PostResposne(qResponse);
+        }
     }
 
     private void rejectQuote(HttpServletRequest request, HttpServletResponse response, HttpSession session)
