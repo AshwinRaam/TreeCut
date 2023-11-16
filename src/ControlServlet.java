@@ -84,6 +84,9 @@ public class ControlServlet extends HttpServlet {
                     case "/showresponses":
                         listResponses(request, response);
                         break;
+                    case "/view-tree":
+                        viewTree(request, response);
+                        break;
                     case "/createquoteresponse":
                         createQuoteResponse(request, response, session);
                         break;
@@ -341,6 +344,15 @@ public class ControlServlet extends HttpServlet {
         request.setAttribute("picUrls", treeImgUrls);
         request.setAttribute("listResponses", responses);
         RequestDispatcher dispatcher = request.getRequestDispatcher("responseList.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void viewTree(HttpServletRequest request, HttpServletResponse response) throws SQLException,
+            ServletException, IOException {
+        int treeID = Integer.parseInt(request.getParameter("treeID"));
+        Tree tree = TreesDAO.getTree(treeID);
+        request.setAttribute("tree", tree);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("treeView.jsp");
         dispatcher.forward(request, response);
     }
 
