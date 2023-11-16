@@ -167,6 +167,22 @@ public class QuoteDAO {
 
 		return listQuotes;
 	}
+
+	public void assignContractor(int quoteID,int contractorID) throws SQLException {
+		// Ensure that a contractor hasn't already been assigned.
+		Quote quote = getQuote(quoteID);
+		if (quote.getContractorID() != 0)
+			return;
+
+		String sql = "UPDATE quotes SET contractorID=? WHERE quoteID=?";
+
+		connect_func();
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setInt(1, contractorID);
+		preparedStatement.setInt(2, quoteID);
+		preparedStatement.executeUpdate();
+	}
+
 	/**
 	 * Insert a brand new quote into the quotes table.
 	 * @param quote

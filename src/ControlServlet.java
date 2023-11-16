@@ -377,6 +377,7 @@ public class ControlServlet extends HttpServlet {
         else
         {
             QuoteDAO.contractorResponsed(quoteID);
+            QuoteDAO.assignContractor(quoteID, user.userID);
         }
 
         //--start conversion--
