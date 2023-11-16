@@ -138,6 +138,35 @@ public class QuoteDAO {
 		return listQuotes;
 	}
 
+	public List<Quote> listQuotesByContractor(int contractorID) throws SQLException {
+		List<Quote> listQuotes = new ArrayList<>();
+
+		String sql = "SELECT * FROM quotes WHERE contractorID = ? or contractorID IS NULL";
+
+		connect_func();
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setInt(1, contractorID);
+		resultSet = preparedStatement.executeQuery();
+
+		while (resultSet.next()){
+			Quote quote = new Quote();
+			quote.setQuoteID(resultSet.getInt("quoteID"));
+			quote.setClientID(resultSet.getInt("clientID"));
+			quote.setContractorID(resultSet.getInt("contractorID"));
+			quote.setInitialPrice(resultSet.getDouble("initialPrice"));
+			quote.setCurrentPrice(resultSet.getDouble("currentPrice"));
+			quote.setAcceptedPrice(resultSet.getDouble("acceptedPrice"));
+			quote.setStartTime(resultSet.getTimestamp("startTime"));
+			quote.setEndTime(resultSet.getTimestamp("endTime"));
+			quote.setStatus(resultSet.getString("status"));
+			quote.setNote(resultSet.getString("note"));
+			quote.setCreatedAt(resultSet.getTimestamp("createdAt"));
+			quote.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+			listQuotes.add(quote);
+		}
+
+		return listQuotes;
+	}
 	/**
 	 * Insert a brand new quote into the quotes table.
 	 * @param quote

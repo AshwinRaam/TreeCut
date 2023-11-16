@@ -121,7 +121,12 @@ public class ControlServlet extends HttpServlet {
     private void listQuotes(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws SQLException, ServletException, IOException {
         System.out.println("Sending to quotes page.");
         String username = (String) session.getAttribute("username");
-        List<Quote> listQuote = QuoteDAO.listQuotesByUsername(username);
+        List<Quote> listQuote;
+        User user = UserDAO.getUser(username);
+        if (UserDAO.isClient(username))
+            listQuote = QuoteDAO.listQuotesByUsername(username);
+        else
+            listQuote = QuoteDAO.listQuotesByContractor(user.userID);
         request.setAttribute("listQuotes", listQuote);
         request.getRequestDispatcher("QuoteList.jsp").forward(request, response);
     }
