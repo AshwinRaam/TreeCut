@@ -123,7 +123,7 @@ public class ControlServlet extends HttpServlet {
         String username = (String) session.getAttribute("username");
         List<Quote> listQuote;
         User user = UserDAO.getUser(username);
-        if (UserDAO.isClient(username))
+        if (user.isClient())
             listQuote = QuoteDAO.listQuotesByUsername(username);
         else
             listQuote = QuoteDAO.listQuotesByContractor(user.userID);
@@ -208,7 +208,8 @@ public class ControlServlet extends HttpServlet {
 
 
         System.out.println("Registration Successful! Added to database");
-        User user = new User(username, password, role, firstName, lastName, address, phoneNumber, email, creditCardInfo);
+        User user = new User(username, password, role, firstName, lastName, address, phoneNumber, email, creditCardInfo,
+                                role.equals("Client"));
         UserDAO.insert(user);
         String message = "Registration successful! Please login.";
         request.setAttribute("loginFailedStr", message);
@@ -363,7 +364,7 @@ public class ControlServlet extends HttpServlet {
         Quote quote = QuoteDAO.getQuote(quoteID);
 
         //check to see if user is allowed to post
-        if (UserDAO.isClient(username)) {
+        if (user.isClient()) {
             if (quote.getClientID() != user.getUserID()) {
                 System.out.printf("Error: User is not allowed to post on this. ID %d != %d%n",
                         quote.getClientID(), user.getUserID());

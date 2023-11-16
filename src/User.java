@@ -11,13 +11,15 @@ public class User {
     protected String createdAt;
     protected String updatedAt;
     protected String creditCardInfo;
+    protected boolean isClient;
     
 
 	// Constructors
     public User() {
     }
 
-    public User(String username, String password, String role, String firstName, String lastName, String address, String phoneNumber, String email) {
+    public User(String username, String password, String role, String firstName, String lastName, String address,
+                String phoneNumber, String email) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -28,7 +30,8 @@ public class User {
         this.email = email;
     }
     
-    public User(String username, String password, String role, String firstName, String lastName, String address, String phoneNumber, String email, String creditCardInfo) {
+    public User(String username, String password, String role, String firstName, String lastName, String address,
+                String phoneNumber, String email, String creditCardInfo, boolean isClient) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -38,6 +41,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.creditCardInfo = creditCardInfo;
+        this.isClient = isClient;
     }
 
     // Getter and Setter Methods
@@ -136,4 +140,6 @@ public class User {
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public boolean isClient() { return isClient; }
 }

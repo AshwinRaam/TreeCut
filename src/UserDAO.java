@@ -191,10 +191,13 @@ public class UserDAO {
             String lastName = resultSet.getString("lastName");
             String address = resultSet.getString("address");
             String phoneNumber = resultSet.getString("phoneNumber");
+            String creditCardInfo = resultSet.getString("creditCardInfo");
             String createdAt = resultSet.getString("createdAt");
             String updatedAt = resultSet.getString("updatedAt");
+            boolean isClient = role.equals("Client");
 
-            user = new User(username, password, role, firstName, lastName, address, phoneNumber, email);
+            user = new User(username, password, role, firstName, lastName, address, phoneNumber, email, creditCardInfo,
+                                isClient);
             user.setUserID(userID);
             user.setCreatedAt(createdAt);
             user.setUpdatedAt(updatedAt);
