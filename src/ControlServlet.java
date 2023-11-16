@@ -127,6 +127,7 @@ public class ControlServlet extends HttpServlet {
             listQuote = QuoteDAO.listQuotesByUsername(username);
         else
             listQuote = QuoteDAO.listQuotesByContractor(user.userID);
+        Collections.reverse(listQuote);
         request.setAttribute("listQuotes", listQuote);
         request.getRequestDispatcher("QuoteList.jsp").forward(request, response);
     }
