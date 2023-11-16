@@ -94,7 +94,7 @@ public class QuoteResponsesDAO {
     	return responses;
     }
     
-    public void PostResposne(QuoteResponse response) throws SQLException {
+    public void PostResponse(QuoteResponse response) throws SQLException {
     	System.out.println("Posting quote response...");
     	Timestamp tModStartTime = null, tModEndTime = null;
     	if (response.getModifiedStartTime() != null)

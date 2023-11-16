@@ -422,7 +422,7 @@ public class ControlServlet extends HttpServlet {
         qResponse.setModifiedEndTime(modifiedEndTime);
         qResponse.setNote(note);
 
-        QuoteResponsesDAO.PostResposne(qResponse);
+        QuoteResponsesDAO.PostResponse(qResponse);
         request.setAttribute("quoteID",quoteID);
         request.getRequestDispatcher("showresponses").forward(request, response);
     }
@@ -443,8 +443,8 @@ public class ControlServlet extends HttpServlet {
         if (accepted) {
             QuoteResponse qResponse = new QuoteResponse();
             qResponse.setUserID(user.userID);
-            qResponse.setNote(username + "accepted the quote.");
-            QuoteResponsesDAO.PostResposne(qResponse);
+            qResponse.setNote(username + " accepted the quote.");
+            QuoteResponsesDAO.PostResponse(qResponse);
         }
     }
 
