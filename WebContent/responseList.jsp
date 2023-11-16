@@ -53,13 +53,30 @@
             </table>
         </div>
 
-        <div class="text-right mb-8">
+        <div class="flex justify-between items-center mb-8">
+            <!-- New Response Button on the Left -->
             <form action="createquoteresponse" class="inline-block">
                 <input type="hidden" name="quoteID" value="${quoteID}">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6  transition duration-300 ease-in-out shadow">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
                     New Response
                 </button>
             </form>
+
+            <!-- Accept and Reject Quote Buttons on the Right -->
+            <div>
+                <form action="accept-quote" class="inline-block mr-2">
+                    <input type="hidden" name="quoteID" value="${quoteID}">
+                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
+                        Accept Quote
+                    </button>
+                </form>
+                <form action="reject-quote" class="inline-block">
+                    <input type="hidden" name="quoteID" value="${quoteID}">
+                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
+                        Reject Quote
+                    </button>
+                </form>
+            </div>
         </div>
 
         <div class="overflow-x-auto  border border-gray-200">
