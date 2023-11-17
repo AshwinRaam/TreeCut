@@ -454,6 +454,8 @@ public class ControlServlet extends HttpServlet {
         if (user.userID != quote.getClientID()) {
             System.out.println("Unauthorized acceptance of quote");
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            response.sendRedirect("quotes");
+            return;
         }
 
         boolean accepted = QuoteDAO.acceptQuote(quoteID);
@@ -474,9 +476,11 @@ public class ControlServlet extends HttpServlet {
         int quoteID = Integer.parseInt(request.getParameter("quoteID"));
         Quote quote = QuoteDAO.getQuote(quoteID);
 
-        if (user.userID != quote.getClientID()) {
-            System.out.println("Unauthorized acceptance of quote");
+        if (!(user.userID == quote.getClientID() || user.userID == quote.getContractorID())) {
+            System.out.println("Unauthorized rejection of quote");
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            response.sendRedirect("quotes");
+            return;
         }
 
         QuoteDAO.rejectQuote(quoteID);
