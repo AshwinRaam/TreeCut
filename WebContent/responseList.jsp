@@ -43,7 +43,7 @@
                         <c:forEach var="tree" items="${trees}">
                             <form action="view-tree" class="inline-block">
                                 <input type="hidden" name="treeID" value="${tree.id}">
-                                <button type="submit" class="">
+                                <button type="submit" class="text-blue-600 hover:text-blue-800 underline">
                                     Tree ${tree.id}
                                 </button>
                             </form>
