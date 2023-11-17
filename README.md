@@ -75,6 +75,13 @@ Ashwin Raam Sethuram - XX hours
 - 
 - [objective]
 
-Matthew Meyer - XX hours
+Matthew Meyer - 26 hours
 - 
-- [objective]
+- Created Tree.java
+- Created TreeDAO.java
+- Created QuoteResponseDAO.java
+- Created QuoteResponse.java
+- Created endpoint for serving image.
+- Created endpoint for submitting an intial quote.
+- Created endpoint for submitting responses.
+- Created endpoint for viewing trees.
