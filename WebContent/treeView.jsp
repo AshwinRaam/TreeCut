@@ -40,10 +40,12 @@
                 </tr>
                 <tr>
                     <th class="px-4 py-2 text-left">Images:</th>
-                    <td class="px-4 py-2 flex space-x-2">
-                        <img src="${pageContext.request.contextPath}${tree.pictureURL1}" class="max-w-xs h-auto rounded"/>
-                        <img src="${pageContext.request.contextPath}${tree.pictureURL2}" class="max-w-xs h-auto rounded"/>
-                        <img src="${pageContext.request.contextPath}${tree.pictureURL3}" class="max-w-xs h-auto rounded"/>
+                    <td class="px-4 py-2">
+                        <div class="flex flex-col space-y-2">
+                            <img src="${pageContext.request.contextPath}${tree.pictureURL1}" class="max-w-xs h-auto rounded"/>
+                            <img src="${pageContext.request.contextPath}${tree.pictureURL2}" class="max-w-xs h-auto rounded"/>
+                            <img src="${pageContext.request.contextPath}${tree.pictureURL3}" class="max-w-xs h-auto rounded"/>
+                        </div>
                     </td>
                 </tr>
             </table>
