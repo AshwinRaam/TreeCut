@@ -76,6 +76,8 @@
                     </form>
                 </c:if>
 
+            </c:if>
+
                 <!-- Reject Quote Button -->
                 <c:if test="${quote.status ne 'Accepted' and quote.status ne 'Rejected'}">
                 <form action="reject-quote" class="inline-block">
@@ -86,7 +88,6 @@
                 </form>
                 </c:if>
             </div>
-</c:if>
         </div>
         <div class="overflow-x-auto  border border-gray-200">
             <table class="table-auto w-full text-gray-700">
