@@ -38,15 +38,15 @@
                     <td class="px-4 py-2">${quote.note}</td>
                 </tr>
                 <tr>
-                    <th class="px-4 py-2 text-left">Images:</th>
+                    <th class="px-4 py-2 text-left">Trees:</th>
                     <td class="px-4 py-2">
-                        <c:forEach var="treePics" items="${picUrls}">
-                            <c:forEach var="url" items="${treePics}">
-                                <a href="${pageContext.request.contextPath}${url}" target="_blank" class="inline-block mr-2">
-                                    <img src="${pageContext.request.contextPath}${url}" class="max-w-xs h-auto "/>
-                                </a>
-                            </c:forEach>
-                            <br>
+                        <c:forEach var="tree" items="${trees}">
+                            <form action="view-tree" class="inline-block">
+                                <input type="hidden" name="treeID" value="${tree.id}">
+                                <button type="submit" class="">
+                                    Tree ${tree.id}
+                                </button>
+                            </form>
                         </c:forEach>
                     </td>
                 </tr>

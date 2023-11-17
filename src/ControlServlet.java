@@ -335,13 +335,15 @@ public class ControlServlet extends HttpServlet {
             ServletException, IOException {
         int quoteID = Integer.parseInt(request.getParameter("quoteID"));
         Quote quote = QuoteDAO.getQuote(quoteID);
-        List<List<String>> treeImgUrls = TreesDAO.getTreeImages(quoteID);
+        List<Tree> trees = TreesDAO.getTrees(quoteID);
         List<QuoteResponse> responses = QuoteResponsesDAO.GetResponses(quoteID);
         Collections.reverse(responses);
+        System.out.println(quoteID);
+        System.out.println(trees.size());
 
         request.setAttribute("quoteID", quoteID);
         request.setAttribute("quote", quote);
-        request.setAttribute("picUrls", treeImgUrls);
+        request.setAttribute("trees", trees);
         request.setAttribute("listResponses", responses);
         request.setAttribute("isClient", UserDAO.isClient((String) request.getSession(false).getAttribute("username")));
         RequestDispatcher dispatcher = request.getRequestDispatcher("responseList.jsp");

@@ -112,7 +112,7 @@ public class TreesDAO {
         List<Tree> trees = new ArrayList<Tree>();
         while(resultSet.next())
         {
-            createTree(resultSet);
+            trees.add(createTree(resultSet));
         }
         return trees;
     }
