@@ -86,7 +86,7 @@ public class TreesDAO {
     }
 
     public Tree getTree(int treeID) throws SQLException {
-        String sql = "SELECT * FROM trees WHERE quoteID = ?";
+        String sql = "SELECT * FROM trees WHERE treeID = ?";
 
         connect_func();
         preparedStatement = connect.prepareStatement(sql);
