@@ -71,9 +71,10 @@ Configure:
 - You should now be able to run the project.
 - Stop the server by hittin the red square next to the debug icon.
 
-Ashwin Raam Sethuram - XX hours
-- 
-- [objective]
+Ashwin Raam Sethuram - 30 hours
+- Created all frontend pages.
+- Created all frontend and backend controllers integration.
+- Fixed bugs in backend code.
 
 Matthew Meyer - 26 hours
 - 
