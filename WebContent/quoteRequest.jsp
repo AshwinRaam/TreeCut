@@ -90,7 +90,7 @@
                         <tr>
                             <th>Location of the tree:</th>
                             <td>
-                                <input type="text" name="location1"
+                                <input type="text" name="location1" required
                                        class="shadow border  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             </td>
                         </tr>
