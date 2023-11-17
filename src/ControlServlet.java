@@ -96,8 +96,10 @@ public class ControlServlet extends HttpServlet {
                         break;
                     case "/accept-quote":
                         acceptQuote(request, response, session);
+                        break;
                     case "/reject-quote":
                         rejectQuote(request, response, session);
+                        break;
                     case "/images":
                         System.out.println("Serving image...");
                         serveImage(request, response);
@@ -458,9 +460,11 @@ public class ControlServlet extends HttpServlet {
         if (accepted) {
             QuoteResponse qResponse = new QuoteResponse();
             qResponse.setUserID(user.userID);
-            qResponse.setNote(username + " accepted the quote.");
+            qResponse.setQuoteID(quoteID);
+            qResponse.setNote(user.getFirstName() + " " + user.getLastName() + " accepted the quote.");
             QuoteResponsesDAO.PostResponse(qResponse);
         }
+        response.sendRedirect("quotes");
     }
 
     private void rejectQuote(HttpServletRequest request, HttpServletResponse response, HttpSession session)
@@ -476,6 +480,12 @@ public class ControlServlet extends HttpServlet {
         }
 
         QuoteDAO.rejectQuote(quoteID);
+        QuoteResponse qResponse = new QuoteResponse();
+        qResponse.setUserID(user.userID);
+        qResponse.setQuoteID(quoteID);
+        qResponse.setNote(user.getFirstName() + " " + user.getLastName() + " rejected the quote.");
+        QuoteResponsesDAO.PostResponse(qResponse);
+        response.sendRedirect("quotes");
     }
 
     private void serveImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
