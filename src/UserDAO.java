@@ -1,17 +1,12 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
 
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,8 +85,8 @@ public class UserDAO {
             String address = resultSet.getString("address");
             String phoneNumber = resultSet.getString("phoneNumber");
             String email = resultSet.getString("email");
-            String createdAt = resultSet.getString("createdAt");
-            String updatedAt = resultSet.getString("updatedAt");
+            Timestamp createdAt = resultSet.getTimestamp("createdAt");
+            Timestamp updatedAt = resultSet.getTimestamp("updatedAt");
 
             User user = new User(username, password, role, firstName, lastName, address, phoneNumber, email);
             user.setUserID(userID);
@@ -161,8 +156,8 @@ public class UserDAO {
         preparedStatement.setString(6, user.getAddress());
         preparedStatement.setString(7, user.getPhoneNumber());
         preparedStatement.setString(8, user.getEmail());
-        preparedStatement.setString(9, user.getCreatedAt());
-        preparedStatement.setString(10, user.getUpdatedAt());
+        preparedStatement.setTimestamp(9, user.getCreatedAt());
+        preparedStatement.setTimestamp(10, user.getUpdatedAt());
         preparedStatement.setInt(11, user.getUserID());
 
         boolean rowUpdated = preparedStatement.executeUpdate() > 0;
@@ -193,8 +188,8 @@ public class UserDAO {
             String address = resultSet.getString("address");
             String phoneNumber = resultSet.getString("phoneNumber");
             String creditCardInfo = resultSet.getString("creditCardInfo");
-            String createdAt = resultSet.getString("createdAt");
-            String updatedAt = resultSet.getString("updatedAt");
+            Timestamp createdAt = resultSet.getTimestamp("createdAt");
+            Timestamp updatedAt = resultSet.getTimestamp("updatedAt");
             boolean isClient = role.equals("Client");
 
             user = new User(username, password, role, firstName, lastName, address, phoneNumber, email, creditCardInfo,
