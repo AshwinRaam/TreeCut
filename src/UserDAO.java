@@ -361,6 +361,70 @@ public class UserDAO {
 
         return users;
     }
+
+    /**
+     * Gets a lit of users from completed orders who have had the most trees cut.
+     * @return A list of user(s) who have had the most trees cut.
+     * @throws SQLException
+     */
+    public List<User> GetUsersWithMostTrees() throws SQLException {
+        String sql = """
+                SELECT * FROM (SELECT q.clientID, COUNT(t.num_trees) as num_trees
+                               FROM (SELECT q2.quoteID, q2.clientID
+                                     FROM quotes q2
+                                              INNER JOIN (SELECT quoteID
+                                                          FROM orders
+                                         WHERE status = 'Completed'
+                                     ) o on q2.quoteID = o.quoteID) as q
+                                        JOIN (SELECT quoteID, COUNT(*) AS num_trees
+                                              FROM trees
+                                              GROUP BY quoteID) as t ON q.quoteID = t.quoteID
+                               GROUP BY clientID) t2
+                WHERE num_trees = (
+                    SELECT MAX(num_trees)
+                    FROM (
+                             SELECT COUNT(t.num_trees) as num_trees
+                             FROM (
+                                      SELECT q2.quoteID, q2.clientID
+                                      FROM quotes q2
+                                               INNER JOIN (
+                                          SELECT quoteID
+                                          FROM orders
+                                          WHERE status = 'Completed'
+                                      ) o on q2.quoteID = o.quoteID
+                                  ) as q
+                                      JOIN (
+                                 SELECT quoteID, COUNT(*) AS num_trees
+                                 FROM trees
+                                 GROUP BY quoteID) as t ON q.quoteID = t.quoteID
+                             GROUP BY clientID
+                         ) as t
+                );""";
+
+        connect_func();
+        statement = connect.createStatement();
+        resultSet = statement.executeQuery(sql);
+
+        List<User> users = new ArrayList<>();
+        while(resultSet.next()){
+            User user = new User();
+            user.setUserID(resultSet.getInt("userID"));
+            user.setUsername(resultSet.getString("username"));
+            user.setRole(resultSet.getString("role"));
+            user.setFirstName(resultSet.getString("firstName"));
+            user.setLastName(resultSet.getString("lastName"));
+            user.setAddress(resultSet.getString("address"));
+            user.setPhoneNumber(resultSet.getString("phoneNumber"));
+            user.setEmail(resultSet.getString("email"));
+            user.setCreditCardInfo(resultSet.getString("creditCardInfo"));
+            user.setCreatedAt(resultSet.getTimestamp("createdAt"));
+            user.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+            users.add(user);
+        }
+
+        return users;
+    }
+
     public void init() throws SQLException, FileNotFoundException, IOException {
         connect_func();
         statement = (Statement) connect.createStatement();
