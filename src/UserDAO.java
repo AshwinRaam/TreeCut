@@ -23,6 +23,7 @@ public class UserDAO {
     private Connection connect = null;
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;
 
 
     public UserDAO() {
@@ -78,7 +79,7 @@ public class UserDAO {
         String sql = "SELECT * FROM Users";
         connect_func();
         statement = connect.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
+        resultSet = statement.executeQuery(sql);
         while (resultSet.next()) {
             int userID = resultSet.getInt("userID");
             String username = resultSet.getString("username");
@@ -179,7 +180,7 @@ public class UserDAO {
         preparedStatement = connect.prepareStatement(sql);
         preparedStatement.setString(1, username);
 
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
 
         if (resultSet.next()) {
             int userID = resultSet.getInt("userID");
@@ -218,7 +219,7 @@ public class UserDAO {
         preparedStatement = connect.prepareStatement(sql);
         preparedStatement.setInt(1, userID);
 
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
 
         User user = null;
         if(resultSet.next())
@@ -239,7 +240,7 @@ public class UserDAO {
         preparedStatement = connect.prepareStatement(sql);
         preparedStatement.setString(1, username);
 
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
 
         if (resultSet.next()) {
             userID = resultSet.getInt("userID");
@@ -259,7 +260,7 @@ public class UserDAO {
         connect_func();
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setString(1, email);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             checks = true;
         }
@@ -273,7 +274,7 @@ public class UserDAO {
         connect_func();
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setString(1, username);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             checks = true;
         }
@@ -287,7 +288,7 @@ public class UserDAO {
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, password);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
 
         return (resultSet.next());
     }
