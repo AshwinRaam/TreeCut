@@ -309,6 +309,58 @@ public class UserDAO {
         return false;
     }
 
+    /***
+     *
+     * @return A list of all users who accept initial quotes all the time.
+     * @throws SQLException
+     */
+    public List<User> GetEasyClients() throws SQLException {
+        String sql = """
+                    SELECT u.*
+                    FROM users u
+                        INNER JOIN(
+                        SELECT r2.userID, COUNT(r2.note) as timesInitiallyAccepted
+                        FROM (
+                                 SELECT *
+                                 FROM quoteresponses qr
+                                 WHERE userID = (
+                                     SELECT contractorID FROM quotes WHERE quoteID = qr.quoteID
+                                 )
+                                 GROUP BY quoteID
+                             ) as r1
+                                 JOIN (
+                            SELECT *
+                            FROM quoteresponses qr
+                            WHERE userID = (
+                                SELECT clientID FROM quotes WHERE quoteID = qr.quoteID
+                            )
+                            GROUP BY quoteID
+                        ) as r2 on r2.createdAt > r1.createdAt AND r2.quoteID = r1.quoteID
+                        WHERE r2.note LIKE "%accepted the quote."
+                        GROUP BY r2.userID) t1 on u.userID = t1.userID""";
+        connect_func();
+        statement = connect.createStatement();
+        resultSet = statement.executeQuery(sql);
+
+        List<User> users = new ArrayList<>();
+        while(resultSet.next()){
+            User user = new User();
+            user.setUserID(resultSet.getInt("userID"));
+            user.setUsername(resultSet.getString("username"));
+            user.setRole(resultSet.getString("role"));
+            user.setFirstName(resultSet.getString("firstName"));
+            user.setLastName(resultSet.getString("lastName"));
+            user.setAddress(resultSet.getString("address"));
+            user.setPhoneNumber(resultSet.getString("phoneNumber"));
+            user.setEmail(resultSet.getString("email"));
+            user.setCreditCardInfo(resultSet.getString("creditCardInfo"));
+            user.setCreatedAt(resultSet.getTimestamp("createdAt"));
+            user.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+            users.add(user);
+        }
+
+        return users;
+    }
     public void init() throws SQLException, FileNotFoundException, IOException {
         connect_func();
         statement = (Statement) connect.createStatement();
