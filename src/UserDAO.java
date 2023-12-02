@@ -363,6 +363,49 @@ public class UserDAO {
     }
 
     /**
+     *
+     * @return A list of users who've never paid their bills
+     * @throws SQLException
+     */
+    public List<User> getWorstUsers() throws SQLException {
+        String sql = """
+                SELECT clientID FROM quotes
+                WHERE clientID NOT IN (
+                    SELECT q.clientID
+                    FROM quotes q
+                             JOIN(SELECT o.quoteID, o.status
+                                  FROM orders o
+                                           JOIN (SELECT orderID
+                                                 FROM bills) billsPaid on o.orderID = billsPaid.orderID) orders
+                                 on q.quoteID = orders.quoteID
+                    WHERE orders.status = 'Completed'
+                    )""";
+        connect_func();
+        statement = connect.createStatement();
+        resultSet = statement.executeQuery(sql);
+
+        List<User> users = new ArrayList<>();
+        while(resultSet.next())
+        {
+            User user = new User();
+            user.setUserID(resultSet.getInt("userID"));
+            user.setUsername(resultSet.getString("username"));
+            user.setRole(resultSet.getString("role"));
+            user.setFirstName(resultSet.getString("firstName"));
+            user.setLastName(resultSet.getString("lastName"));
+            user.setAddress(resultSet.getString("address"));
+            user.setPhoneNumber(resultSet.getString("phoneNumber"));
+            user.setEmail(resultSet.getString("email"));
+            user.setCreditCardInfo(resultSet.getString("creditCardInfo"));
+            user.setCreatedAt(resultSet.getTimestamp("createdAt"));
+            user.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+            users.add(user);
+        }
+
+        return users;
+    }
+
+    /**
      * Gets a lit of users from completed orders who have had the most trees cut.
      * @return A list of user(s) who have had the most trees cut.
      * @throws SQLException
