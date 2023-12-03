@@ -358,17 +358,25 @@ public class UserDAO {
      */
     public List<User> getWorstClients() throws SQLException {
         String sql = """
-                SELECT clientID FROM quotes
-                WHERE clientID NOT IN (
-                    SELECT q.clientID
-                    FROM quotes q
-                             JOIN(SELECT o.quoteID, o.status
-                                  FROM orders o
-                                           JOIN (SELECT orderID
-                                                 FROM bills) billsPaid on o.orderID = billsPaid.orderID) orders
-                                 on q.quoteID = orders.quoteID
-                    WHERE orders.status = 'Completed'
-                    )""";
+                SELECT *
+                FROM users
+                WHERE userID IN (SELECT clientID
+                                 FROM quotes q
+                                          JOIN (SELECT quoteID
+                                                FROM orders o
+                                                         JOIN (SELECT *
+                                                               FROM bills) allBills
+                                                              ON o.orderID = allBills.orderID) o
+                                               ON o.quoteID = q.quoteID
+                                 WHERE clientID NOT IN (SELECT clientID
+                                                        FROM quotes q
+                                                                 JOIN (SELECT quoteID
+                                                                       FROM orders o
+                                                                                JOIN (SELECT *
+                                                                                      FROM bills b
+                                                                                      WHERE b.status = 'Paid') paidBills
+                                                                                     ON o.orderID = paidBills.orderID) o
+                                                                      ON o.quoteID = q.quoteID));""";
         connect_func();
         statement = connect.createStatement();
         resultSet = statement.executeQuery(sql);
