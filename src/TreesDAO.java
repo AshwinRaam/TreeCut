@@ -161,4 +161,34 @@ public class TreesDAO {
 
         return treeImageUrls;
     }
+
+    /**
+     * Get a list of all trees cut for a specific user.
+     * @param userID
+     * @return A list of all trees that have been cut for specified user.
+     * @throws SQLException
+     */
+    public List<Tree> getAllTreesCut(int userID) throws SQLException {
+        String sql = """
+                SELECT * FROM trees t WHERE t.quoteID IN (
+                    SELECT q.quoteID FROM quotes q
+                        JOIN (
+                        SELECT quoteID FROM orders WHERE status = 'Completed'
+                        ) o ON q.quoteID = o.quoteID
+                    WHERE q.clientID = ?
+                    )""";
+
+        connect_func();
+        preparedStatement = connect.prepareStatement(sql);
+        preparedStatement.setInt(1, userID);
+        resultSet = preparedStatement.executeQuery();
+
+        List<Tree> trees = new ArrayList<>();
+        while(resultSet.next()) {
+            Tree tree = createTree(resultSet);
+            trees.add(tree);
+        }
+
+        return trees;
+    }
 }
