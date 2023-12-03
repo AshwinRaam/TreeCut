@@ -418,36 +418,33 @@ public class UserDAO {
      */
     public List<User> getUsersWithMostTrees() throws SQLException {
         String sql = """
-                SELECT * FROM (SELECT q.clientID, COUNT(t.num_trees) as num_trees
-                               FROM (SELECT q2.quoteID, q2.clientID
-                                     FROM quotes q2
-                                              INNER JOIN (SELECT quoteID
-                                                          FROM orders
-                                         WHERE status = 'Completed'
-                                     ) o on q2.quoteID = o.quoteID) as q
-                                        JOIN (SELECT quoteID, COUNT(*) AS num_trees
-                                              FROM trees
-                                              GROUP BY quoteID) as t ON q.quoteID = t.quoteID
-                               GROUP BY clientID) t2
-                WHERE num_trees = (
-                    SELECT MAX(num_trees)
-                    FROM (
-                             SELECT COUNT(t.num_trees) as num_trees
-                             FROM (
-                                      SELECT q2.quoteID, q2.clientID
-                                      FROM quotes q2
-                                               INNER JOIN (
-                                          SELECT quoteID
-                                          FROM orders
-                                          WHERE status = 'Completed'
-                                      ) o on q2.quoteID = o.quoteID
-                                  ) as q
-                                      JOIN (
-                                 SELECT quoteID, COUNT(*) AS num_trees
-                                 FROM trees
-                                 GROUP BY quoteID) as t ON q.quoteID = t.quoteID
-                             GROUP BY clientID
-                         ) as t
+                SELECT *
+                FROM users
+                WHERE userID IN (
+                SELECT clientID
+                FROM (SELECT q.clientID, COUNT(t.num_trees) as num_trees
+                      FROM (SELECT q2.quoteID, q2.clientID
+                            FROM quotes q2
+                                     INNER JOIN (SELECT quoteID
+                                                 FROM orders
+                                WHERE status = 'Completed'
+                            ) o on q2.quoteID = o.quoteID) as q
+                               JOIN (SELECT quoteID, COUNT(*) AS num_trees
+                                     FROM trees
+                                     GROUP BY quoteID) as t ON q.quoteID = t.quoteID
+                      GROUP BY clientID) t2
+                WHERE num_trees = (SELECT MAX(num_trees)
+                                   FROM (SELECT COUNT(t.num_trees) as num_trees
+                                         FROM (SELECT q2.quoteID, q2.clientID
+                                               FROM quotes q2
+                                                        INNER JOIN (SELECT quoteID
+                                                                    FROM orders
+                                                   WHERE status = 'Completed'
+                                               ) o on q2.quoteID = o.quoteID) as q
+                                                  JOIN (SELECT quoteID, COUNT(*) AS num_trees
+                                                        FROM trees
+                                                        GROUP BY quoteID) as t ON q.quoteID = t.quoteID
+                                         GROUP BY clientID) as t)
                 );""";
 
         connect_func();
