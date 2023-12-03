@@ -406,7 +406,7 @@ public class UserDAO {
     }
 
     /**
-     * Gets a lit of users from completed orders who have had the most trees cut.
+     * Gets a lit of users from completed orders who have had the most trees cut (biggest clients).
      * @return A list of user(s) who have had the most trees cut.
      * @throws SQLException
      */
