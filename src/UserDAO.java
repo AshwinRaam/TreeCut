@@ -356,7 +356,7 @@ public class UserDAO {
      * @return A list of users who've never paid their bills
      * @throws SQLException
      */
-    public List<User> getWorstUsers() throws SQLException {
+    public List<User> getWorstClients() throws SQLException {
         String sql = """
                 SELECT clientID FROM quotes
                 WHERE clientID NOT IN (
