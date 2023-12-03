@@ -314,7 +314,7 @@ public class UserDAO {
      * @return A list of all users who accept initial quotes all the time.
      * @throws SQLException
      */
-    public List<User> GetEasyClients() throws SQLException {
+    public List<User> getEasyClients() throws SQLException {
         String sql = """
                     SELECT u.*
                     FROM users u
@@ -410,7 +410,7 @@ public class UserDAO {
      * @return A list of user(s) who have had the most trees cut.
      * @throws SQLException
      */
-    public List<User> GetUsersWithMostTrees() throws SQLException {
+    public List<User> getUsersWithMostTrees() throws SQLException {
         String sql = """
                 SELECT * FROM (SELECT q.clientID, COUNT(t.num_trees) as num_trees
                                FROM (SELECT q2.quoteID, q2.clientID
