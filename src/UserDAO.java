@@ -383,6 +383,34 @@ public class UserDAO {
         return users;
     }
 
+    public List<User> getClientsWhoPayFast() throws SQLException {
+        String sql = """
+                SELECT *
+                FROM users
+                WHERE userID IN (
+                    SELECT userID
+                    FROM billresponses br
+                    WHERE note LIKE "%paid bill."
+                    AND br.createdAt < (
+                        SELECT createdAt
+                        FROM bills b
+                        WHERE b.billID = br.billID
+                        ) + INTERVAL 1 DAY
+                    )""";
+        connect_func();
+        statement = connect.createStatement();
+        resultSet = statement.executeQuery(sql);
+
+        List<User> users = new ArrayList<>();
+        while(resultSet.next())
+        {
+            User user = createUser(resultSet);
+            users.add(user);
+        }
+
+        return users;
+    }
+
     /**
      * Gets a lit of users from completed orders who have had the most trees cut (biggest clients).
      * @return A list of user(s) who have had the most trees cut.
