@@ -344,18 +344,7 @@ public class UserDAO {
 
         List<User> users = new ArrayList<>();
         while(resultSet.next()){
-            User user = new User();
-            user.setUserID(resultSet.getInt("userID"));
-            user.setUsername(resultSet.getString("username"));
-            user.setRole(resultSet.getString("role"));
-            user.setFirstName(resultSet.getString("firstName"));
-            user.setLastName(resultSet.getString("lastName"));
-            user.setAddress(resultSet.getString("address"));
-            user.setPhoneNumber(resultSet.getString("phoneNumber"));
-            user.setEmail(resultSet.getString("email"));
-            user.setCreditCardInfo(resultSet.getString("creditCardInfo"));
-            user.setCreatedAt(resultSet.getTimestamp("createdAt"));
-            user.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+            User user = createUser(resultSet);
             users.add(user);
         }
 
@@ -387,18 +376,7 @@ public class UserDAO {
         List<User> users = new ArrayList<>();
         while(resultSet.next())
         {
-            User user = new User();
-            user.setUserID(resultSet.getInt("userID"));
-            user.setUsername(resultSet.getString("username"));
-            user.setRole(resultSet.getString("role"));
-            user.setFirstName(resultSet.getString("firstName"));
-            user.setLastName(resultSet.getString("lastName"));
-            user.setAddress(resultSet.getString("address"));
-            user.setPhoneNumber(resultSet.getString("phoneNumber"));
-            user.setEmail(resultSet.getString("email"));
-            user.setCreditCardInfo(resultSet.getString("creditCardInfo"));
-            user.setCreatedAt(resultSet.getTimestamp("createdAt"));
-            user.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+            User user = createUser(resultSet);
             users.add(user);
         }
 
@@ -450,22 +428,33 @@ public class UserDAO {
 
         List<User> users = new ArrayList<>();
         while(resultSet.next()){
-            User user = new User();
-            user.setUserID(resultSet.getInt("userID"));
-            user.setUsername(resultSet.getString("username"));
-            user.setRole(resultSet.getString("role"));
-            user.setFirstName(resultSet.getString("firstName"));
-            user.setLastName(resultSet.getString("lastName"));
-            user.setAddress(resultSet.getString("address"));
-            user.setPhoneNumber(resultSet.getString("phoneNumber"));
-            user.setEmail(resultSet.getString("email"));
-            user.setCreditCardInfo(resultSet.getString("creditCardInfo"));
-            user.setCreatedAt(resultSet.getTimestamp("createdAt"));
-            user.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+            User user = createUser(resultSet);
             users.add(user);
         }
 
         return users;
+    }
+
+    /**
+     * Create a new user by passing through the result set where the query consists of "SELECT * FROM users (...)"
+     * @param resultSet
+     * @return A new user object without the password being filled in.
+     * @throws SQLException
+     */
+    private User createUser(ResultSet resultSet) throws SQLException {
+        User user = new User();
+        user.setUserID(resultSet.getInt("userID"));
+        user.setUsername(resultSet.getString("username"));
+        user.setRole(resultSet.getString("role"));
+        user.setFirstName(resultSet.getString("firstName"));
+        user.setLastName(resultSet.getString("lastName"));
+        user.setAddress(resultSet.getString("address"));
+        user.setPhoneNumber(resultSet.getString("phoneNumber"));
+        user.setEmail(resultSet.getString("email"));
+        user.setCreditCardInfo(resultSet.getString("creditCardInfo"));
+        user.setCreatedAt(resultSet.getTimestamp("createdAt"));
+        user.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+        return user;
     }
 
     public void init() throws SQLException, FileNotFoundException, IOException {
