@@ -435,6 +435,32 @@ public class UserDAO {
         return users;
     }
 
+    public List<User> getProspectiveClients() throws SQLException {
+        String sql = """
+                SELECT *
+                FROM users
+                WHERE userID IN (SELECT q1.clientID
+                                 FROM quotes q1
+                                 WHERE clientID NOT IN (SELECT q.clientID
+                                                        FROM quotes q
+                                                                 JOIN (SELECT quoteID
+                                                                       FROM orders) o
+                                                        WHERE q.quoteID = o.quoteID
+                                                        GROUP BY clientID))""";
+
+        connect_func();
+        statement = connect.createStatement();
+        resultSet = statement.executeQuery(sql);
+
+        List<User> users = new ArrayList<>();
+        while(resultSet.next()){
+            User user = createUser(resultSet);
+            users.add(user);
+        }
+
+        return users;
+    }
+
     /**
      * Create a new user by passing through the result set where the query consists of "SELECT * FROM users (...)"
      * @param resultSet
