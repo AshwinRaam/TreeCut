@@ -14,7 +14,7 @@
 <main class="flex justify-center items-center min-h-screen">
   <section class="bg-white shadow-lg p-8 mb-4"> <!-- Adjusted width for better alignment -->
     <header class="flex justify-between items-center mb-4"> <!-- Flex container for header -->
-      <a href="${pageContext.request.contextPath}/logout" target="_self" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 transition duration-300 ease-in-out">Logout</a>
+      <a href="${pageContext.request.contextPath}/login" target="_self" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">Back to Dashboard</a>
       <h1 class="text-3xl font-bold">Quotes</h1>
       <a href="${pageContext.request.contextPath}/new-quote" target="_self" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 transition duration-300 ease-in-out">Add New Quote</a>
     </header>

@@ -138,9 +138,10 @@ public class ControlServlet extends HttpServlet {
     }
 
     private void rootPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        System.out.println("root view");
-        request.setAttribute("listUser", UserDAO.listAllUsers());
-        request.getRequestDispatcher("rootView.jsp").forward(request, response);
+        System.out.println("Root Dashboard");
+//        request.setAttribute("listUser", UserDAO.listAllUsers());
+//        request.getRequestDispatcher("rootView.jsp").forward(request, response);
+        request.getRequestDispatcher("RootDashboard.jsp").forward(request, response);
     }
 
     protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -153,10 +154,10 @@ public class ControlServlet extends HttpServlet {
                 rootPage(request, response);
             }
             else if(session.getAttribute("role").equals("Contractor")) {
-                request.getRequestDispatcher("contractorDashboard.jsp").forward(request, response);
+                request.getRequestDispatcher("ContractorDashboard.jsp").forward(request, response);
             }
             else if(session.getAttribute("role").equals("Client")) {
-                request.getRequestDispatcher("clientDashboard.jsp").forward(request, response);
+                request.getRequestDispatcher("ClientDashboard.jsp").forward(request, response);
             }
         } else {
             session = request.getSession(true);
@@ -172,9 +173,9 @@ public class ControlServlet extends HttpServlet {
                 session.setAttribute("userID", UserDAO.getUserID(username));
                 if (UserDAO.isClient(username)) {
                     session.setAttribute("role", "Client");
-                    request.getRequestDispatcher("clientDashboard.jsp").forward(request, response);
+                    request.getRequestDispatcher("ClientDashboard.jsp").forward(request, response);
                 } else {
-                    request.getRequestDispatcher("contractorDashboard.jsp").forward(request, response);
+                    request.getRequestDispatcher("ContractorDashboard.jsp").forward(request, response);
                     session.setAttribute("role", "Contractor");
                 }
             } else {
@@ -356,7 +357,7 @@ public class ControlServlet extends HttpServlet {
         request.setAttribute("trees", trees);
         request.setAttribute("listResponses", responses);
         request.setAttribute("isClient", UserDAO.isClient((String) request.getSession(false).getAttribute("username")));
-        RequestDispatcher dispatcher = request.getRequestDispatcher("responseList.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("QuoteResponsesList.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -378,7 +379,7 @@ public class ControlServlet extends HttpServlet {
 
         request.setAttribute("user", user);
         request.setAttribute("quote", quote);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("quoteResponse.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("QuoteResponse.jsp");
         dispatcher.forward(request, response);
     }
 
