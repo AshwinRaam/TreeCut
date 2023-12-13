@@ -22,6 +22,7 @@ public class ControlServlet extends HttpServlet {
     private TreesDAO TreesDAO;
     private QuoteResponsesDAO QuoteResponsesDAO;
     private OrderDAO OrderDAO;
+    private BillDAO BillDAO;
     private String currentUser;
 
     public ControlServlet() {
@@ -34,6 +35,7 @@ public class ControlServlet extends HttpServlet {
         TreesDAO = new TreesDAO();
         QuoteResponsesDAO = new QuoteResponsesDAO();
         OrderDAO = new OrderDAO();
+        BillDAO = new BillDAO();
         currentUser = "";
     }
 
@@ -72,7 +74,7 @@ public class ControlServlet extends HttpServlet {
                         listOrders(request, response, session);
                         break;
                     case "/bills":
-                        request.getRequestDispatcher("BillList.jsp").forward(request, response);
+                        listBills(request, response, session);
                         break;
                     case "/logout":
                         logout(request, response);
@@ -152,6 +154,21 @@ public class ControlServlet extends HttpServlet {
         Collections.reverse(listOrder);
         request.setAttribute("listOrders", listOrder);
         request.getRequestDispatcher("OrderList.jsp").forward(request, response);
+    }
+
+    private void listBills(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+            throws SQLException, ServletException, IOException {
+        System.out.println("Sending to orders page");
+        String username = (String) session.getAttribute("username");
+        User user = UserDAO.getUser(username);
+        List<Bill> listBill;
+        if (user.isClient())
+            listBill = BillDAO.getBills(user.userID);
+        else
+            listBill = BillDAO.getBills();
+        request.setAttribute("listBills", listBill);
+        request.setAttribute("user", user);
+        request.getRequestDispatcher("BillList.jsp").forward(request, response);
     }
 
     private void rootPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
