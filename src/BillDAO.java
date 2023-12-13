@@ -73,7 +73,6 @@ public class BillDAO {
         }
 
         resultSet.close();
-        preparedStatement.close();
         connect.close();
 
         return bills;
