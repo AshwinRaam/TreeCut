@@ -4,7 +4,7 @@ public class Tree {
     private int id;
     private int quoteID;
     private String size;
-    private String height;
+    private int height;
     private String location;
     private String nearHouse;
     private String pictureURL1;
@@ -16,7 +16,7 @@ public class Tree {
     public Tree() {
     }
 
-    public Tree(int id, int quoteID, String size, String height, String location, String nearHouse, String pictureURL1,
+    public Tree(int id, int quoteID, String size, int height, String location, String nearHouse, String pictureURL1,
                 String pictureURL2, String pictureURL3, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.quoteID = quoteID;
@@ -55,11 +55,11 @@ public class Tree {
         this.size = size;
     }
 
-    public String getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
