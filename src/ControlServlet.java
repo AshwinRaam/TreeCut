@@ -121,7 +121,8 @@ public class ControlServlet extends HttpServlet {
                         request.getRequestDispatcher("RootViews/Reset.jsp").forward(request, response);
                         break;
                     case "/big-clients":
-                        request.getRequestDispatcher("RootViews/BigClients.jsp").forward(request, response);
+                        request.setAttribute("title", "Big Clients");
+                        request.getRequestDispatcher("RootViews/ClientsList.jsp").forward(request, response);
                         break;
                     case "/createbillresponse":
                         createBillResponse(request, response, session);
