@@ -76,7 +76,6 @@ public class OrderDAO {
         }
 
         resultSet.close();
-        preparedStatement.close();
         connect.close();
 
         return orders;
