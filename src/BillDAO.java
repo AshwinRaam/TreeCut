@@ -234,7 +234,7 @@ public class BillDAO {
                                        SELECT quoteID FROM quotes WHERE clientID = ?
                     ) q on o.quoteID = q.quoteID
                 ) o on b.orderID = o.orderID
-                WHERE b.status = 'Completed';""";
+                WHERE b.status = 'Paid';""";
         connect_func();
         preparedStatement = connect.prepareStatement(sql);
         preparedStatement.setInt(1, userID);
