@@ -141,8 +141,20 @@ public class BillDAO {
         connect.close();
     }
 
-    public void setBillDisputed(int billID, double newAmount) throws SQLException {
-        String sql = "UPDATE bills SET status = 'Disputed', amount = ? WHERE billID = ?;";
+    public void setBillPending(int billID) throws SQLException {
+        String sql = "UPDATE bills SET status = 'Pending' WHERE billID = ?;";
+
+        connect_func();
+        preparedStatement = connect.prepareStatement(sql);
+        preparedStatement.setInt(1, billID);
+        preparedStatement.executeUpdate();
+
+        preparedStatement.close();
+        connect.close();
+    }
+
+    public void setBillPending(int billID, double newAmount) throws SQLException {
+        String sql = "UPDATE bills SET status = 'Pending', amount = ? WHERE billID = ?;";
 
         connect_func();
         preparedStatement = connect.prepareStatement(sql);
