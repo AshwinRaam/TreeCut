@@ -661,25 +661,25 @@ public class UserDAO {
 
         String[] ordersQueries = {
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (1, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (2, 'Completed', NOW(), NOW())",
+                "INSERT INTO Orders (quoteID, status, workDate, createdAt) VALUES (2, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (3, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (4, 'Completed', NOW(), NOW())",
+                "INSERT INTO Orders (quoteID, status, workDate, createdAt) VALUES (4, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (5, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (6, 'Completed', NOW(), NOW())",
+                "INSERT INTO Orders (quoteID, status, workDate, createdAt) VALUES (6, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (7, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (8, 'Completed', NOW(), NOW())",
+                "INSERT INTO Orders (quoteID, status, workDate, createdAt) VALUES (8, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (9, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (10, 'Completed', NOW(), NOW())",
+                "INSERT INTO Orders (quoteID, status, workDate, createdAt) VALUES (10, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (11, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (12, 'Completed', NOW(), NOW())",
+                "INSERT INTO Orders (quoteID, status, workDate, createdAt) VALUES (12, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (13, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (14, 'Completed', NOW(), NOW())",
+                "INSERT INTO Orders (quoteID, status, workDate, createdAt) VALUES (14, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (15, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (16, 'Completed', NOW(), NOW())",
+                "INSERT INTO Orders (quoteID, status, workDate, createdAt) VALUES (16, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (17, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (18, 'Completed', NOW(), NOW())",
+                "INSERT INTO Orders (quoteID, status, workDate, createdAt) VALUES (18, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (19, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (20, 'Completed', NOW(), NOW())"
+                "INSERT INTO Orders (quoteID, status, workDate, createdAt) VALUES (20, 'Completed', NOW(), NOW())"
         };
 
 
