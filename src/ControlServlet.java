@@ -192,6 +192,7 @@ public class ControlServlet extends HttpServlet {
             listBill = BillDAO.getBills(user.userID);
         else
             listBill = BillDAO.getBills();
+        Collections.reverse(listBill);
         request.setAttribute("listBills", listBill);
         request.setAttribute("user", user);
         request.getRequestDispatcher("BillList.jsp").forward(request, response);
