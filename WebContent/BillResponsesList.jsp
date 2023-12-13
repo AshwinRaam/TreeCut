@@ -59,7 +59,7 @@
                     <!-- Pay Bill Button - Visible only if status is Quoted -->
                     <c:if test="${bill.status eq 'Pending'}">
                         <form action="pay-bill" class="inline-block mr-2">
-                            <input type="hidden" name="quoteID" value="${bill.billID}">
+                            <input type="hidden" name="billID" value="${bill.billID}">
                             <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
                                 Pay Bill
                             </button>
@@ -69,7 +69,7 @@
                 <!-- Reject Bill Button -->
                 <c:if test="${bill.status ne 'Paid'}">
                     <form action="createbillresponse" class="inline-block">
-                        <input type="hidden" name="quoteID" value="${billID}">
+                        <input type="hidden" name="billID" value="${billID}">
                         <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
                             Reject Price
                         </button>
