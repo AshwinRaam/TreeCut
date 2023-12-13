@@ -15,7 +15,7 @@
         <header class="flex justify-between items-center mb-4">
             <a href="javascript:window.history.back();" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">Back to Dashboard</a>
             <h1 class="text-xl font-bold flex-grow text-center">${title}</h1>
-            <span class="py-2 px-4"></span> <!-- Placeholder for layout balance -->
+            <span class="py-2 px-6"></span> <!-- Placeholder for layout balance -->
         </header>
 
         <article>
