@@ -27,7 +27,7 @@
                         <th class="px-4 py-2 text-left">Amount</th>
                         <th class="px-4 py-2 text-left">Status</th>
                         <th class="px-4 py-2 text-left">Created At</th>
-                        <th class="px-4 py-2 text-left">Actions</th> <!-- Header for actions -->
+                        <th class="px-4 py-2 text-left">Respond to Bill</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -43,6 +43,13 @@
                                 <form action="viewQuote" method="get">
                                     <input type="hidden" name="orderID" value="${bill.orderID}" />
                                     <input type="submit" value="View Quote"
+                                           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">
+                                </form>
+                            </td>
+                            <td class="px-4 py-2">
+                                <form action="showbillresponses" method="get">
+                                    <input type="hidden" name="billID" value="${bill.billID}" />
+                                    <input type="submit" value="View"
                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">
                                 </form>
                             </td>

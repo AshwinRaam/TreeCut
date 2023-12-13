@@ -43,7 +43,7 @@
 
         <div class="flex justify-between items-center mb-8">
             <!-- New Response Button - Visible only if bill status allows for a new response -->
-            <c:if test="${bill.status eq 'Pending'}">
+            <c:if test="${bill.status eq 'Pending' && !isClient}">
                 <form action="createbillresponse" class="inline-block">
                     <input type="hidden" name="billID" value="${bill.billID}">
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
@@ -53,6 +53,29 @@
             </c:if>
 
             <!-- Additional buttons for actions like payment or dispute can be added here -->
+
+            <c:if test="${isClient}">
+                <div>
+                    <!-- Pay Bill Button - Visible only if status is Quoted -->
+                    <c:if test="${bill.status eq 'Pending'}">
+                        <form action="pay-bill" class="inline-block mr-2">
+                            <input type="hidden" name="quoteID" value="${bill.billID}">
+                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
+                                Pay Bill
+                            </button>
+                        </form>
+                    </c:if>
+                </div>
+                <!-- Reject Bill Button -->
+                <c:if test="${bill.status ne 'Paid'}">
+                    <form action="createbillresponse" class="inline-block">
+                        <input type="hidden" name="quoteID" value="${billID}">
+                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">
+                            Reject Price
+                        </button>
+                    </form>
+                </c:if>
+            </c:if>
         </div>
 
         <div class="overflow-x-auto border border-gray-200">

@@ -116,6 +116,15 @@ public class ControlServlet extends HttpServlet {
                     case "/showbillresponses":
                         listBillResponses(request, response, session);
                         break;
+                    case "/createbillresponse":
+                        createBillResponse(request, response, session);
+                        break;
+                    case "billrespond":
+                        sendResponseToBill(request, response, session);
+                        break;
+                    case "/pay-bill":
+                        payBill(request, response, session);
+                        break;
                 }
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
@@ -570,6 +579,69 @@ public class ControlServlet extends HttpServlet {
         request.setAttribute("isClient", UserDAO.isClient(username));
         RequestDispatcher dispatcher = request.getRequestDispatcher("BillResponsesList.jsp");
         dispatcher.forward(request, response);
+    }
+
+    private void createBillResponse(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+            throws SQLException, ServletException, IOException {
+        String username = (String) session.getAttribute("username");
+        int billID = Integer.parseInt(request.getParameter("billID"));
+        Bill bill = BillDAO.getBill(billID);
+
+        request.setAttribute("bill", bill);
+        request.setAttribute("isClient", UserDAO.isClient(username));
+        RequestDispatcher dispatcher = request.getRequestDispatcher("BillResponse.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void payBill(HttpServletRequest request, HttpServletResponse response,  HttpSession session)
+            throws SQLException, IOException {
+        String username = (String) session.getAttribute("username");
+        User user = UserDAO.getUser(username);
+        if (user.isClient())
+        {
+            int billID = Integer.parseInt(request.getParameter("billID"));
+            //Set bill resposne
+            BillResponse br = new BillResponse();
+            br.setBillID(billID);
+            br.setUserID(user.userID);
+            br.setNote(user.getFirstName() + " " + user.getLastName() + " paid bill.");
+            BillResponsesDAO.postResponse(br);
+
+            //Update bill status
+            BillDAO.setBillPaid(billID);
+        }
+
+        response.sendRedirect("orders");
+    }
+
+    private void sendResponseToBill(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+            throws SQLException, IOException {
+        String username = (String) session.getAttribute("username");
+        int billID = Integer.parseInt(request.getParameter("billID"));
+
+        //post response
+        BillResponse br = new BillResponse();
+        br.setBillID(billID);
+        br.setUserID(UserDAO.getUserID(username));
+        br.setNote(request.getParameter("note"));
+        if (!UserDAO.isClient(username)){
+            if (request.getParameter("paymentAmount") != null) {
+                double newAmount = Double.parseDouble(request.getParameter("paymentAmount"));
+                br.setNewAmount(newAmount);
+            }
+        }
+        BillResponsesDAO.postResponse(br);
+
+        //update status
+        if (UserDAO.isClient(username)) {
+            BillDAO.setBillDisputed(billID);
+        }
+        else {
+            if (br.getNewAmount() > 0)
+                BillDAO.setBillPending(billID, br.getNewAmount());
+            else //contractor only responded with a note
+                BillDAO.setBillPending(billID);
+        }
     }
 
     private void serveImage(HttpServletRequest request, HttpServletResponse response) throws IOException {

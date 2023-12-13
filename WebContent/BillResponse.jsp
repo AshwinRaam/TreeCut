@@ -17,25 +17,16 @@
             <p>${errorTwo }</p>
         </div>
 
-        <form action="billresponse" method="post" class="space-y-6">
+        <form action="billrespond" method="post" class="space-y-6">
             <input type="hidden" id="billID" name="billID" value="${bill.billID}"/>
 
+            <c:if test="${isClient}">
             <div class="mb-4">
                 <label for="paymentAmount" class="block text-gray-700 text-md font-bold mb-2">Payment Amount:</label>
                 <input type="number" id="paymentAmount" step="0.01" name="paymentAmount"
                        class="shadow border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
-
-            <div class="mb-4">
-                <label for="paymentMethod" class="block text-gray-700 text-md font-bold mb-2">Payment Method:</label>
-                <select id="paymentMethod" name="paymentMethod"
-                        class="shadow border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="Credit Card">Credit Card</option>
-                    <option value="Debit Card">Debit Card</option>
-                    <option value="Bank Transfer">Bank Transfer</option>
-                    <option value="Cash">Cash</option>
-                </select>
-            </div>
+            </c:if>
 
             <div class="mb-4">
                 <label for="note" class="block text-gray-700 text-md font-bold mb-2">Note:</label>
