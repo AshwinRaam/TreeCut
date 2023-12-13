@@ -116,6 +116,13 @@ public class ControlServlet extends HttpServlet {
                     case "/showbillresponses":
                         listBillResponses(request, response, session);
                         break;
+                    case "/reset":
+                        request.setAttribute("listUser", UserDAO.listAllUsers());
+                        request.getRequestDispatcher("RootViews/Reset.jsp").forward(request, response);
+                        break;
+                    case "/big-clients":
+                        request.getRequestDispatcher("RootViews/BigClients.jsp").forward(request, response);
+                        break;
                     case "/createbillresponse":
                         createBillResponse(request, response, session);
                         break;
@@ -191,9 +198,7 @@ public class ControlServlet extends HttpServlet {
 
     private void rootPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         System.out.println("Root Dashboard");
-//        request.setAttribute("listUser", UserDAO.listAllUsers());
-//        request.getRequestDispatcher("rootView.jsp").forward(request, response);
-        request.getRequestDispatcher("RootDashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("RootViews/RootDashboard.jsp").forward(request, response);
     }
 
     protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {

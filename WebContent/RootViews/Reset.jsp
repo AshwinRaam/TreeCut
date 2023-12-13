@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-		 pageEncoding="ISO-8859-1"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="ISO-8859-1">
-	<title>Root page</title>
+	<title>Reset Page</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -13,24 +12,15 @@
 
 <main class="flex justify-center items-center min-h-screen">
 	<section class="bg-white shadow-lg p-8 mb-4 text-center">
-		<header class="mb-4">
-			<h1 class="text-xl font-bold">Admin Dashboard</h1>
+		<header class="flex justify-between items-center mb-4">
+			<a href="javascript:window.history.back();" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">Back to Dashboard</a>
+			<h1 class="text-xl font-bold">Reset Database</h1>
+			<form action="${pageContext.request.contextPath}/initialize" class="inline">
+				<button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">
+					Initialize the Database
+				</button>
+			</form>
 		</header>
-
-		<nav class="mb-4">
-			<ul>
-				<li>
-					<form action="${pageContext.request.contextPath}/initialize">
-						<button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">
-							Initialize the Database
-						</button>
-					</form>
-				</li>
-				<li class="mt-2">
-					<a href="${pageContext.request.contextPath}/logout" class="text-green-500 hover:text-green-700 text-sm font-medium">Logout</a>
-				</li>
-			</ul>
-		</nav>
 
 		<article>
 			<h2 class="text-lg font-bold my-4">List of Users</h2>

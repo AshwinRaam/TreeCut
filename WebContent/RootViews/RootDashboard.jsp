@@ -27,8 +27,8 @@
             </nav>
             <!-- Bottom Buttons -->
             <div class="flex flex-col w-full md:w-1/2 md:mx-auto">
-                <a href="${pageContext.request.contextPath}/reset" class="dashboard-button bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-4 px-6 transition duration-300 ease-in-out text-center mb-4">Reset</a>
-                <a href="${pageContext.request.contextPath}/sign-out" class="dashboard-button bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-6 transition duration-300 ease-in-out text-center">Sign Out</a>
+                <a href="${pageContext.request.contextPath}/reset" class="dashboard-button bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 transition duration-300 ease-in-out text-center mb-4">Reset</a>
+                <a href="${pageContext.request.contextPath}/sign-out" class="dashboard-button bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 transition duration-300 ease-in-out text-center">Sign Out</a>
             </div>
         </div>
     </div>
