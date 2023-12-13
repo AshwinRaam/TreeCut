@@ -179,6 +179,7 @@ public class ControlServlet extends HttpServlet {
             listOrder = OrderDAO.getOrders();
         Collections.reverse(listOrder);
         request.setAttribute("listOrders", listOrder);
+        request.setAttribute("user", user);
         request.getRequestDispatcher("OrderList.jsp").forward(request, response);
     }
 
@@ -627,7 +628,6 @@ public class ControlServlet extends HttpServlet {
         if (user.isClient())
         {
             int billID = Integer.parseInt(request.getParameter("billID"));
-            //Set bill resposne
             BillResponse br = new BillResponse();
             br.setBillID(billID);
             br.setUserID(user.userID);
@@ -638,7 +638,7 @@ public class ControlServlet extends HttpServlet {
             BillDAO.setBillPaid(billID);
         }
 
-        response.sendRedirect("orders");
+        response.sendRedirect("bills");
     }
 
     private void sendResponseToBill(HttpServletRequest request, HttpServletResponse response, HttpSession session)
