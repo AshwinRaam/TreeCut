@@ -144,7 +144,8 @@ public class ControlServlet extends HttpServlet {
 
     }
 
-    private void listQuotes(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws SQLException, ServletException, IOException {
+    private void listQuotes(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+            throws SQLException, ServletException, IOException {
         System.out.println("Sending to quotes page.");
         String username = (String) session.getAttribute("username");
         List<Quote> listQuote;
@@ -396,15 +397,23 @@ public class ControlServlet extends HttpServlet {
 
     private void listResponses(HttpServletRequest request, HttpServletResponse response) throws SQLException,
             ServletException, IOException {
-        int quoteID = Integer.parseInt(request.getParameter("quoteID"));
-        Quote quote = QuoteDAO.getQuote(quoteID);
-        List<Tree> trees = TreesDAO.getTrees(quoteID);
-        List<QuoteResponse> responses = QuoteResponsesDAO.GetResponses(quoteID);
+        Quote quote;
+        if (request.getParameter("billID") != null)
+        {
+            int billID = Integer.parseInt(request.getParameter("billID"));
+            quote = QuoteDAO.getQuoteByBill(billID);
+        }
+        else {
+            int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+            quote = QuoteDAO.getQuote(quoteID);
+        }
+        List<Tree> trees = TreesDAO.getTrees(quote.getQuoteID());
+        List<QuoteResponse> responses = QuoteResponsesDAO.GetResponses(quote.getQuoteID());
         Collections.reverse(responses);
-        System.out.println(quoteID);
+        System.out.println(quote.getQuoteID());
         System.out.println(trees.size());
 
-        request.setAttribute("quoteID", quoteID);
+        request.setAttribute("quoteID", quote.getQuoteID());
         request.setAttribute("quote", quote);
         request.setAttribute("trees", trees);
         request.setAttribute("listResponses", responses);

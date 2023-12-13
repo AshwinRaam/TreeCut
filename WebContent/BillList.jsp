@@ -27,6 +27,7 @@
                         <th class="px-4 py-2 text-left">Amount</th>
                         <th class="px-4 py-2 text-left">Status</th>
                         <th class="px-4 py-2 text-left">Created At</th>
+                        <th class="px-4 py-2 text-left">View</th>
                         <th class="px-4 py-2 text-left">Respond to Bill</th>
                     </tr>
                     </thead>
@@ -40,8 +41,8 @@
                             <td class="px-4 py-2"><c:out value="${bill.createdAt}" /></td>
                             <td class="px-4 py-2">
                                 <!-- View Quote Button -->
-                                <form action="viewQuote" method="get">
-                                    <input type="hidden" name="orderID" value="${bill.orderID}" />
+                                <form action="showresponses" method="get">
+                                    <input type="hidden" name="billID" value="${bill.billID}" />
                                     <input type="submit" value="View Quote"
                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">
                                 </form>
@@ -49,7 +50,7 @@
                             <td class="px-4 py-2">
                                 <form action="showbillresponses" method="get">
                                     <input type="hidden" name="billID" value="${bill.billID}" />
-                                    <input type="submit" value="View"
+                                    <input type="submit" value="View Responses"
                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">
                                 </form>
                             </td>

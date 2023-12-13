@@ -84,6 +84,41 @@ public class QuoteDAO {
     	return quote;
     }
 
+	public Quote getQuoteByBill(int billID) throws SQLException {
+		String sql = """
+                SELECT *
+                FROM Quotes
+                WHERE quoteID = (SELECT quoteID
+                                 FROM orders
+                                 WHERE orderID =
+                                       (SELECT orderID
+                                        FROM bills
+                                        WHERE billID = ?));""";
+
+		connect_func();
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setInt(1, billID);
+		resultSet = preparedStatement.executeQuery();
+
+		Quote quote = new Quote();
+		if (resultSet.next()) {
+			quote.setQuoteID(resultSet.getInt("quoteID"));
+			quote.setClientID(resultSet.getInt("clientID"));
+			quote.setContractorID(resultSet.getInt("contractorID"));
+			quote.setInitialPrice(resultSet.getDouble("initialPrice"));
+			quote.setCurrentPrice(resultSet.getDouble("currentPrice"));
+			quote.setAcceptedPrice(resultSet.getDouble("acceptedPrice"));
+			quote.setStartTime(resultSet.getTimestamp("startTime"));
+			quote.setEndTime(resultSet.getTimestamp("endTime"));
+			quote.setStatus(resultSet.getString("status"));
+			quote.setNote(resultSet.getString("note"));
+			quote.setCreatedAt(resultSet.getTimestamp("createdAt"));
+			quote.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+		}
+
+		return quote;
+	}
+
 	public List<Quote> listQuotesByUsername(String username) throws SQLException {
 		List<Quote> listQuotes = new ArrayList<>();
 
