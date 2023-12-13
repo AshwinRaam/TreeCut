@@ -542,6 +542,10 @@ public class ControlServlet extends HttpServlet {
             qResponse.setQuoteID(quoteID);
             qResponse.setNote(user.getFirstName() + " " + user.getLastName() + " accepted the quote.");
             QuoteResponsesDAO.PostResponse(qResponse);
+
+            Order order = new Order();
+            order.setQuoteID(quoteID);
+            OrderDAO.insert(order);
         }
         response.sendRedirect("quotes");
     }
@@ -576,7 +580,14 @@ public class ControlServlet extends HttpServlet {
         if (!user.isClient())
         {
             int orderID = Integer.parseInt(request.getParameter("orderID"));
+            Order order = OrderDAO.getOrder(orderID);
             OrderDAO.complete(orderID);
+
+            Quote quote = QuoteDAO.getQuote(order.getQuoteID());
+            Bill bill = new Bill();
+            bill.setOrderID(orderID);
+            bill.setAmount(quote.getAcceptedPrice());
+            BillDAO.insert(bill);
         }
 
         response.sendRedirect("orders");
