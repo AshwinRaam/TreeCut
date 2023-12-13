@@ -149,7 +149,15 @@ public class ControlServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         if (session != null && session.getAttribute("username") != null) {
-            request.getRequestDispatcher("clientDashboard.jsp").forward(request, response);
+            if(session.getAttribute("role").equals("Admin")){
+                rootPage(request, response);
+            }
+            else if(session.getAttribute("role").equals("Contractor")) {
+                request.getRequestDispatcher("contractorDashboard.jsp").forward(request, response);
+            }
+            else if(session.getAttribute("role").equals("Client")) {
+                request.getRequestDispatcher("clientDashboard.jsp").forward(request, response);
+            }
         } else {
             session = request.getSession(true);
 
