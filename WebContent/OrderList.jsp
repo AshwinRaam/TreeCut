@@ -48,6 +48,7 @@
                                 </form>
                             </td>
                             <c:if test="${!user.isClient()}">
+                            <c:if test="${order.status ne 'Completed'}">
                             <td class="px-4 py-2">
                                 <!-- Complete Button Form -->
                                 <form action="complete-order" method="post">
@@ -56,6 +57,7 @@
                                            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">
                                 </form>
                             </td>
+                            </c:if>
                             </c:if>
                         </tr>
                     </c:forEach>
