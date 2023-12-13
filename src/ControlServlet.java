@@ -21,6 +21,7 @@ public class ControlServlet extends HttpServlet {
     private QuoteDAO QuoteDAO;
     private TreesDAO TreesDAO;
     private QuoteResponsesDAO QuoteResponsesDAO;
+    private OrderDAO OrderDAO;
     private String currentUser;
 
     public ControlServlet() {
@@ -32,6 +33,7 @@ public class ControlServlet extends HttpServlet {
         QuoteDAO = new QuoteDAO();
         TreesDAO = new TreesDAO();
         QuoteResponsesDAO = new QuoteResponsesDAO();
+        OrderDAO = new OrderDAO();
         currentUser = "";
     }
 
@@ -67,7 +69,7 @@ public class ControlServlet extends HttpServlet {
                         listQuotes(request, response, session);
                         break;
                     case "/orders":
-                        request.getRequestDispatcher("OrderList.jsp").forward(request, response);
+                        listOrders(request, response, session);
                         break;
                     case "/bills":
                         request.getRequestDispatcher("BillList.jsp").forward(request, response);
@@ -135,6 +137,21 @@ public class ControlServlet extends HttpServlet {
         Collections.reverse(listQuote);
         request.setAttribute("listQuotes", listQuote);
         request.getRequestDispatcher("QuoteList.jsp").forward(request, response);
+    }
+
+    private void listOrders(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+            throws SQLException, ServletException, IOException {
+        System.out.println("Sending to orders page");
+        String username = (String) session.getAttribute("username");
+        User user = UserDAO.getUser(username);
+        List<Order> listOrder;
+        if (user.isClient())
+            listOrder = OrderDAO.getOrders(user.userID);
+        else
+            listOrder = OrderDAO.getOrders();
+        Collections.reverse(listOrder);
+        request.setAttribute("listOrders", listOrder);
+        request.getRequestDispatcher("OrderList.jsp").forward(request, response);
     }
 
     private void rootPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {

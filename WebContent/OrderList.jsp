@@ -27,6 +27,9 @@
                         <th class="px-4 py-2 text-left">Status</th>
                         <th class="px-4 py-2 text-left">Created At</th>
                         <th class="px-4 py-2 text-left">View Quote</th> <!-- New column for actions -->
+                        <c:if test="${!user.isClient()}">
+                        <th class="px-4 py-2 text-left">Complete Order</th>
+                        </c:if>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,12 +41,22 @@
                             <td class="px-4 py-2"><c:out value="${order.createdAt}" /></td>
                             <td class="px-4 py-2">
                                 <!-- Complete Button Form -->
-                                <form action="completeOrder" method="post">
+                                <form action="showresponses" method="post">
+                                    <input type="hidden" name="quoteID" value="${order.quoteID}" />
+                                    <input type="submit" value="View Quote"
+                                           class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">
+                                </form>
+                            </td>
+                            <c:if test="${!user.isClient()}">
+                            <td class="px-4 py-2">
+                                <!-- Complete Button Form -->
+                                <form action="complete-order" method="post">
                                     <input type="hidden" name="orderID" value="${order.orderID}" />
                                     <input type="submit" value="Complete"
                                            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">
                                 </form>
                             </td>
+                            </c:if>
                         </tr>
                     </c:forEach>
                     </tbody>
