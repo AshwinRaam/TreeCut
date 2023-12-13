@@ -70,11 +70,8 @@
                         <tr>
                             <th>Select height of tree:</th>
                             <td>
-                                <select name="height_tree1" id="height_tree1" required
-                                        class="shadow border  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="Short">Short ( < 20ft)</option>
-                                    <option value="Tall">Tall ( >= 20ft)</option>
-                                </select>
+                                <input type="number" name="height_tree1" id="height_tree1" required
+                                       class="shadow border  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             </td>
                         </tr>
                         <tr>

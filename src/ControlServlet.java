@@ -333,7 +333,8 @@ public class ControlServlet extends HttpServlet {
             if(pSize == null)
                 break;
 
-            String size = getStringFromPart(pSize);String height = getStringFromPart(pHeight);
+            String size = getStringFromPart(pSize);
+            int height = Integer.parseInt(getStringFromPart(pHeight));
             String nearHouse = getStringFromPart(pNearHouse);
             String location = getStringFromPart(pLocation);
             String treePicURL1 = saveUploadedImage(treePic1Part, quoteID);
