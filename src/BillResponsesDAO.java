@@ -83,5 +83,13 @@ public class BillResponsesDAO {
             preparedStatement.setDouble(4, response.getNewAmount());
         else
             preparedStatement.setNull(4, Types.DOUBLE);
+        int result = preparedStatement.executeUpdate();
+
+        if (result < 1) {
+            System.out.println("Error in inserting bill response");
+            return;
+        }
+
+        System.out.println("Posting finished");
     }
 }
