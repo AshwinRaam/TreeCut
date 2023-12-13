@@ -64,7 +64,7 @@ public class ControlServlet extends HttpServlet {
                     case "/initialize":
                         UserDAO.init();
                         System.out.println("Database successfully initialized!");
-                        rootPage(request, response);
+                        request.getRequestDispatcher("RootViews/Reset.jsp").forward(request, response);
                         break;
                     case "/root":
                         rootPage(request, response);
