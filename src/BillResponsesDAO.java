@@ -48,13 +48,19 @@ public class BillResponsesDAO {
         resultSet = preparedStatement.executeQuery();
 
         List<BillResponse> responses = new ArrayList<>();
+        UserDAO UserDAO = new UserDAO();
         while (resultSet.next()) {
             int responseID = resultSet.getInt("responseID");
             int userID = resultSet.getInt("userID");
             String note = resultSet.getString("note");
             double newPrice = resultSet.getDouble("newAmount");
             Timestamp createdAt = resultSet.getTimestamp("createdAt");
-            BillResponse br = new BillResponse(responseID, billID, userID, note, newPrice, createdAt);
+
+            User user = UserDAO.getUser(userID);
+            String fullName = user.getFirstName() + " " + user.getLastName();
+
+            BillResponse br = new BillResponse(responseID, billID, userID, fullName, note, newPrice, createdAt);
+            /* yes, this could be smaller, and more efficient, but getUser(userID) seems more versatile */
             responses.add(br);
         }
 

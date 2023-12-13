@@ -4,16 +4,18 @@ public class BillResponse {
     private int responseID;
     private int billID;
     private int userID;
+    private String fullName;
     private String note;
     private double newAmount;
     private Timestamp createdAt;
 
     public BillResponse() { }
 
-    public BillResponse(int responseID, int billID, int userID, String note, double newAmount, Timestamp createdAt) {
+    public BillResponse(int responseID, int billID, int userID, String fullName, String note, double newAmount, Timestamp createdAt) {
         this.responseID = responseID;
         this.billID = billID;
         this.userID = userID;
+        this.fullName = fullName;
         this.note = note;
         this.newAmount = newAmount;
         this.createdAt = createdAt;
@@ -42,6 +44,10 @@ public class BillResponse {
     public void setUserID(int userID) {
         this.userID = userID;
     }
+
+    public String getFullName() { return fullName; }
+
+    public void setFullName(String fullName) { this.fullName = fullName; }
 
     public String getNote() {
         return note;

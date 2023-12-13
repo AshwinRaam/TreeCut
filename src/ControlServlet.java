@@ -23,6 +23,7 @@ public class ControlServlet extends HttpServlet {
     private QuoteResponsesDAO QuoteResponsesDAO;
     private OrderDAO OrderDAO;
     private BillDAO BillDAO;
+    private BillResponsesDAO BillResponsesDAO;
     private String currentUser;
 
     public ControlServlet() {
@@ -36,6 +37,7 @@ public class ControlServlet extends HttpServlet {
         QuoteResponsesDAO = new QuoteResponsesDAO();
         OrderDAO = new OrderDAO();
         BillDAO = new BillDAO();
+        BillResponsesDAO = new BillResponsesDAO();
         currentUser = "";
     }
 
@@ -110,6 +112,9 @@ public class ControlServlet extends HttpServlet {
                         break;
                     case "/complete-order":
                         completeOrder(request, response, session);
+                        break;
+                    case "/showbillresponses":
+                        listBillResponses(request, response, session);
                         break;
                 }
             } catch (Exception ex) {
@@ -550,6 +555,21 @@ public class ControlServlet extends HttpServlet {
         }
 
         response.sendRedirect("orders");
+    }
+
+    private void listBillResponses(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+            throws SQLException, ServletException, IOException {
+        String username = (String) session.getAttribute("username");
+        int billID = Integer.parseInt(request.getParameter("billID"));
+        Bill bill = BillDAO.getBill(billID);
+        List<BillResponse> responses = BillResponsesDAO.getResponses(billID);
+        Collections.reverse(responses);
+
+        request.setAttribute("listResponses", responses);
+        request.setAttribute("bill", bill);
+        request.setAttribute("isClient", UserDAO.isClient(username));
+        RequestDispatcher dispatcher = request.getRequestDispatcher("BillResponsesList.jsp");
+        dispatcher.forward(request, response);
     }
 
     private void serveImage(HttpServletRequest request, HttpServletResponse response) throws IOException {

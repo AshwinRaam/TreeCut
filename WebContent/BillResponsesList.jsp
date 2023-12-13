@@ -61,7 +61,8 @@
                 <tr>
                     <th class="px-6 py-3">Date</th>
                     <th class="px-6 py-3">User</th>
-                    <th class="px-6 py-3">Response Details</th>
+                    <th class="px-6 py-3">Modified Amount</th>
+                    <th class="px-6 py-3">Note</th>
                     <!-- Additional headers can be added based on response details -->
                 </tr>
                 </thead>
@@ -69,8 +70,9 @@
                 <c:forEach var="response" items="${listResponses}">
                     <tr class="hover:bg-gray-50">
                         <td class="border px-6 py-4 whitespace-nowrap">${response.createdAt}</td>
-                        <td class="border px-6 py-4 whitespace-nowrap">${response.userName}</td>
-                        <td class="border px-6 py-4 whitespace-nowrap">${response.details}</td>
+                        <td class="border px-6 py-4 whitespace-nowrap">${response.fullName}</td>
+                        <td class="border px-6 py-4 whitespace-nowrap">${response.newAmount}</td>
+                        <td class="border px-6 py-4 whitespace-nowrap">${response.note}</td>
                         <!-- Additional data cells can be added based on response details -->
                     </tr>
                 </c:forEach>
