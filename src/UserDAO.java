@@ -521,14 +521,14 @@ public class UserDAO {
         statement = (Statement) connect.createStatement();
 
         String[] INITIAL_QUERIES = {
-                "DROP DATABASE IF EXISTS TreeCut",
-                "CREATE DATABASE TreeCut",
-                "USE TreeCut",
-                "CREATE TABLE Users (userID INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) UNIQUE, password VARCHAR(255) NOT NULL, role ENUM('Client', 'Admin', 'Contractor') NOT NULL, firstName VARCHAR(255) NOT NULL, lastName VARCHAR(255) NOT NULL, address VARCHAR(255) NOT NULL, phoneNumber VARCHAR(15) NOT NULL, email VARCHAR(255) NOT NULL, creditCardInfo VARCHAR(255), createdAt DATETIME NOT NULL, updatedAt DATETIME)",
+                "DROP DATABASE IF EXISTS TreeCut;",
+                "CREATE DATABASE TreeCut;",
+                "USE TreeCut;",
+                "CREATE TABLE Users (userID INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) UNIQUE, password VARCHAR(255) NOT NULL, role ENUM('Client', 'Admin', 'Contractor') NOT NULL, firstName VARCHAR(255) NOT NULL, lastName VARCHAR(255) NOT NULL, address VARCHAR(255) NOT NULL, phoneNumber VARCHAR(15) NOT NULL, email VARCHAR(255) NOT NULL, creditCardInfo VARCHAR(255), createdAt DATETIME NOT NULL, updatedAt DATETIME);",
                 "CREATE TABLE Quotes ( quoteID INT AUTO_INCREMENT PRIMARY KEY, clientID INT, contractorID INT, initialPrice DECIMAL(10, 2), currentPrice DECIMAL(10, 2), acceptedPrice DECIMAL(10, 2), startTime DATETIME, endTime DATETIME, status ENUM('Requested', 'Rejected', 'Quoted' ,'Accepted') NOT NULL, note TEXT, createdAt DATETIME NOT NULL, updatedAt DATETIME, FOREIGN KEY (clientID) REFERENCES TreeCut.Users(userID), FOREIGN KEY (contractorID) REFERENCES TreeCut.Users(userID) );",
-                "CREATE TABLE Trees (treeID INT AUTO_INCREMENT PRIMARY KEY, quoteID INT, size VARCHAR(50), height VARCHAR(50), location TEXT NOT NULL, nearHouse VARCHAR(50) NOT NULL, pictureURL1 TEXT NOT NULL, pictureURL2 TEXT NOT NULL, pictureURL3 TEXT NOT NULL, createdAt DATETIME NOT NULL, updatedAt DATETIME, FOREIGN KEY (quoteID) REFERENCES TreeCut.Quotes(quoteID))",
+                "CREATE TABLE Trees (treeID INT AUTO_INCREMENT PRIMARY KEY, quoteID INT, size VARCHAR(50), height INT, location TEXT NOT NULL, nearHouse VARCHAR(50) NOT NULL, pictureURL1 TEXT NOT NULL, pictureURL2 TEXT NOT NULL, pictureURL3 TEXT NOT NULL, createdAt DATETIME NOT NULL, updatedAt DATETIME, FOREIGN KEY (quoteID) REFERENCES TreeCut.Quotes(quoteID))",
                 "CREATE TABLE QuoteResponses (responseID INT AUTO_INCREMENT PRIMARY KEY, quoteID INT, userID INT, modifiedPrice DECIMAL(10, 2), modifiedStartTime DATETIME, modifiedEndTime DATETIME, note TEXT, createdAt DATETIME NOT NULL, FOREIGN KEY (quoteID) REFERENCES TreeCut.Quotes(quoteID), FOREIGN KEY (userID) REFERENCES TreeCut.Users(userID))",
-                "CREATE TABLE Orders (orderID INT AUTO_INCREMENT PRIMARY KEY, quoteID INT, status ENUM('Pending', 'Completed') NOT NULL, createdAt DATETIME NOT NULL, FOREIGN KEY (quoteID) REFERENCES TreeCut.Quotes(quoteID))",
+                "CREATE TABLE Orders (orderID INT AUTO_INCREMENT PRIMARY KEY, quoteID INT, status ENUM('Pending', 'Completed') NOT NULL, workDate DATETIME, createdAt DATETIME NOT NULL, FOREIGN KEY (quoteID) REFERENCES TreeCut.Quotes(quoteID))",
                 "CREATE TABLE Bills (billID INT AUTO_INCREMENT PRIMARY KEY, orderID INT, amount DECIMAL(10, 2), status ENUM('Pending', 'Paid', 'Disputed') NOT NULL, createdAt DATETIME NOT NULL, FOREIGN KEY (orderID) REFERENCES TreeCut.Orders(orderID))",
                 "CREATE TABLE BillResponses (responseID INT AUTO_INCREMENT PRIMARY KEY, billID INT, userID INT, note TEXT, newAmount DECIMAL(10, 2), createdAt DATETIME NOT NULL, FOREIGN KEY (billID) REFERENCES TreeCut.Bills(billID), FOREIGN KEY (userID) REFERENCES TreeCut.Users(userID))"
         };
@@ -600,26 +600,26 @@ public class UserDAO {
         System.out.println("Quotes table is inserted with initial values.");
 
         String[] treesQueries = {
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (1, 'Medium', 'Tall', 'Backyard', 'Yes', 'url1', 'url2', 'url3', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (2, 'Large', 'Short', 'Front Yard', 'No', 'url4', 'url5', 'url6', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (3, 'Small', 'Tall', 'Garden', 'Yes', 'url7', 'url8', 'url9', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (4, 'Medium', 'Short', 'Backyard', 'No', 'url10', 'url11', 'url12', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (5, 'Large', 'Tall', 'Front Yard', 'Yes', 'url13', 'url14', 'url15', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (6, 'Small', 'Short', 'Garden', 'No', 'url16', 'url17', 'url18', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (7, 'Medium', 'Tall', 'Backyard', 'Yes', 'url19', 'url20', 'url21', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (8, 'Large', 'Short', 'Front Yard', 'No', 'url22', 'url23', 'url24', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (9, 'Small', 'Tall', 'Garden', 'Yes', 'url25', 'url26', 'url27', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (10, 'Medium', 'Short', 'Backyard', 'No', 'url28', 'url29', 'url30', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (11, 'Large', 'Tall', 'Front Yard', 'Yes', 'url31', 'url32', 'url33', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (12, 'Small', 'Short', 'Garden', 'No', 'url34', 'url35', 'url36', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (13, 'Medium', 'Tall', 'Backyard', 'Yes', 'url37', 'url38', 'url39', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (14, 'Large', 'Short', 'Front Yard', 'No', 'url40', 'url41', 'url42', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (15, 'Small', 'Tall', 'Garden', 'Yes', 'url43', 'url44', 'url45', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (16, 'Medium', 'Short', 'Backyard', 'No', 'url46', 'url47', 'url48', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (17, 'Large', 'Tall', 'Front Yard', 'Yes', 'url49', 'url50', 'url51', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (18, 'Small', 'Short', 'Garden', 'No', 'url52', 'url53', 'url54', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (19, 'Medium', 'Tall', 'Backyard', 'Yes', 'url55', 'url56', 'url57', NOW())",
-                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (20, 'Large', 'Short', 'Front Yard', 'No', 'url58', 'url59', 'url60', NOW())"
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (1, 'Medium', 20, 'Backyard', 'Yes', 'url1', 'url2', 'url3', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (2, 'Large', 40, 'Front Yard', 'No', 'url4', 'url5', 'url6', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (3, 'Small', 22, 'Garden', 'Yes', 'url7', 'url8', 'url9', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (4, 'Medium', 12, 'Backyard', 'No', 'url10', 'url11', 'url12', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (5, 'Large', 18, 'Front Yard', 'Yes', 'url13', 'url14', 'url15', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (6, 'Small', 8, 'Garden', 'No', 'url16', 'url17', 'url18', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (7, 'Medium', 22, 'Backyard', 'Yes', 'url19', 'url20', 'url21', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (8, 'Large', 18, 'Front Yard', 'No', 'url22', 'url23', 'url24', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (9, 'Small', 88, 'Garden', 'Yes', 'url25', 'url26', 'url27', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (10, 'Medium', 13, 'Backyard', 'No', 'url28', 'url29', 'url30', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (11, 'Large', 75, 'Front Yard', 'Yes', 'url31', 'url32', 'url33', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (12, 'Small', 25, 'Garden', 'No', 'url34', 'url35', 'url36', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (13, 'Medium', 68, 'Backyard', 'Yes', 'url37', 'url38', 'url39', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (14, 'Large', 14, 'Front Yard', 'No', 'url40', 'url41', 'url42', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (15, 'Small', 12, 'Garden', 'Yes', 'url43', 'url44', 'url45', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (16, 'Medium', 33, 'Backyard', 'No', 'url46', 'url47', 'url48', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (17, 'Large', 58, 'Front Yard', 'Yes', 'url49', 'url50', 'url51', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (18, 'Small', 13, 'Garden', 'No', 'url52', 'url53', 'url54', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (19, 'Medium', 88, 'Backyard', 'Yes', 'url55', 'url56', 'url57', NOW())",
+                "INSERT INTO Trees (quoteID, size, height, location, nearHouse, pictureURL1, pictureURL2, pictureURL3, createdAt) VALUES (20, 'Large', 15, 'Front Yard', 'No', 'url58', 'url59', 'url60', NOW())"
         };
 
 
@@ -661,25 +661,25 @@ public class UserDAO {
 
         String[] ordersQueries = {
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (1, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, createdAt) VALUES (2, 'Completed', NOW())",
+                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (2, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (3, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, createdAt) VALUES (4, 'Completed', NOW())",
+                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (4, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (5, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, createdAt) VALUES (6, 'Completed', NOW())",
+                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (6, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (7, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, createdAt) VALUES (8, 'Completed', NOW())",
+                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (8, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (9, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, createdAt) VALUES (10, 'Completed', NOW())",
+                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (10, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (11, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, createdAt) VALUES (12, 'Completed', NOW())",
+                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (12, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (13, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, createdAt) VALUES (14, 'Completed', NOW())",
+                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (14, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (15, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, createdAt) VALUES (16, 'Completed', NOW())",
+                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (16, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (17, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, createdAt) VALUES (18, 'Completed', NOW())",
+                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (18, 'Completed', NOW(), NOW())",
                 "INSERT INTO Orders (quoteID, status, createdAt) VALUES (19, 'Pending', NOW())",
-                "INSERT INTO Orders (quoteID, status, createdAt) VALUES (20, 'Completed', NOW())"
+                "INSERT INTO Orders (quoteID, status, finishedAt, createdAt) VALUES (20, 'Completed', NOW(), NOW())"
         };
 
 

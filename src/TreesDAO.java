@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServlet;
 
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 
 @WebServlet("/treesDAO")
@@ -58,7 +60,7 @@ public class TreesDAO {
         int treeID = resultSet.getInt("treeID");
         int quoteID = resultSet.getInt("quoteID");
         String size = resultSet.getString("size");
-        String height = resultSet.getString("height");
+        int height = resultSet.getInt("height");
         String location = resultSet.getString("location");
         String nearHouse = resultSet.getString("nearHouse");
         String pictureURL1 = resultSet.getString("pictureURL1");
@@ -123,7 +125,7 @@ public class TreesDAO {
         preparedStatement = connect.prepareStatement(sql);
         preparedStatement.setInt(1, tree.getQuoteID());
         preparedStatement.setString(2, tree.getSize());
-        preparedStatement.setString(3, tree.getHeight());
+        preparedStatement.setInt(3, tree.getHeight());
         preparedStatement.setString(4, tree.getLocation());
         preparedStatement.setString(5, tree.getNearHouse());
         preparedStatement.setString(6, tree.getPictureURL1());
@@ -163,30 +165,58 @@ public class TreesDAO {
     }
 
     /**
-     * Get a list of all trees cut for a specific user.
+     *
+     * @return A list of all the tallest trees.
+     * @throws SQLException
+     */
+    public List<Tree> getTallestTree() throws SQLException {
+        String sql = """
+                SELECT *
+                FROM trees
+                WHERE height = (SELECT MAX(height) FROM trees);
+                """;
+
+        connect_func();
+        statement = connect.createStatement();
+        resultSet = statement.executeQuery(sql);
+
+        List<Tree> trees = new ArrayList<>();
+        while (resultSet.next())
+        {
+            Tree tree = createTree(resultSet);
+            trees.add(tree);
+        }
+
+        return trees;
+    }
+
+    /**
+     * Get a list of all trees cut for a specific user and the time they were cut at.
      * @param userID
      * @return A list of all trees that have been cut for specified user.
      * @throws SQLException
      */
-    public List<Tree> getAllTreesCut(int userID) throws SQLException {
+    public Dictionary<Tree, Timestamp> getAllTreesCut(int userID) throws SQLException {
         String sql = """
-                SELECT * FROM trees t WHERE t.quoteID IN (
-                    SELECT q.quoteID FROM quotes q
-                        JOIN (
-                        SELECT quoteID FROM orders WHERE status = 'Completed'
-                        ) o ON q.quoteID = o.quoteID
-                    WHERE q.clientID = ?
-                    )""";
+                SELECT t.*, qo.workDate
+                     FROM trees t
+                              JOIN (SELECT q.quoteID, o.workDate
+                                    FROM quotes q
+                                             JOIN (SELECT quoteID, workDate
+                                                   FROM orders
+                                                   WHERE status = 'Completed') o on o.quoteID = q.quoteID
+                                    WHERE clientID = ?) qo on qo.quoteID = t.quoteID;""";
 
         connect_func();
         preparedStatement = connect.prepareStatement(sql);
         preparedStatement.setInt(1, userID);
         resultSet = preparedStatement.executeQuery();
 
-        List<Tree> trees = new ArrayList<>();
-        while(resultSet.next()) {
+        Dictionary<Tree, Timestamp> trees = new Hashtable<>();
+        while (resultSet.next()) {
             Tree tree = createTree(resultSet);
-            trees.add(tree);
+            Timestamp timeCut = resultSet.getTimestamp("workDate");
+            trees.put(tree, timeCut);
         }
 
         return trees;

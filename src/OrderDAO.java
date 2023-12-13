@@ -131,7 +131,7 @@ public class OrderDAO {
     }
 
     public void complete(int orderID) throws SQLException {
-        String sql = "UPDATE orders SET status = 'Completed' WHERE orderID = ?;";
+        String sql = "UPDATE orders SET status = 'Completed', workDate = NOW() WHERE orderID = ?;";
 
         connect_func();
         preparedStatement = connect.prepareStatement(sql);
@@ -150,7 +150,7 @@ public class OrderDAO {
         order.setOrderID(resultSet.getInt("orderID"));
         order.setQuoteID(resultSet.getInt("quoteID"));
         order.setStatus(resultSet.getString("status"));
-//        order.setWorkDate(resultSet.getTimestamp("workDate"));
+        order.setWorkDate(resultSet.getTimestamp("workDate"));
         order.setCreatedAt(resultSet.getTimestamp("createdAt"));
         return order;
     }
