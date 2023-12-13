@@ -108,6 +108,9 @@ public class ControlServlet extends HttpServlet {
                         System.out.println("Serving image...");
                         serveImage(request, response);
                         break;
+                    case "/complete-order":
+                        completeOrder(request, response, session);
+                        break;
                 }
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
@@ -534,6 +537,19 @@ public class ControlServlet extends HttpServlet {
         qResponse.setNote(user.getFirstName() + " " + user.getLastName() + " rejected the quote.");
         QuoteResponsesDAO.PostResponse(qResponse);
         response.sendRedirect("quotes");
+    }
+
+    private void completeOrder(HttpServletRequest request, HttpServletResponse response,  HttpSession session)
+            throws SQLException, IOException {
+        String username = (String) session.getAttribute("username");
+        User user = UserDAO.getUser(username);
+        if (!user.isClient())
+        {
+            int orderID = Integer.parseInt(request.getParameter("orderID"));
+            OrderDAO.complete(orderID);
+        }
+
+        response.sendRedirect("orders");
     }
 
     private void serveImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
