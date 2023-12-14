@@ -10,9 +10,7 @@ import javax.servlet.http.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @MultipartConfig
 public class ControlServlet extends HttpServlet {
@@ -153,7 +151,9 @@ public class ControlServlet extends HttpServlet {
                     case "/overdue-bills":
                         overdueBills(request, response);
                         break;
-
+                    case "/statistics":
+                        statistics(request, response);
+                        break;
                 }
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
@@ -753,6 +753,27 @@ public class ControlServlet extends HttpServlet {
         Collections.reverse(listBill);
         request.setAttribute("listBills", listBill);
         request.getRequestDispatcher("BillList.jsp").forward(request, response);
+    }
+
+    private void statistics(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        List<User> users = UserDAO.listAllUsers();
+        List<ClientStat> stats = new ArrayList<>();
+        for (User user : users) {
+            if (user.username.equals("root"))
+                continue;
+            ClientStat stat = new ClientStat();
+            stat.setUsername(user.username);
+            stat.setTotalTrees(TreesDAO.getTotalTreesCut(user.getUserID()));
+            stat.setTotalDueAmount(BillDAO.getTotalAmountDue(user.getUserID()));
+            stat.setTotalPaidAmount(BillDAO.getTotalAmountPaid(user.getUserID()));
+            stats.add(stat);
+        }
+
+        System.out.println("got here");
+
+        request.setAttribute("clientStats", stats);
+        request.getRequestDispatcher("RootViews/Statistics.jsp").forward(request, response);
     }
 
     private void serveImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
