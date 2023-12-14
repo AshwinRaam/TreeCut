@@ -75,15 +75,10 @@ Ashwin Raam Sethuram - 30 hours
 -
 - Created all frontend pages.
 - Created all frontend and backend controllers integration.
-- Fixed bugs in backend code.
+- Wrote few SQL queries.
 
-Matthew Meyer - 26 hours
+Matthew Meyer - 30 hours
 - 
-- Created Tree.java
-- Created TreeDAO.java
-- Created QuoteResponseDAO.java
-- Created QuoteResponse.java
-- Created endpoint for serving image.
-- Created endpoint for submitting an intial quote.
-- Created endpoint for submitting responses.
-- Created endpoint for viewing trees.
+- Created all backend code
+- Created all frontend and backend access points for integration
+- Created all SQL queries
