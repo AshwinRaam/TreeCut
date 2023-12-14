@@ -43,7 +43,7 @@
 
         <div class="flex justify-between items-center mb-8">
             <!-- New Response Button - Visible only if bill status allows for a new response -->
-            <c:if test="${bill.status eq 'Pending' && !isClient}">
+            <c:if test="${bill.status ne 'Completed' && !isClient}">
                 <form action="createbillresponse" class="inline-block">
                     <input type="hidden" name="billID" value="${bill.billID}">
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">

@@ -122,7 +122,7 @@ public class ControlServlet extends HttpServlet {
                     case "/createbillresponse":
                         createBillResponse(request, response, session);
                         break;
-                    case "billrespond":
+                    case "/billrespond":
                         sendResponseToBill(request, response, session);
                         break;
                     case "/pay-bill":
@@ -668,7 +668,7 @@ public class ControlServlet extends HttpServlet {
     }
 
     private void sendResponseToBill(HttpServletRequest request, HttpServletResponse response, HttpSession session)
-            throws SQLException, IOException {
+            throws SQLException, IOException, ServletException {
         String username = (String) session.getAttribute("username");
         int billID = Integer.parseInt(request.getParameter("billID"));
 
@@ -685,9 +685,12 @@ public class ControlServlet extends HttpServlet {
         }
         BillResponsesDAO.postResponse(br);
 
+        System.out.println("asd;lkfj");
+
         //update status
         if (UserDAO.isClient(username)) {
             BillDAO.setBillDisputed(billID);
+            System.out.println("got here");
         }
         else {
             if (br.getNewAmount() > 0)
@@ -695,6 +698,8 @@ public class ControlServlet extends HttpServlet {
             else //contractor only responded with a note
                 BillDAO.setBillPending(billID);
         }
+
+        listBillResponses(request, response, session);
     }
 
     private void bigClients(HttpServletRequest request, HttpServletResponse response)
@@ -708,7 +713,7 @@ public class ControlServlet extends HttpServlet {
     private void easyClients(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         List<User> users = UserDAO.getEasyClients();
-        request.setAttribute("title", "East Clients");
+        request.setAttribute("title", "Easy Clients");
         request.setAttribute("listUser", users);
         request.getRequestDispatcher("RootViews/ClientsList.jsp").forward(request, response);
     }
