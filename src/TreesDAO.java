@@ -237,4 +237,27 @@ public class TreesDAO {
 
         return trees;
     }
+
+    public int getTotalTreesCut(int userID) throws SQLException {
+        String sql = """
+                SELECT COUNT(t.treeID) as treeCount
+                FROM trees t
+                         JOIN (SELECT q.quoteID
+                               FROM quotes q
+                                        JOIN (SELECT quoteID
+                                              FROM orders
+                                              WHERE status = 'Completed') o on o.quoteID = q.quoteID
+                               WHERE clientID = ?) qo on qo.quoteID = t.quoteID;""";
+
+        connect_func();
+        preparedStatement = connect.prepareStatement(sql);
+        preparedStatement.setInt(1, userID);
+        resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            return resultSet.getInt("treeCount");
+        }
+
+        return 0;
+    }
 }
