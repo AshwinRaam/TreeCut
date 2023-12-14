@@ -37,7 +37,7 @@
                     <tbody>
                     <c:forEach var="tree" items="${listTrees}">
                         <tr class="border-b">
-                            <td class="px-4 py-2"><c:out value="${tree.treeID}" /></td>
+                            <td class="px-4 py-2"><c:out value="${tree.id}" /></td>
                             <td class="px-4 py-2"><c:out value="${tree.quoteID}" /></td>
                             <td class="px-4 py-2"><c:out value="${tree.size}" /></td>
                             <td class="px-4 py-2"><c:out value="${tree.height}" /></td>
