@@ -213,13 +213,13 @@ public class TreesDAO {
      * @return A list of all trees that have been cut for specified user.
      * @throws SQLException
      */
-    public Dictionary<Tree, Timestamp> getAllTreesCut(int userID) throws SQLException {
+    public List<Tree> getAllTreesCut(int userID) throws SQLException {
         String sql = """
-                SELECT t.*, qo.workDate
+                SELECT t.*
                      FROM trees t
-                              JOIN (SELECT q.quoteID, o.workDate
+                              JOIN (SELECT q.quoteID
                                     FROM quotes q
-                                             JOIN (SELECT quoteID, workDate
+                                             JOIN (SELECT quoteID
                                                    FROM orders
                                                    WHERE status = 'Completed') o on o.quoteID = q.quoteID
                                     WHERE clientID = ?) qo on qo.quoteID = t.quoteID;""";
@@ -229,11 +229,10 @@ public class TreesDAO {
         preparedStatement.setInt(1, userID);
         resultSet = preparedStatement.executeQuery();
 
-        Dictionary<Tree, Timestamp> trees = new Hashtable<>();
+        List<Tree> trees = new ArrayList<>();
         while (resultSet.next()) {
             Tree tree = createTree(resultSet);
-            Timestamp timeCut = resultSet.getTimestamp("workDate");
-            trees.put(tree, timeCut);
+            trees.add(tree);
         }
 
         return trees;
