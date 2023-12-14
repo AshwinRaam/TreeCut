@@ -199,7 +199,6 @@ public class BillDAO {
             bills.add(bill);
         }
         resultSet.close();
-        preparedStatement.close();
         connect.close();
         return bills;
     }
