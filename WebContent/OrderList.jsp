@@ -15,7 +15,8 @@
     <section class="bg-white shadow-lg p-8 mb-4">
         <header class="flex justify-between items-center mb-4">
             <a href="javascript:window.history.back();" target="_self" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">Back to Dashboard</a>
-            <h1 class="text-3xl font-bold text-center flex-1">Bills</h1>
+            <h1 class="text-3xl font-bold text-center flex-1">Orders</h1>
+            <span class="py-2 px-6"></span>
         </header>
 
         <article>
