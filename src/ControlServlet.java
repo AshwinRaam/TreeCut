@@ -154,6 +154,9 @@ public class ControlServlet extends HttpServlet {
                     case "/statistics":
                         statistics(request, response);
                         break;
+                    case "/view-trees":
+                        viewTrees(request, response);
+                        break;
                 }
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
@@ -774,6 +777,21 @@ public class ControlServlet extends HttpServlet {
 
         request.setAttribute("clientStats", stats);
         request.getRequestDispatcher("RootViews/Statistics.jsp").forward(request, response);
+    }
+
+    private void viewTrees(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        String username = request.getParameter("username");
+        int clientID = UserDAO.getUserID(username);
+        List<Tree> trees = TreesDAO.getAllTreesCut(clientID);
+
+        for (Tree t : trees)
+        {
+            System.out.println(t.getUpdatedAt());
+        }
+
+        request.setAttribute("listTrees", trees);
+        request.getRequestDispatcher("RootViews/StatisticsTree.jsp").forward(request, response);
     }
 
     private void serveImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
