@@ -62,6 +62,7 @@ public class ControlServlet extends HttpServlet {
                     case "/initialize":
                         UserDAO.init();
                         System.out.println("Database successfully initialized!");
+                        request.setAttribute("listUser", UserDAO.listAllUsers());
                         request.getRequestDispatcher("RootViews/Reset.jsp").forward(request, response);
                         break;
                     case "/root":
