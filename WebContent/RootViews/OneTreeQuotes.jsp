@@ -14,8 +14,8 @@
 <main class="flex justify-center items-center min-h-screen">
     <section class="bg-white shadow-lg p-8 mb-4"> <!-- Adjusted width for better alignment -->
         <header class="flex justify-between items-center mb-4"> <!-- Flex container for header -->
-            <a href="${pageContext.request.contextPath}/login" target="_self" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">Back to Dashboard</a>
-            <h1 class="text-3xl font-bold">One Tree Quotes</h1>
+            <a href="javascript:window.history.back();" target="_self" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">Back to Dashboard</a>
+            <h1 class="text-xl font-bold flex-grow text-center">One Tree Quotes</h1>
             <span class="py-2 px-6"></span> <!-- Placeholder for layout balance -->
         </header>
 
