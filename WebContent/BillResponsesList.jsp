@@ -12,7 +12,7 @@
     <section class="bg-white shadow-xl p-8 max-w-5xl w-full">
         <header class="flex justify-between items-center mb-6">
             <h1 class="text-4xl font-semibold text-gray-800">Bill Responses</h1>
-            <a href="${pageContext.request.contextPath}/bills" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">Back to Bills</a>
+            <a href="javascript:window.history.back();" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">Back to Bills</a>
         </header>
 
         <div class="overflow-x-auto mb-6 border border-gray-200">

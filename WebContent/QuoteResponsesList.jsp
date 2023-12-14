@@ -12,7 +12,7 @@
     <section class="bg-white shadow-xl p-8 max-w-5xl w-full">
         <header class="flex justify-between items-center mb-6">
             <h1 class="text-4xl font-semibold text-gray-800">Quote Responses</h1>
-            <a href="${pageContext.request.contextPath}/quotes" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">Back to Quotes</a>
+            <a href="javascript:window.history.back();" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 transition duration-300 ease-in-out shadow">Back to Quotes</a>
         </header>
 
         <div class="overflow-x-auto mb-6 border border-gray-200">
