@@ -28,7 +28,7 @@
                         <th class="px-4 py-2 text-left">Total Trees</th>
                         <th class="px-4 py-2 text-left">Total Due Amount</th>
                         <th class="px-4 py-2 text-left">Total Paid Amount</th>
-                        <th class="px-4 py-2 text-left">Work Done Date</th>
+                        <th class="px-4 py-2 text-left">View Trees</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,7 +38,14 @@
                             <td class="px-4 py-2"><c:out value="${stat.totalTrees}" /></td>
                             <td class="px-4 py-2"><c:out value="${stat.totalDueAmount}" /></td>
                             <td class="px-4 py-2"><c:out value="${stat.totalPaidAmount}" /></td>
-                            <td class="px-4 py-2"><c:out value="${stat.workDoneDate}" /></td>
+
+                            <td class="px-4 py-2">
+                                <form action="clientTrees" method="post">
+                                    <input type="submit" value="View Trees"
+                                           class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline w-full">
+                                    <input type="hidden" name="clientID" value="${clientStats.ClientID}"/>
+                                </form>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>

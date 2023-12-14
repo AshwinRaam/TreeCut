@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="ISO-8859-1">
-    <title>Highest Trees</title>
+    <title>Client Trees</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -14,7 +14,7 @@
     <section class="bg-white shadow-lg p-8 mb-4 text-center">
         <header class="flex justify-between items-center mb-4">
             <a href="javascript:window.history.back();" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">Back to Dashboard</a>
-            <h1 class="text-xl font-bold flex-grow text-center">Highest Trees</h1>
+            <h1 class="text-xl font-bold flex-grow text-center">Client Trees</h1>
             <span class="py-2 px-6"></span> <!-- Placeholder for layout balance -->
         </header>
 
@@ -29,6 +29,7 @@
                         <th class="px-4 py-2 text-left">Height</th>
                         <th class="px-4 py-2 text-left">Location</th>
                         <th class="px-4 py-2 text-left">Near House</th>
+                        <th class="px-4 py-2 text-left">Completion Date</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,6 +41,7 @@
                             <td class="px-4 py-2"><c:out value="${tree.height}" /></td>
                             <td class="px-4 py-2"><c:out value="${tree.location}" /></td>
                             <td class="px-4 py-2"><c:out value="${tree.nearHouse}" /></td>
+                            <td class="px-4 py-2"><c:out value="${tree.completionDate}" /></td>
                         </tr>
                     </c:forEach>
                     </tbody>
