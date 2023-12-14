@@ -34,16 +34,16 @@
                     <tbody>
                     <c:forEach var="stat" items="${clientStats}">
                         <tr class="border-b">
-                            <td class="px-4 py-2"><c:out value="${stat.clientUsername}" /></td>
+                            <td class="px-4 py-2"><c:out value="${stat.username}" /></td>
                             <td class="px-4 py-2"><c:out value="${stat.totalTrees}" /></td>
                             <td class="px-4 py-2"><c:out value="${stat.totalDueAmount}" /></td>
                             <td class="px-4 py-2"><c:out value="${stat.totalPaidAmount}" /></td>
 
                             <td class="px-4 py-2">
-                                <form action="clientTrees" method="post">
+                                <form action="view-trees" method="post">
                                     <input type="submit" value="View Trees"
                                            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline w-full">
-                                    <input type="hidden" name="clientID" value="${clientStats.ClientID}"/>
+                                    <input type="hidden" name="username" value="${stat.username}"/>
                                 </form>
                             </td>
                         </tr>

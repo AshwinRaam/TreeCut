@@ -41,7 +41,7 @@
                             <td class="px-4 py-2"><c:out value="${tree.height}" /></td>
                             <td class="px-4 py-2"><c:out value="${tree.location}" /></td>
                             <td class="px-4 py-2"><c:out value="${tree.nearHouse}" /></td>
-                            <td class="px-4 py-2"><c:out value="${tree.completionDate}" /></td>
+                            <td class="px-4 py-2"><c:out value="${tree.updatedAt}" /></td>
                         </tr>
                     </c:forEach>
                     </tbody>
