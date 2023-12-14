@@ -165,6 +165,23 @@ public class TreesDAO {
     }
 
     /**
+     * Update the updatedAt column to mark when a tree was cut down.
+     * @param quoteID
+     */
+    public void updateTrees(int quoteID) throws SQLException {
+        String sql = "UPDATE trees SET updatedAt=NOW() WHERE quoteID=?";
+
+        connect_func();
+        preparedStatement = connect.prepareStatement(sql);
+        preparedStatement.setInt(1, quoteID);
+        int result = preparedStatement.executeUpdate();
+
+        if (result < 1){
+            System.out.println("Uh oh, had a problem updating trees");
+        }
+    }
+
+    /**
      *
      * @return A list of all the tallest trees.
      * @throws SQLException

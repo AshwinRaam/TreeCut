@@ -604,6 +604,7 @@ public class ControlServlet extends HttpServlet {
             int orderID = Integer.parseInt(request.getParameter("orderID"));
             Order order = OrderDAO.getOrder(orderID);
             OrderDAO.complete(orderID);
+            TreesDAO.updateTrees(order.getQuoteID());
 
             Quote quote = QuoteDAO.getQuote(order.getQuoteID());
             Bill bill = new Bill();
