@@ -20,7 +20,7 @@
         <form action="billrespond" method="post" class="space-y-6">
             <input type="hidden" id="billID" name="billID" value="${bill.billID}"/>
 
-            <c:if test="${isClient}">
+            <c:if test="${!isClient}">
             <div class="mb-4">
                 <label for="paymentAmount" class="block text-gray-700 text-md font-bold mb-2">Payment Amount:</label>
                 <input type="number" id="paymentAmount" step="0.01" name="paymentAmount"
