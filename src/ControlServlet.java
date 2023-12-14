@@ -120,10 +120,6 @@ public class ControlServlet extends HttpServlet {
                         request.setAttribute("listUser", UserDAO.listAllUsers());
                         request.getRequestDispatcher("RootViews/Reset.jsp").forward(request, response);
                         break;
-                    case "/big-clients":
-                        request.setAttribute("title", "Big Clients");
-                        request.getRequestDispatcher("RootViews/ClientsList.jsp").forward(request, response);
-                        break;
                     case "/createbillresponse":
                         createBillResponse(request, response, session);
                         break;
@@ -133,6 +129,31 @@ public class ControlServlet extends HttpServlet {
                     case "/pay-bill":
                         payBill(request, response, session);
                         break;
+                    case "/big-clients":
+                        bigClients(request, response);
+                        break;
+                    case "/easy-clients":
+                        easyClients(request, response);
+                        break;
+                    case "/prospective-clients":
+                        prospectiveClients(request, response);
+                        break;
+                    case "/bad-clients":
+                        badClients(request, response);
+                        break;
+                    case "/good-clients":
+                        goodClients(request, response);
+                        break;
+                    case "/one-tree-quotes":
+                        oneTreeQuotes(request, response);
+                        break;
+                    case "/highest-tree":
+                        highestTree(request, response);
+                        break;
+                    case "/overdue-bills":
+                        overdueBills(request, response);
+                        break;
+
                 }
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
@@ -669,6 +690,68 @@ public class ControlServlet extends HttpServlet {
             else //contractor only responded with a note
                 BillDAO.setBillPending(billID);
         }
+    }
+
+    private void bigClients(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        List<User> users = UserDAO.getUsersWithMostTrees();
+        request.setAttribute("title", "Big Clients");
+        request.setAttribute("listUser", users);
+        request.getRequestDispatcher("RootViews/ClientsList.jsp").forward(request, response);
+    }
+
+    private void easyClients(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        List<User> users = UserDAO.getEasyClients();
+        request.setAttribute("title", "East Clients");
+        request.setAttribute("listUser", users);
+        request.getRequestDispatcher("RootViews/ClientsList.jsp").forward(request, response);
+    }
+
+    private void prospectiveClients(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        List<User> users = UserDAO.getProspectiveClients();
+        request.setAttribute("title", "Prospective Clients");
+        request.setAttribute("listUser", users);
+        request.getRequestDispatcher("RootViews/ClientsList.jsp").forward(request, response);
+    }
+
+    private void badClients(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        List<User> users = UserDAO.getWorstClients();
+        request.setAttribute("title", "Bad Clients");
+        request.setAttribute("listUser", users);
+        request.getRequestDispatcher("RootViews/ClientsList.jsp").forward(request, response);
+    }
+
+    private void goodClients(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        List<User> users = UserDAO.getClientsWhoPayFast();
+        request.setAttribute("title", "Good Clients");
+        request.setAttribute("listUser", users);
+        request.getRequestDispatcher("RootViews/ClientsList.jsp").forward(request, response);
+    }
+
+    private void oneTreeQuotes(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        List<Quote> quotes = QuoteDAO.getOneTreeQuotes();
+        request.setAttribute("listQuotes", quotes);
+        request.getRequestDispatcher("RootViews/OneTreeQuotes.jsp").forward(request, response);
+    }
+
+    private void highestTree(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        List<Tree> trees = TreesDAO.getTallestTree();
+        request.setAttribute("listTrees", trees);
+        request.getRequestDispatcher("RootViews/HighestTree.jsp").forward(request, response);
+    }
+
+    private void overdueBills(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        List<Bill> listBill = BillDAO.getUnpaidBills();
+        Collections.reverse(listBill);
+        request.setAttribute("listBills", listBill);
+        request.getRequestDispatcher("BillList.jsp").forward(request, response);
     }
 
     private void serveImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
