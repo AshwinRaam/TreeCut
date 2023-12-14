@@ -329,4 +329,36 @@ public class QuoteDAO {
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.executeUpdate();
 	}
+
+	public List<Quote> getOneTreeQuotes() throws SQLException {
+		String sql = """
+                SELECT *
+                FROM quotes q
+                         JOIN (SELECT quoteID
+                               FROM (SELECT quoteID, COUNT(treeID) as treeCount FROM trees GROUP BY quoteID) t
+                               WHERE treeCount = 1) tCount on q.quoteID = tCount.quoteID;""";
+
+		connect_func();
+		statement = connect.createStatement();
+		resultSet = statement.executeQuery(sql);
+
+		List<Quote> quotes = new ArrayList<>();
+		while (resultSet.next()) {
+			Quote quote = new Quote();
+			quote.setQuoteID(resultSet.getInt("quoteID"));
+			quote.setClientID(resultSet.getInt("clientID"));
+			quote.setContractorID(resultSet.getInt("contractorID"));
+			quote.setInitialPrice(resultSet.getDouble("initialPrice"));
+			quote.setCurrentPrice(resultSet.getDouble("currentPrice"));
+			quote.setAcceptedPrice(resultSet.getDouble("acceptedPrice"));
+			quote.setStartTime(resultSet.getTimestamp("startTime"));
+			quote.setEndTime(resultSet.getTimestamp("endTime"));
+			quote.setStatus(resultSet.getString("status"));
+			quote.setNote(resultSet.getString("note"));
+			quote.setCreatedAt(resultSet.getTimestamp("createdAt"));
+			quote.setUpdatedAt(resultSet.getTimestamp("updatedAt"));
+			quotes.add(quote);
+		}
+		return quotes;
+	}
 }
